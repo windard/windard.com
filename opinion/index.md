@@ -17,6 +17,7 @@ layout: home
             <li>
                 <h2>
                     <a href="{{ post.url }}">{{ post.title }}</a>
+					<h5>{{ post.time }}</h5>
                 </h2>
                 <div class="title-desc">{{ post.description }}</div>
             </li>
