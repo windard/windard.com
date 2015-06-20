@@ -33,3 +33,12 @@ li.L1, li.L3, li.L5, li.L7, li.L9{background:#111;}
     .atn{color:#404;}
     .atv{color:#060;}
 }
+.infopage .info{
+    width: 240px;
+    height: 87px;
+    margin: auto auto;
+}
+.infopage .info img{
+    width: 50px;
+    height: 50px;
+}
