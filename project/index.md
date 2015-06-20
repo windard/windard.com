@@ -17,7 +17,6 @@ ti
             <li>
                 <h2>
                     <a href="{{ post.url }}">{{ post.title }}</a>
-					<h5>{{ page.date|date:"%Y-%m-%d" }}</h5>
                 </h2>
                 <div class="title-desc">{{ post.description }}</div>
             </li>
