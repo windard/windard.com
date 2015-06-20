@@ -78,7 +78,6 @@ pre ol{margin-left:25px;list-style-type:decimal;}
     width: 30%;
     height: 100%;
     max-width: 500px;
-    box-shadow:inset -1px 0 0 rgba(0,0,0,0.3);
     background-size:cover;
     background-position:50% 50%;
 }
