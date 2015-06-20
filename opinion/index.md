@@ -24,5 +24,6 @@ layout: home
         </ul>
     </div>
     <div class="aside">
+		<p>这是杨文强的有一个站点<p>
     </div>
 </div>
