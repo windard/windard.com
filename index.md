@@ -28,6 +28,16 @@ layout: home
 		<p>杨文强</p>
 		<p>喜欢编程，热爱运动，爱好创造新的东西</p>
 		<p>在这场人生新的旅行中，愿你我安好，万世太平</p>
+	<div class="contact" style="margin-top:10%">
+		<h4>You can find me on <a href="http://www.github.com/1106911190">Github</a><br />Or QQ:1106911190</h4>
+
+	</div>
+	<div class="copyright" style="margin-top:50%">
+		<p><h5 style="font-family:arial;">Copyright &nbsp;&copy;&nbsp;2015 All rights reserved</h5>
+			<h5>Powerd By <a href="https://github.com/jekyll/jekyll">Jekyll</a></h5>
+		</p>
+	</div>		
+
     </div>
 </div>
 
