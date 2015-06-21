@@ -1,5 +1,4 @@
 ---
-date:2015-06-20
 layout: post
 title: 胡言乱语说简单
 category: opinion

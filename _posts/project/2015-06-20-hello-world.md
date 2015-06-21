@@ -1,5 +1,4 @@
 ---
-date:2015-06-20
 layout: post
 title: Tabby
 category: project
