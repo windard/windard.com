@@ -32,7 +32,7 @@ layout: home
 		<h4>You can find me on <a href="http://www.github.com/1106911190">Github</a><br />Or QQ:1106911190</h4>
 
 	</div>
-	<div class="copyright" style="margin-top:50%">
+	<div class="copyright" style="margin-top:20%">
 		<p><h5 style="font-family:arial;">Copyright &nbsp;&copy;&nbsp;2015 All rights reserved</h5>
 			<h5>Powerd By <a href="https://github.com/jekyll/jekyll">Jekyll</a></h5>
 		</p>
