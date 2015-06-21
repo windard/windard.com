@@ -17,7 +17,7 @@ ti
             <li>
                 <h2>
                     <a href="{{ post.url }}">{{ post.title }}</a>
-                </h2>
+                </h2><h5>{{ post.date }}</h5>
                 <div class="title-desc">{{ post.description }}</div>
             </li>
         {% endfor %}
