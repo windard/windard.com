@@ -41,4 +41,4 @@ layout: home
     </div>
 </div>
 
-<a id="github_url" href="http://github.com/mojombo"><img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png" alt="Fork me on GitHub" /></a>
+<a  href="http://github.com/mojombo"><img id="github_url"  style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png" alt="Fork me on GitHub" /></a>
