@@ -24,7 +24,7 @@ layout: home
     </div>
 
     <div class="aside">
-		<img src="images/headlogo.jpg" alt="headlogo" style="width:50%;margin-top:10%">		
+		<img src="images/headlogo.jpg" alt="headlogo" style="width:50%;margin-top:15%">		
 		<p>杨文强</p>
 		<p>喜欢编程，热爱运动，爱好创造新的东西</p>
 		<p>在这场人生新的旅行中，愿你我安好，万世太平</p>
