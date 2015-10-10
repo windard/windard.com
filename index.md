@@ -15,14 +15,14 @@ layout: home
         <ul class="artical-list">
         {% for post in site.categories.blog %}
             <li>
-                <h2><a href="{{ post.url }}">{{ post.title }}</a></h2>
-				
+                <h2>
+                    <a href="{{ post.url }}">{{ post.title }}</a>
+                </h2>				
                 <div class="title-desc">{{ post.description }}</div>
             </li>
         {% endfor %}
         </ul>
     </div>
-
     <div class="aside">
 		<img src="images/headlogo.jpg" alt="headlogo" style="width:50%;margin-top:15%">		
 		<p>杨文强</p>
@@ -41,4 +41,4 @@ layout: home
     </div>
 </div>
 
-<a   href="http://github.com/1106911190"><img id="github_url"  style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png" alt="Fork me on GitHub" /></a>
+<a href="http://github.com/1106911190"><img id="github_url"  style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png" alt="Fork me on GitHub" /></a>
