@@ -2,8 +2,8 @@
 ---
 layout: post
 title: 复习计划及暑假安排
-category: opinion
 description: 虽然暑假已经过去了个把星期，但是暑假计划还是需要的~~
+category: opinion
 ---
 
 
