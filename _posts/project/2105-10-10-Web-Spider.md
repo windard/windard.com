@@ -47,6 +47,7 @@ urlopen的可选参数当然不止一个，比如说或许我们需要在http中
 
 1. GET请求
 在这里我们使用我本地服务器上一个小例子来演示一下，GET请求的页面代码如下，保存在根目录下，命名为form_get.php。
+
 ```php
 <?php 
     $NAME = $_GET['name'];
@@ -59,7 +60,9 @@ urlopen的可选参数当然不止一个，比如说或许我们需要在http中
     }
 ?>
 ```
+
 然后就是我们的python发送get请求：
+
 ```python
 import urllib
 params = urllib.urlencode({'name':'admin','email':'me@wenqiangyang.com'})
@@ -67,6 +70,7 @@ page = urllib.urlopen("http://localhost/form_get.php?%s" % params)
 html = page.read()
 print html
 ```
+
 保存为urllib_get.py,运行，看一下接收回来的数据。
 ![GET请求](get.jpg)
 在此处也可以采用另一种的写法：
