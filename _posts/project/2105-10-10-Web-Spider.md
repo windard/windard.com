@@ -1,3 +1,10 @@
+---
+layout: post
+title: python网络爬虫
+category: project
+description: 网络爬虫，即Web Spider，抓取网页数据，像Google，Baidu等公司，他们的搜索引擎每天都派出数以亿万的爬虫夜以继日的抓取网络数据并存储起来，无数的网络工程师为他们的抓取速度，存储效率做优化。
+---
+
 #python网络爬虫
 
 ---
