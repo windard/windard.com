@@ -1,7 +1,7 @@
 ---
 layout: post
-title:一些要看的书
-description: 书还是要一本一本的看，路还是要一步一步的走~~
+title: 一些要看的书
+description: 书要一本一本的看，代码要一行一行的写，路要一步一步的走
 category: opinion
 ---
 
