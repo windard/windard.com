@@ -43,7 +43,7 @@ description: 微客工作室前端面试
 3. 对HTML5 CSS3 的了解
 3. 对HTML的考察重点：浏览器兼容性 响应式布局 媒体查询
 3. css的库：bootstrap JavaScript库：JQuery
-4. js的重点：闭包 面向对象
+4. js的重点：ajax 闭包 面向对象
 4. 对前后端的通信，数据加载的过程
 4. 对后端的了解或者对其他的编程语言的了解或者http请求
 5. 对算法深入的什么的
