@@ -14,7 +14,7 @@ category: blog
 一开始我本来是想简简单单在Windows上装个MySQL而已的，结果发现它装上之后就成了自启动服务了，占了我的3306端口不说，而且开机自启动。   
 这一点非常不好，我决定要把它关掉。  
 
-也是在网上找了很多资料，终于在MySQL的官方文档里找到了，（这里说一点，很多官方文档都是英文的，习惯去看。），发现了这个语句`mysql -u root -p shutdown`当然，如果用户名和密码是你自己设定的。  
+也是在网上找了很多资料，终于在MySQL的官方文档里找到了，（这里说一点，很多官方文档都是英文的，习惯去看。），发现了这个语句`mysql -u root shutdown;`当然，此时你在MySQL里面。  
 >cmd登陆mysql的语句就是`mysql -u uername -p passwd`  
 
 好了，成功的关掉了，结果就再也没有打开了。  
@@ -48,4 +48,27 @@ datadir = D:\\Program Files (x86)\\MySQL\\MySQL Server 5.7\\data
 哦也\\(\^o\^)/ over。
 
 
+:-(
+最后附上一个忘记密码更改MySQL密码的方法，希望大家不会用到。
+1. 以管理员身份启动cmd。
+```
+#先关掉MySQL服务
+net stop mysql
+#以安全模式运行MySQL
+mysqld --skip-grant-tables  
+```
+2. 不要关闭，再启动一个新的cmd命令窗口,可以是管理员身份或者一般身份
+```
+#使用储存密码的数据库
+use mysql;
+#更改密码
+update user set authentication_string=password("123456") where user="root";  
+```
+此处我在网上的教程里面看到有的在`authentication_string`处用的是`password`，不知道是什么原因，但是我的MySQL里面没有`password`这一项。  
+3. 关闭以上两个窗口，启动MySQL服务，即以管理员身份运行cmd。
+```
+net start mysql
+```
+
+>在Linux下基本一致，除了启动和关闭MySQL的方法有一些区别，和第一步以安全模式运行MySQL，在Linux下是`mysqld_safe --skip-grant-tables &  `
 
