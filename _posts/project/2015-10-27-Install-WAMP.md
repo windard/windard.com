@@ -19,7 +19,7 @@ wamp，即Windows下安装Apache，PHP和MySQL。
  - Thread Safe值多线程安全，加上一个Non 即非多线程安全。
  - 2015-Oct-01 01:19:38 即发布日期，2015年十月一日
 
-**在这里我选择的是第一个的Zip压缩包，即`VC11 X86 Non Thread Safe(2015-Oct-01 01:19:38)`**  
+**在这里我选择的是第二个的Zip压缩包，即`VC11 X86 Thread Safe(2015-Oct-01 01:19:35)`**  
 
 2. 下载之后直接解压，放在你电脑上的任何位置，在这里我是放在C盘的根目录下，所以最终安装路径`C:\PHP`
 ![php_install.jpg](../../images/php_install.jpg)
@@ -153,6 +153,29 @@ Index 就是访问一个不存在 index.html、index.php 等文件的目录时�
 ```
 
 
+##顺带记录一下在centos下安装lamp的过程  
+**安装Apache**  
+`$ yum install httpd httpd-devel `  
+启动Apache  
+`sudo  /etc/init.d/httpd start`  
+或者`sudo service httpd start`  
+**安装MySQL**  
+`$ yum install mysql mysql-server`  
+启动MySQL  
+`sudo /etc/init.d/mysqld start`  
+或者`sudo service mysqld start`  
+**安装PHP**  
+`$ yum install php php-devel`  
+然后重启Apache使PHP生效。  
+`sudo /etc/init.d/httpd restart`  
+**安装PHP的扩展**  
+`
+yum install php-mysql php-gd php-imap php-ldap php-odbc php-pear php-xml php-xmlrpc
+`  
+安装完之后再次重启Apache。  
+
+
+
 ##参考链接
 [在windows下搭建mysql,php,apache环境(3)-apache的部署](http://www.vimer.cn/2009/12/%E5%9C%A8windows%E4%B8%8B%E6%90%AD%E5%BB%BAmysqlphpapache%E7%8E%AF%E5%A2%833-apache%E7%9A%84%E9%83%A8%E7%BD%B2.html)  
 [在windows下搭建mysql,php,apache环境(2)-php的部署](http://www.vimer.cn/2009/12/%E5%9C%A8windows%E4%B8%8B%E6%90%AD%E5%BB%BAmysqlphpapache%E7%8E%AF%E5%A2%832-php%E7%9A%84%E9%83%A8%E7%BD%B2.html)  
@@ -163,6 +186,8 @@ Index 就是访问一个不存在 index.html、index.php 等文件的目录时�
 [如何在Windows上安装MySQL数据库服务器](http://zh.wikihow.com/%E5%9C%A8Windows%E4%B8%8A%E5%AE%89%E8%A3%85MySQL%E6%95%B0%E6%8D%AE%E5%BA%93%E6%9C%8D%E5%8A%A1%E5%99%A8)  
 [在 Windows 上快速安装并运行 Laravel 5.x](http://www.golaravel.com/post/install-and-run-laravel-5-x-on-windows/)  
 [Windows 7下安装配置PHP+Apache+Mysql的方法](http://jingyan.baidu.com/article/335530da5f5c5019cb41c3c2.html)  
+[在CentOS上搭建PHP服务器环境](http://www.cnblogs.com/liulun/p/3535346.html)  
+[Ubuntu 配置 Apache, MySQL, PHP 以及 phpMyAdmin 过程记录](https://www.renfei.org/blog/set-up-apache-mysql-php-phpmyadmin-on-ubuntu-server.html)  
 
 
 
