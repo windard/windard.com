@@ -1,8 +1,8 @@
 ---
 layout: post
 title: MySQL数据库错误
-description: [ERROR] Fatal error: Can't open and lock privilege tables: Table 'mysql.user' doesn't exist
 category: blog
+description: [ERROR] Fatal error: Can't open and lock privilege tables: Table 'mysql.user' doesn't exist
 ---
 
 

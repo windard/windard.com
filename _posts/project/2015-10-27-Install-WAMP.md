@@ -1,8 +1,8 @@
 ---
 layout: post
 title: Windows下装Apache PHP 和MySQL小记
+category: project
 description: 一直用的是xampp或者是wamp等等集成的开发环境，还没有试过自己装wamp然后配置好的感觉，就来试了一下
-category: blog
 ---
 
 [TOC]
