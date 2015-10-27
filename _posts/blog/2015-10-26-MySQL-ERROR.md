@@ -5,6 +5,7 @@ description: [ERROR] Fatal error: Can't open and lock privilege tables: Table 'm
 category: blog
 ---
 
+
 这个错误挺难找的，，找到错误并弄好了之后得出了两点结论。
 1. 报错了要去看错误日志，以前从来不看那东西的，然而还是要翻出来看一看，错误的原因非常详细的记录在上上面，很重要的。
 2. 问题是多变的，网上的答案是不变。在看了别人的解答过程之后，要自己思考根据实际去解决问题。
