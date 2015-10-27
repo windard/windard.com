@@ -110,14 +110,14 @@ wamp，即Windows下安装Apache，PHP和MySQL。
 
 ##顺带记录一下在Ubuntu下安装lamp的步骤  
 **安装Apache**  
-`$ sudo apt-get install apache2`
-安装好之后，配置文件应该位于/etc/apache2中，默认情况下无需修改即可使用。默认的网站目录为/var/www/。  
+`$ sudo apt-get install apache2`  
+安装好之后，配置文件应该位于/etc/apache2中，默认情况下无需修改即可使用。默认的网站目为/var/www/。  
 启动Apache的方法为  
 `$ sudo /etc/init.d/apache2 start`  
 那么停止与重启就最后一个分别换成`stop`和`restart`就可以了。  
-因为Apache也会自动加入系统服务，所以也可以这样写。
-`$ sudo service apache2 start`
-*测试*
+因为Apache也会自动加入系统服务，所以也可以这样写。  
+`$ sudo service apache2 start`  
+*测试*  
 装好并启动 Apache 服务后，本地服务器应该就可以用了。可以利用curl访问 localhost 来测试：  
 `$ curl localhost`  
 Apache 的错误日志文件默认为`/var/log/apache2/error.log`。  
@@ -126,23 +126,26 @@ Apache 的错误日志文件默认为`/var/log/apache2/error.log`。
 说明你没有指定`ServerName`,如果想去掉这个错误，可以修改`/etc/apache2/apache2.conf`文件：  
 `$ sudo vi /etc/apache2/apache2.conf`  
 添加如下行：  
-`ServerName localhost`
-**安装PHP**
+`ServerName localhost`  
+**安装PHP**  
 `$ sudo apt-get install php5`  
 执行之后，PHP 应该就已经部署完毕了。可以使用phpinfo()函数来测试 PHP 是否已经就绪：  
 `$ sudo vi /var/www/phpinfo.php`  
 在文件里输入：  
 `<?php phpinfo(); ?>`  
 然后`curl localhost/phpinfo.php`来查看。  
-**安装PHP其他模块**
-`$ sudo apt-get install php5-mysql php5-curl php5-gd php5-intl php-pear php5-imagick php5-imap php5-mcrypt php5-memcache php5-ming php5-ps php5-pspell php5-recode php5-snmp php5-sqlite php5-tidy php5-xmlrpc php5-xsl`
-**安装MySQL**
-`$ sudo apt-get install mysql-server`
-**其他**
+**安装PHP其他模块**  
+`
+$ sudo apt-get install php5-mysql php5-curl php5-gd php5-intl php-pear php5-imagick php5-imap php5-mcrypt php5-memcache php5-ming php5-ps php5-pspell php5-recode php5-snmp php5-sqlite php5-tidy php5-xmlrpc php5-xsl
+`  
+**安装MySQL**  
+`$ sudo apt-get install mysql-server`  
+**其他**  
 1. 全局禁用 Index，这个配置在Windows下和Linux下是一样的  
 Index 就是访问一个不存在 index.html、index.php 等文件的目录时服务器列出的文件列表，这样会对用户展示文件结构，如果想禁用，可以修改 Apache 的配置文件：  
-`$ sudo vi /etc/apache2/apache2.conf`
+`$ sudo vi /etc/apache2/apache2.conf`  
 找到并修改为:  
+
 ```
 <Directory /var/www/>
         Options -Indexes

@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 事情好一件一件的做
+title: 事情要一件一件的做
 description: 事情要一件一件的做，就像代码要一行一行的写
 category: blog
 ---
