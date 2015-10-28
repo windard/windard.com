@@ -2,7 +2,7 @@
 layout: post
 title: MySQL数据库错误
 category: project
-description: [ERROR] Fatal error: Can't open and lock privilege tables: Table 'mysql.user' doesn't exist
+description: MySQL ERROR
 ---
 
 
