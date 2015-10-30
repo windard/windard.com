@@ -107,6 +107,7 @@ wamp，即Windows下安装Apache，PHP和MySQL。
   
 那么到现在就全部安装完了，自己安装配置wamp有没有感觉很好呢？  
 
+>装好Apache这些之后在Windows上怎么查看端口使用情况呢？在cmd里输入`netstat -ano`就可以看到电脑的端口使用情况以及相应进程的PID。
 
 ##顺带记录一下在Ubuntu下安装lamp的步骤  
 **安装Apache**  
