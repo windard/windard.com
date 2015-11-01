@@ -34,3 +34,6 @@ for(int i=0;i<str.length;i++){
     system.out.print(ch);
 }
 ```
+
+>将char类型转化为String
+>String.valueOf(char)
