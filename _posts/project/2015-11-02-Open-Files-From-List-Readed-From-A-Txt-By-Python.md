@@ -275,3 +275,37 @@ IOError: [Errno 2] No such file or directory: '2-141125143603\\xe8\\xa5\\xbf\\xe
 ```
 
 各种报错，卧槽！！！
+
+再试一试，是因为中文的原因么？让我们来试一下英文，就不会有编码的问题了。    
+在`list.txt`的第一个加入英文目录`C:\Users\dell\Desktop\Document\create.php`，然后再试一下看能不能打开。    
+
+```python
+#coding=utf-8
+justfile = open('list.txt','r')
+allfile = []
+while 1:
+	line = justfile.readline()
+	line.strip()
+	allfile.append(line)
+	if not line:
+		break
+file1 = allfile[0].decode('gbk')
+filename = open(file1, 'rb')
+filename.close()
+```
+
+同样的代码，一样打不开。   
+
+```
+IOError: [Errno 22] invalid mode ('rb') or filename: u'C:\\Users\\dell\\Desktop\\Document\\create.php\n'
+```
+
+如果直接打开这个可以么？   
+
+```python
+#coding=utf-8
+filename = open("C:\Users\dell\Desktop\Document\create.php", 'rb')
+filename.close()
+```
+
+当然是可以的，看来真的是因为文件里面打开的目录不能打开目录么？(╯﹏╰)

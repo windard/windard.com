@@ -77,22 +77,27 @@ wamp，即Windows下安装Apache，PHP和MySQL。
  1. 在Apache的conf下找到httpd.conf，用编辑器打开。  
  2. 找到`DirectoryIndex`，在这一行的最后加上`index.php`，最后的效果`DirectoryIndex   index.html index.php`，因为Apache的默认主页只有`index.html`我们给它加上`index.php`。（在286行左右）  
  3. 找到`LoadModule`，加上如下的代码。  
+ 
  ```php  
  LoadModule php5_module "c:/PHP/php5apache2_4.dll"  
  AddHandler application/x-httpd-php .php  
  PHPIniDir "C:/PHP"  
  ```  
+ 
  这是为了在Apache加入php模块，现在我们可以在Apache的htdocs目录下（这就是localhost的根目录），创建test.php,写下如下代码，在浏览器里打开，看能不能解析PHP。  
+ 
  ```php  
  <?php  
  echo "Install PHP Successful";  
  ?>  
  ```  
+ 
  如果是这样，即解析成功。   
  ![apache_php_install.jpg](../../images/apache_php_install.jpg)   
  4. 接下来PHP连接数据库，因为在PHP中默认的MySQL扩展并没有打开，我们只需要将其打开就可以了。  
  再次打开php.ini，先找到`extension_dir`，找到所有扩展的存储地方，在PHP安装目录的下的ext文件夹里，所以我们加上这个路径就可以了，我的最终效果`extension_dir = "C:\PHP\ext"`（在736行左右），然后找到类似于这样的扩展语句`“;extension= php_mysql.dll”`把所有带有mysql的语句的前面的分号去掉就可以了。  
  现在我们在刚才的test.php里面加上连接数据库的语句。  
+ 
  ```php  
  echo "Install PHP Successful";  
  echo "<br>";  
@@ -102,6 +107,7 @@ wamp，即Windows下安装Apache，PHP和MySQL。
  	echo "Install MySQL Failed";  
  }  
  ```  
+ 
  将上面的XXX分别换成你自己的数据库用户名和密码就可以了。如果出现的是如下界面，即安装成功。  
  ![php_mysql.jpg](../../images/php_mysql.jpg)  
   
