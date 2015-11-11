@@ -309,3 +309,20 @@ filename.close()
 ```
 
 当然是可以的，看来真的是因为文件里面打开的目录不能打开目录么？(╯﹏╰)
+
+我又来了！再来一个小实验。在桌面上有俩文件`list.txt`和`test.txt`，在list.txt里面就是`test.txt`，在`test.txt`里面就是`this is a test!`。然后在桌面上代码如下。      
+
+```python
+filename = open("list.txt","r")
+lists = filename.read()
+name = open(lists,"r")
+print name.read()
+name.close()
+filename.close()
+```
+
+卧槽，竟然也有问题，不应该吖~~~上午在另外一个地方的Python代码可以的。。。。   
+
+```
+IOError: [Errno 22] invalid mode ('r') or filename: 'test.txt\n'
+```
