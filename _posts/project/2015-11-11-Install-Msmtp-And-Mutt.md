@@ -60,6 +60,7 @@ sudo yum install mutt
 配置文件   
 在根目录下创建`.msmtprc`和`.muttrc`。   
 `.msmtprc`      
+
 ```
 defaults
 logfile /var/log/msmtp.log
@@ -71,7 +72,9 @@ user 1106911190@qq.com
 password XXXXXX
 account default : windard
 ```
-`.muttrc`
+
+`.muttrc`     
+
 ```
 set sendmail=”/usr/bin/msmtp”
 set use_from=yes
@@ -97,7 +100,7 @@ sudo apt-get install mutt
 装软件还是应该直接用包管理工具的。。。。。       
 
 
-参考链接：
+参考链接：      
 [烂泥：ubuntu下配置msmtp+mutt发送邮件](http://www.ilanni.com/?p=10589)
 
 [树莓派开机发送IP到邮箱](http://lightless.me/archives/Send-IP-To-Mail-On-Raspberry-Pi-Start-Up.html)
