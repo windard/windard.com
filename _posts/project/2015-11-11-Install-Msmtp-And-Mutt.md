@@ -44,8 +44,22 @@ set editor="vim"
 其中realname是发件人的名字，接收到的邮件中会显示出来。   
 
 ##发送邮件
-发送邮件`echo "This is test" | mutt -s "Test" me@wenqiangyang.com`，`This is test`是邮件的内容，`Test`是邮件的主题，`me@wenqiangyang.com`是收件人的地址。    
-如果想要加上附件，在上一个语句中加上`-a 附件名称`即可。例如`echo "This is test" | mutt -s "Test" me@wenqiangyang.com -a test.txt`   
+发送邮件`echo "This is test" | mutt -s "Test" me@wenqiangyang.com`.    
+`This is test`是邮件的内容，`Test`是邮件的主题，`me@wenqiangyang.com`是收件人的地址。    
+
+如果想要加上附件，在上一个语句中加上`-a 附件名称`即可。     
+例如`echo "This is test" | mutt -s "Test" me@wenqiangyang.com -a test.txt`   
+如果需要发送多个邮件，只需要在命令后面多加几个收件人即可。      
+例如`echo "This is test" |mutt -s "Test" me@wenqiangyang.com 18607571914@163.com`    
+如果想要发送读取文本里的内容，采用管道的写法即可。    
+例如`cat test.txt|mutt -s "Test" me@wenqiangyang.com`     
+
+还有一种发送邮件的方式`msmtp me@wenqiangyang.com`，然后就会进入编辑模式，按`Ctrl`+`D`退出编辑，然后邮件就会发送出去。    
+>在编辑模式中使用`From:1106911190@qq.com`来表示发件人。
+>使用`To:me@wenqiangyang.com`来表示收件人。
+>使用`Subject:Test`来表示邮件主题
+>再接下来的任意文本就是邮件内容了。
+>如果你没有上面的那些的话，那么你的全部文本都会被当做邮件内容。
 
 ##在centos和Ubuntu在安装msmtp和mutt   
 1. centos   
@@ -96,8 +110,25 @@ sudo apt-get install mutt
 然后配置和使用与centos基本一致，与上面的树莓派也一样。    
 
 
-但是我的centos在最后的mutt却不能使用，报出来`account default not found` 估计是因为我的msmtp是编译安装的原因，没有编译安装好。找不到配置文件，只有用这个才可以`echo “Subject: test msmtp\r\n\r\nThis is a test.” |msmtp -d -C /etc/msmtprc -t me@wenqiangyang.com`但是这样的话只有主题却没有内容。       
+但是我的centos在最后的mutt却不能使用，报出来`account default not found:no configuration file available`。      
+估计是因为我的msmtp是编译安装的原因，没有编译安装好，找不到配置文件。    
+不过用这个才可以`sudo echo “Subject: test msmtp\r\n\r\nThis is a test.” |msmtp -d -C /etc/msmtprc -t me@wenqiangyang.com`，手动设定配置文件的位置`/etc/msmtprc`。   
+但是这样的话只有主题却没有内容，去掉Subject，就只剩内容没有主题了。       
+
+
+应该`msmtprc`的位置是在`/usr/local/msmtp/etc/msmtprc`，然而我放在这里了也没有用。     
+还有我这样也是可以进入msmtp的编辑模式进行编辑邮件发送的`/usr/local/msmtp/bin/msmtp me@wenqiangyang.com`，然后编辑邮件就可以发送了。      
 装软件还是应该直接用包管理工具的。。。。。       
+
+
+*防止被当成垃圾邮件*    
+在使用mutt的时候，有几次明明发送出去了，但是却没有收到邮件，在邮箱里一看，原来是被当做了垃圾邮件并没有发送成功。     
+所以为了防止被当成垃圾邮件，在配置`mutt`的时候，在`.muttrc`里面加上这两句。        
+
+```
+set from="1106911190@qq.com"
+set envelope_from="yes"
+```
 
 
 参考链接：      
@@ -108,3 +139,5 @@ sudo apt-get install mutt
 [[原创] 让树莓派自动上报IP地址到邮箱/Let Raspberry Pi to report its IP address via Email](http://www.codelast.com/?p=7858)
 
 [让树莓派自动上报IP地址到邮箱/Let Raspberry Pi to report its IP address via Email](http://forum.eepw.com.cn/thread/258882/1/)
+
+[Linux使用Mutt发送邮件/附件](http://www.isucc.me/129.html)
