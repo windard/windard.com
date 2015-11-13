@@ -60,6 +60,7 @@ set editor="vim"
 >使用`Subject:Test`来表示邮件主题
 >再接下来的任意文本就是邮件内容了。
 >如果你没有上面的那些的话，那么你的全部文本都会被当做邮件内容。
+>![msmtp_demo.jpg](../../images/msmtp_demo.jpg)
 
 ##在centos和Ubuntu在安装msmtp和mutt   
 1. centos   
