@@ -17,7 +17,6 @@ category: blog
 2. 如果你的cmd开了快速编辑模式的话，就可以直接将其拷贝出来，而且就可以在cmd里右击直接粘贴了，再也不用小心翼翼的敲命令了。  
 ![cmd_edit.jpg](../../images/cmd_edit.jpg)   
 把上面的目录结构拷贝出来就是这个样子的。   
-
 ```
 C:\Users\dell\Desktop\theme>
 ├─Jekyll-HMFAYSAL-Theme
@@ -47,7 +46,9 @@ C:\Users\dell\Desktop\theme>
     └─widgets
 ```
 
-3. 查看当前正在进行的进程。``
+3. 查看当前正在进行的进程。    
+`tasklist/top`，查看当前系统进程，`tskill/kill`，杀死某个进程。    
+
 4. 让cmd里显示utf-8的中文。
 因为cmd本身无法显示utf-8的中文，只能显示GBK的中文。如果想要显示utf-8的中文的话，输入`chcp 65001`    
 方可显示utf-8格式编码中文,输入`chcp 936`,仍然显示GBK的中文     
@@ -69,7 +70,14 @@ C:\Users\dell\Desktop\theme>
 >[http://www.baidu10.net/](http://www.baidu10.net/)
 >[http://www.yiso.me/](http://www.yiso.me/)
 >[http://so.xpan.me/index.html](http://so.xpan.me/index.html)
->[http://www.soupan.info/](http://www.soupan.info/)
+>[http://www.soupan.info/](http://www.soupan.info/)              
+    
+    好吧，就这些，一般都能够找到想要的资料，但是如果实在是没有找到而且在百度文库里发现了想要下载的却提示需要积分的时候，内心是崩溃的。        
+这个时候，我们就需要这个了，[冰点文库](../software/iDocDown.rar)，输入百度文库的网址即可下载，自动下载转化为TXT和PDF格式，还是非常好用的。我的这个是免安装无广告版，之前我也在网上找到一个，又有广告又需要安装。。。。
 
-好吧，就这些，一般都能够找到想要的资料，但是如果实在是没有找到而且在百度文库里发现了想要下载的却提示需要积分的时候，内心是崩溃的。        
-这个时候，我们就需要这个了，[冰点文库](../software/iDocDown.rar)，输入百度文库的网址即可下载，自动下载转化为TXT和PDF格式，还是非常好用的。我的这个是免安装五广告版，之前我也在网上找到一个，又有广告又需要安装。。。。
+7. 在Windows命令行上执行Linux命令，或许你需要--GetGnuWin32。     
+ - 下载[GetGnuWin32-0.6.3](../software/GetGnuWin32-0.6.3.exe)，运行。       
+ - 进入GetGnuWin32的安装目录，运行`download.bat`,它会自动从网上下载你需要的Linux命令。（可能需要很长时间）        
+ - 运行`install.bat`，就可以在cmd上使用Linux命令了。        
+
+8. 在cmd中查看某个命令的详细信息。`XXX /?`，比如说`find /?`。

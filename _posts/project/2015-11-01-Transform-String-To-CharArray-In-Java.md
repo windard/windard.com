@@ -11,6 +11,7 @@ String字符串是类，而字符数组char[]是基本数据类型，但是for�
 
 解决办法：  
 1. String.toCharArray()
+
 ```java
 String str = "abcdefg";
 str1 = str.toCharArray();
@@ -18,7 +19,9 @@ for(char cc:str1){
 	system.out.print(cc);
 }
 ```
+
 2. String.charAt()
+
 ```java
 String str = "abcdefg";
 for(int i=0;i<str.length;i++){
@@ -26,7 +29,9 @@ for(int i=0;i<str.length;i++){
 	system.out.print(ch);
 }
 ```
+
 3. String.substring()
+
 ```java
 String str="abcdefg";
 for(int i=0;i<str.length;i++){
@@ -35,5 +40,5 @@ for(int i=0;i<str.length;i++){
 }
 ```
 
->将char类型转化为String
->String.valueOf(char)
+>将char类型转化为String       
+>`String.valueOf(char)`        
