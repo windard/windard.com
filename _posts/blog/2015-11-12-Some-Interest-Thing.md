@@ -81,3 +81,5 @@ C:\Users\dell\Desktop\theme>
  - 运行`install.bat`，就可以在cmd上使用Linux命令了。        
 
 8. 在cmd中查看某个命令的详细信息。`XXX /?`，比如说`find /?`。
+
+9. 判别一个Python变量是不是一个对象。`isinstance(XXX,object)`
