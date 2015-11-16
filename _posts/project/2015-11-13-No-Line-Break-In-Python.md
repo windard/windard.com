@@ -1,8 +1,8 @@
 ---
 layout: post
-title: Python验证码识别
+title: python中的不换行输出
 category: project
-description: 当然不是我自己写的图像识别算法，机器学习这么复杂的东西我才不要呢~~
+description: Python的print输出是默认换行的，那么，怎样才能不换行输出呢？
 ---
 
 在Python中实现换行，我本来以为只是一件小事情，结果发现没那么简单。    

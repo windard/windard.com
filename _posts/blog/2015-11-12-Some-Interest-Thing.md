@@ -52,6 +52,7 @@ C:\Users\dell\Desktop\theme>
 4. 让cmd里显示utf-8的中文。
 因为cmd本身无法显示utf-8的中文，只能显示GBK的中文。如果想要显示utf-8的中文的话，输入`chcp 65001`    
 方可显示utf-8格式编码中文,输入`chcp 936`,仍然显示GBK的中文     
+>如果cmd中仍然无法显示utf-8的中文，选择属性，改变字体为`Lucida Console`点阵字体。
 
 5. Python的包管理工具pip，可以用`pip freeze`来查看安装了那些Python的库。
 
@@ -83,3 +84,5 @@ C:\Users\dell\Desktop\theme>
 8. 在cmd中查看某个命令的详细信息。`XXX /?`，比如说`find /?`。
 
 9. 判别一个Python变量是不是一个对象。`isinstance(XXX,object)`
+
+10. 强行终止Python程序，`sys.exit()`
