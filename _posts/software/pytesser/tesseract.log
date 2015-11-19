@@ -1,0 +1,3 @@
+Tessedit:Error:Usage:Tessedit imagename outputbase [configfile [[+|-]varfile]...]
+
+Signal_exit 25 ABORT. LocCode: 3  AbortCode: 0
