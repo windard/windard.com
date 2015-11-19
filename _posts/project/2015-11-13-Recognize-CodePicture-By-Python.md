@@ -30,6 +30,20 @@ print text2
 识别出来的效果如下。    
 ![code_successful.jpg](../../images/code_successful.jpg)     
 
+##重要更新：
+这个方法非常不好，不仅因为不好用，那个Python的代码非得要在这个文件夹下才能够执行，而且不支持中文。 查看源代码就会发现它还是0.0.1的版本，在2007年的时候就从此再也没有更新了。         
+后来我们看了它的源码，准备将它给打包成一个Python库，就可以引入使用了，但是发现比较复杂。      
+最终，好吧，其实这个也是引用了谷歌的`Tesseract-OCR`的图片识别引擎才起作用的，那我们为什么不直接使用这个引擎呢？             
+可以在这里下载：[https://code.google.com/p/tesseract-ocr/downloads/list](https://code.google.com/p/tesseract-ocr/downloads/list)
+也可以下载我下载好了的，[tesseract-ocr-setup-3.02.02.exe](../software/tesseract-ocr-setup-3.02.02.exe)           
+自带是英文的，如果需要中文的那就只能自己去下载了。          
+
+安装好了之后加入环境变量就可以使用了，`tesseract -v`可以查看版本号。            
+使用`tesseract imagename outputbase`就可以了，如果想要高级用法，直接输入`tesseract`即可查看。      
+
+
+关于中文
+
 参考链接：       
 [python利用pytesser模块实现图片文字识别](http://www.jinglingshu.org/?p=9281)      
 [ wxPython利用pytesser模块实现图片文字识别](http://blog.csdn.net/hk_jh/article/details/8961449)      
