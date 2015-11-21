@@ -86,3 +86,18 @@ C:\Users\dell\Desktop\theme>
 9. 判别一个Python变量是不是一个对象。`isinstance(XXX,object)`
 
 10. 强行终止Python程序，`sys.exit()`
+
+11. 一些基本的vim设置。
+```
+syntax on                   " 自动语法高亮
+colorscheme torte           "配置颜色方案
+set number                  " 显示行号
+set cursorline              " 突出显示当前行
+set wildmenu                 "Turn on WiLd menu 在末行命令行敲tab键时会在状态栏显示选项
+set whichwrap+=h,l          "Bbackspace and cursor keys wrap to 使指定的左右移动光标的键在行首或行尾可以移到前一行或者后一行
+set shiftwidth=4            " 设定 << 和 >> 命令移动时的宽度为 4
+set softtabstop=4           " 使得按退格键时可以一次删掉 4 个空格
+set tabstop=4               " 设定 tab 长度为 4
+set nobackup                " 覆盖文件时不备份
+set autochdir               " 自动切换当前目录为当前文件所在的目录
+```
