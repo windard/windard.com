@@ -58,21 +58,21 @@ C:\Users\dell\Desktop\theme>
 5. Python的包管理工具pip，可以用`pip freeze`来查看安装了那些Python的库。
 
 6. 有时候不得不需要下载一些百度文库里的东西，一般我是拒绝这样做的。因为我有大量的百度云搜索。   
->[http://www.kanbuchuan.com/so/](http://www.kanbuchuan.com/so/)     
->[http://kaopu.so/](http://kaopu.so/)
->[http://www.iwapan.com/](http://www.iwapan.com/)
->[http://www.panzz.com/](http://www.panzz.com/)
->[http://www.bdyunso.com/](http://www.bdyunso.com/)
->[http://www.pansou.com/](http://www.pansou.com/)
->[http://www.wangpansou.cn/](http://www.wangpansou.cn/)
->[http://pan.java1234.com/](http://pan.java1234.com/)
->[http://www.kanbuchuan.com/so/](http://www.kanbuchuan.com/so/)
->[http://www.daysou.com/](http://www.daysou.com/)
->[http://www.panc.cc/](http://www.panc.cc/)
->[http://www.baidu10.net/](http://www.baidu10.net/)
->[http://www.yiso.me/](http://www.yiso.me/)
->[http://so.xpan.me/index.html](http://so.xpan.me/index.html)
->[http://www.soupan.info/](http://www.soupan.info/)              
+>[http://www.kanbuchuan.com/so/](http://www.kanbuchuan.com/so/)                       
+>[http://kaopu.so/](http://kaopu.so/)                           
+>[http://www.iwapan.com/](http://www.iwapan.com/)                             
+>[http://www.panzz.com/](http://www.panzz.com/)                              
+>[http://www.bdyunso.com/](http://www.bdyunso.com/)                            
+>[http://www.pansou.com/](http://www.pansou.com/)                          
+>[http://www.wangpansou.cn/](http://www.wangpansou.cn/)                              
+>[http://pan.java1234.com/](http://pan.java1234.com/)                                 
+>[http://www.kanbuchuan.com/so/](http://www.kanbuchuan.com/so/)                          
+>[http://www.daysou.com/](http://www.daysou.com/)                              
+>[http://www.panc.cc/](http://www.panc.cc/)                                   
+>[http://www.baidu10.net/](http://www.baidu10.net/)                              
+>[http://www.yiso.me/](http://www.yiso.me/)                                    
+>[http://so.xpan.me/index.html](http://so.xpan.me/index.html)                         
+>[http://www.soupan.info/](http://www.soupan.info/)                                 
     
     好吧，就这些，一般都能够找到想要的资料，但是如果实在是没有找到而且在百度文库里发现了想要下载的却提示需要积分的时候，内心是崩溃的。        
 这个时候，我们就需要这个了，[冰点文库](../software/iDocDown.rar)，输入百度文库的网址即可下载，自动下载转化为TXT和PDF格式，还是非常好用的。我的这个是免安装无广告版，之前我也在网上找到一个，又有广告又需要安装。。。。
