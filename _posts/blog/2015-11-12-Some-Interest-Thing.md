@@ -17,6 +17,7 @@ category: blog
 2. 如果你的cmd开了快速编辑模式的话，就可以直接将其拷贝出来，而且就可以在cmd里右击直接粘贴了，再也不用小心翼翼的敲命令了。  
 ![cmd_edit.jpg](../../images/cmd_edit.jpg)   
 把上面的目录结构拷贝出来就是这个样子的。   
+
 ```
 C:\Users\dell\Desktop\theme>
 ├─Jekyll-HMFAYSAL-Theme
