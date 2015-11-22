@@ -89,6 +89,7 @@ C:\Users\dell\Desktop\theme>
 10. 强行终止Python程序，`sys.exit()`
 
 11. 一些基本的vim设置。
+
 ```
 syntax on                   " 自动语法高亮
 colorscheme torte           "配置颜色方案
