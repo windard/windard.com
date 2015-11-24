@@ -103,3 +103,8 @@ set tabstop=4               " 设定 tab 长度为 4
 set nobackup                " 覆盖文件时不备份
 set autochdir               " 自动切换当前目录为当前文件所在的目录
 ```
+12. `dpkg -l`(Linux)查看安装了哪些软件,`dpkg -l softwarename`查看是否安装该软件，`which softwarename`查看软件安装位置。     
+
+13. Python中的打开文件操作如果中文就不要用`open()`，用`codecs.open("中文.txt","w","utf-8")`，这样比较保险。       
+
+14. `The NPF driver isn't running.You may have trouble,capturing or listing interfaces.`在wireshark启动的时候遇到了这个问题，原因是`NPF`服务没有打开，在Windows下打开管理员权限的cmd，输入`net start npf`即可，在Linux下即是先获得管理员权限。

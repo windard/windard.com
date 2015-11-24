@@ -31,6 +31,7 @@ print text2
 ![code_successful.jpg](../../images/code_successful.jpg)     
 
 ##重要更新：
+
 这个方法非常不好，不仅因为不好用，那个Python的代码非得要在这个文件夹下才能够执行，而且不支持中文。 查看源代码就会发现它还是0.0.1的版本，在2007年的时候就从此再也没有更新了。         
 后来我们看了它的源码，准备将它给打包成一个Python库，就可以引入使用了，但是发现比较复杂。      
 最终，好吧，其实这个也是引用了谷歌的`Tesseract-OCR`的图片识别引擎才起作用的，那我们为什么不直接使用这个引擎呢？             
@@ -39,7 +40,13 @@ print text2
 自带是英文的，如果需要中文的那就只能自己去下载了。          
 
 安装好了之后加入环境变量就可以使用了，`tesseract -v`可以查看版本号。            
-使用`tesseract imagename outputbase`就可以了，如果想要高级用法，直接输入`tesseract`即可查看。      
+使用`tesseract imagename outputfile`就可以了，如果想要高级用法，直接输入`tesseract`即可查看。   
+
+##再次更新
+我把中文的那个语言包下载下来了，试了一下它真正的效果。并没有那么惊人，文本识别毕竟还是没有那么简单。      
+[中文语言包](../software/chi_sim.traineddata)   
+中文的使用方法`tesseract -l chi_sim imagename ouyputfile`
+
 
 
 关于中文
