@@ -46,9 +46,11 @@ for i in xrange(2,length):
 
 ####ZJPC-CTF
 也是一道栅栏密码的题目，密文如下。
+
 ```
 T IFCCH NONY AZCA_N_PRHRLEEIEIF CPFGJ{IFCCH!EA N PRSUTERTL.PRLEEIE}
 ```
+
 但是这道题就非常坑爹了，它一共是67个字符，没有公因数，那么我们要删掉一定的空格或者全部的空格才可以了。               
 那没有办法，我们就只能先分别删掉它的每一个空格使其为66位，然后再来找了。        
 
@@ -82,23 +84,26 @@ for data1 in d:
 			if "ZJPC" in s:
 				print s
 ```
+
 结果竟然跑出来两个，还好答案只有一个。              
-```
+
+```python
 THE RAILNFE CEPCIRHES IUNFTO ENCRYPT FLAG.ZJPC{RAIL_FENCE_CIPHER!}
 THE RAIL FENCEPCIRHES IUNFTO ENCRYPT FLAG.ZJPC{RAIL_FENCE_CIPHER!}
 ```
 
 ####ZJPC-CTF
 凯撒密码                        
-```
+```python
 AKQD{dbftbs_jt_hppe_cvu_Xfbl!}
 ```
 凯撒密码源于古罗马帝王凯撒，因为他当年想出了这种加密方式，故一次命名，关于凯撒密码可以看[这里](http://baike.baidu.com/link?url=1bv7dK0yEukVC40yxTWE2G3XbqYUuhzeA-fuSbH-pLqV5k6pva-siRyNAKk4fKTK11ahY9YEmT0lWSougOKbVCicP5u3Fi69tHk6x0LPl9OAaIgAdVN6TykTyFS5dDMc2TGFroeuZKHtms0pkDTCieYm8kCtoQLs9uNx3anT001NS1xVLiGdfksQjwyFMTfZ)。
 原理也很简单，就是按照26个英文字母的顺序分别用这个字符的前面或者后面第多少位来替换，做如下对应。   
-```
+```python
 ABCDEFGHIJKLMNOPQRSTUVWXYZ    abcdefghijklmnopqrstuvwxyz
 DEFGHIJKLMNOPQRSTUVWXYZABC    defghijklmnopqrstuvwxyzabc
 ```
+
 那么还是原来的那个例子,明文`Baby,I Love You Forever!`，那么密文就是`Edeb,L Oryh Vrx Iruhyhu!`。  
 这样的话，拿到了密文之后，我们分别将它的每一个字符进行移位，找到最有意义的那个就是flag了，当然，在这里，我们也需要用有没有flag特定的字符来判断是不是找到了真正的flag。          
 按照上面的思路，但是这里有两个地方有点困难，就是特殊标记不予替换和替换超长轮回，代码如下：        
@@ -146,6 +151,7 @@ for i in range(26):
 
 ####ZJPC-CTF
 凯撒密码的加强版。   
+
 ```        
 Task:
 I guess you are done with Caesar, aren't you?
@@ -168,8 +174,10 @@ The keyspace has increased from 26 to 128 too. \o/
 39 23 36 23 3b 2d 32 41 
 
 ```
+
 看着这些数字，猜测应该是十六进制，题目中也提示了，凯撒密码从单纯的英文字母转到了128的ASCII码，好吧，其实是更简单了好么。。。               
 先将十六进制转换为ASCII码，然后分别替换，代码如下：
+
 ```python
 #coding=utf-8
 
