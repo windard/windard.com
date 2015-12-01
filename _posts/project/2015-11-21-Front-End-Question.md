@@ -23,6 +23,7 @@ description: 网上看到的自己写了一下，还是蛮好玩的。
 
 ####代码如下
 1. 第一题：  
+
 ```html
 <!DOCTYPE html>
 <html lang="en">
@@ -89,6 +90,7 @@ description: 网上看到的自己写了一下，还是蛮好玩的。
 ```
 
 2. 第二题：
+
 ```html
 <!DOCTYPE html>
 <html lang="en">
@@ -152,6 +154,7 @@ description: 网上看到的自己写了一下，还是蛮好玩的。
 ```
 
 3.  第三题：
+
 ```html
 <!DOCTYPE html>
 <html lang="en">
