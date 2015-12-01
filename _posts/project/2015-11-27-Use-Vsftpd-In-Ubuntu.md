@@ -31,6 +31,7 @@ vsftpd即very security ftp，好吧，这样听起来还是似乎挺不错的样
 vsftpd主配置文件`/etc/vsftpd.conf`,主程序`/usr/sbin/vsftpd`,禁止使用vsftpd的用户列表`/etx/ftpusers`,允许使用vsftpd的用户列表`/etc/user_list`,匿名用户根目录`/src/ftp`,日志存储地址`/var/log/vsftpd.log`
 
 vsftpd的主要配置文件在`/etc/vsftpd.conf`,接下来让我们看一下这个配置文件,英文注解都已略去。
+
 ```
 listen=<YES/NO> :设置为YES时vsftpd以独立运行方式启动，设置为NO时以xinetd方式启动（xinetd是管理守护进程的，将服务集中管理，可以减少大量服务的资源消耗）                                                                        
 listen_port=<port> :设置控制连接的监听端口号，默认为21                                          
@@ -69,6 +70,7 @@ anon_umask=<nnn> :设置匿名用户上传的文件的生成掩码，默认为07
 
 
 ftp数字码代表的意思：
+
 ```
 110 重新启动标记应答。                                  
 120 服务在多久时间内ready。                            
@@ -113,6 +115,7 @@ ftp数字码代表的意思：
 
 
 ftp命令：
+
 ```
 ftp XX.XX.XX.XX        #连接目标主机
 open host  [port]      #进入ftp模式，连接目标主机
