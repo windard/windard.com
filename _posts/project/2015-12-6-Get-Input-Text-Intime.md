@@ -16,3 +16,29 @@ description: 有时候我们需要实时的得到输入表单的值，并用其�
 为什么会这样，网上说的都是骗人的，乖乖用`oninput`就好。       
 不过网上还说了一个替代的办法，就是定时检测输入表单的变化，想了一下理论上是可行的，但是这样的话会不会太浪费了，每秒钟或者多久检查一次。         
 
+代码如下：                            
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Textarea</title>
+	<script>
+	window.onload = function(){
+		document.getElementById("text").oninput = function(){
+			result = document.getElementById("text").value;
+			document.getElementById("result").value=result;
+		}
+	}
+
+	</script>
+</head>
+<body>
+	<div>
+		<textarea name="name" id="text" cols="30" rows="10"></textarea>
+		<textarea name="result" id="result" cols="30" rows="10"></textarea>
+	</div>
+</body>
+</html>
+```
