@@ -37,9 +37,9 @@ ssh-keygen -t rsa -C "email@gmail.com"
 
 将邮箱地址换成你自己的邮箱地址。
 
->在生成密钥的时候会提醒你密钥的保存地点，默认是在`~`下。
->在生成密钥的时候也会要求你输入一个密码，但是这个密码不是你的github密码，是用来锁定你的本地账户的，在每次提交项目的时候使用。
->在生成密钥之后，你就会发现目录下多了两个文件`id_rsa`和`id_rsa.pub`，前者是私钥，后者是密钥。
+>在生成密钥的时候会提醒你密钥的保存地点，默认是在`~`下。                    
+>在生成密钥的时候也会要求你输入一个密码，但是这个密码不是你的github密码，是用来锁定你的本地账户的，在每次提交项目的时候使用。                              
+>在生成密钥之后，你就会发现目录下多了两个文件`id_rsa`和`id_rsa.pub`，前者是私钥，后者是密钥。                                  
 
 然后登录你的github帐号，在右上角的`Settings`里的`SSH keys`选择`Add SSH key`,然后把你的`id_rsa.pub`里的内容放进去。
 
@@ -53,12 +53,12 @@ ssh -T git@github.com
 
 即说明公钥添加成功。以后你克隆github上的代码就可以使用github专用通道了，每次上传自己的代码也不用再输入用户名和密码了。     
 
->最后的最后
->或许你还需要设定一个本地用户信息
->`git config --global user.name "yourusername"`
->`git config --global user.email "youremail"`
+>最后的最后                                  
+>或许你还需要设定一个本地用户信息                                     
+>`git config --global user.name "yourusername"`                                 
+>`git config --global user.email "youremail"`                                
 
-github专用通道即：                            
-一般克隆代码是`git clone https://github.com/XXX/XXX.git`
-现在就可以这样`git clone git@github.com:XXX/XXX.git`
+github专用通道即：                                                     
+一般克隆代码是`git clone https://github.com/XXX/XXX.git`                               
+现在就可以这样`git clone git@github.com:XXX/XXX.git`                             
 
