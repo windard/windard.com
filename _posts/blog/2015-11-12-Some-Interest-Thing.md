@@ -86,25 +86,12 @@ C:\Users\dell\Desktop\theme>
 
 9. 判别一个Python变量是不是一个对象。`isinstance(XXX,object)`
 
-10. 强行终止Python程序，`sys.exit()`
-
-11. 一些基本的vim设置。
-
-```
-syntax on                   " 自动语法高亮
-colorscheme torte           "配置颜色方案
-set number                  " 显示行号
-set cursorline              " 突出显示当前行
-set wildmenu                 "Turn on WiLd menu 在末行命令行敲tab键时会在状态栏显示选项
-set whichwrap+=h,l          "Bbackspace and cursor keys wrap to 使指定的左右移动光标的键在行首或行尾可以移到前一行或者后一行
-set shiftwidth=4            " 设定 << 和 >> 命令移动时的宽度为 4
-set softtabstop=4           " 使得按退格键时可以一次删掉 4 个空格
-set tabstop=4               " 设定 tab 长度为 4
-set nobackup                " 覆盖文件时不备份
-set autochdir               " 自动切换当前目录为当前文件所在的目录
-```
 12. `dpkg -l`(Linux)查看安装了哪些软件,`dpkg -l softwarename`查看是否安装该软件，`which softwarename`查看软件安装位置。     
 
 13. Python中的打开文件操作如果中文就不要用`open()`，用`codecs.open("中文.txt","w","utf-8")`，这样比较保险。       
 
 14. `The NPF driver isn't running.You may have trouble,capturing or listing interfaces.`在wireshark启动的时候遇到了这个问题，原因是`NPF`服务没有打开，在Windows下打开管理员权限的cmd，输入`net start npf`即可，在Linux下即是先获得管理员权限。
+
+15. 在Windows下自带的截屏小工具是`snippingtool`在cmd或者是运行窗口，输入，确定，即可打开。
+
+16. 在Ubuntu下自带的截屏小工具是`gnome-screenshot`，参数`-a`捕获指定内容。          
