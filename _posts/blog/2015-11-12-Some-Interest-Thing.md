@@ -95,3 +95,8 @@ C:\Users\dell\Desktop\theme>
 15. 在Windows下自带的截屏小工具是`snippingtool`在cmd或者是运行窗口，输入，确定，即可打开。
 
 16. 在Ubuntu下自带的截屏小工具是`gnome-screenshot`，参数`-a`捕获指定内容。          
+
+17. `cmder`再也不用忍受难看的cmd了，不仅将比cmd更好看，还自动集成了Linux下命令，比之前推荐的`GetGnuWin32`更强大。                              
+>下载[cmder](../software/cmder.zip)，安装。                       
+>将`cmder`的安装路径和`bin`目录都加入环境变量。
+>享受`cmder`吧。                   
