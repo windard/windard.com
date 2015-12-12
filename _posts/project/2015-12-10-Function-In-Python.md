@@ -53,6 +53,15 @@ Python的内置函数主要包括两大类，一是Python的函数式编程用�
 {0: 0, 1: 1, 2: 2, 3: 3, 4: 4}
 ```
 
+在这里，因为Python的字典的键具有互异性，所以每一次相同的键不同的值只会取最后一个，而列表无互异性。                        
+
+```python
+>>> [(key,value) for key in range(5) for value in range(5) if value>key]
+[(0, 1), (0, 2), (0, 3), (0, 4), (1, 2), (1, 3), (1, 4), (2, 3), (2, 4), (3, 4)]
+>>> {key:value for key in range(5) for value in range(5) if value>key}
+{0: 4, 1: 4, 2: 4, 3: 4}
+```
+
 ##Python函数支持不定长度的参数
 用一个C语言里很经典的例子，求一个不定长度的数列的和。
 
@@ -266,6 +275,39 @@ NameError: name 'bar' is not defined
 
 ####函数装饰器
 装饰器实际上也是函数
+
+####匿名函数
+匿名函数的关键字是lambda
+
+####apply filter map reduce
+
+######apply(function,arges)
+apply的功能是在不定长参数的函数中应用，在我们上面讲到不定长参数的使用时，传入一个序列或者字典时可以采用加`*`或者是`**`的形式，将序列传入函数，也可以采用apply。                       
+其实不仅仅是不定长参数的函数，及时是在定长参数的函数中，如果需要多个参数也能使用。       
+apply或者`*`,`**`是为了一次性传入一个列表或者字典，但是将它们内部的值逐个解析出来。       
+在Python 1.6 之后，这个函数将被逐步取代，apply只能传入序列。                          
+
+```python
+#coding=utf-8
+
+def count(*args):
+  num = 0
+  for i in args:
+    num += i
+  return num
+
+num = apply(count,[1,2,3])
+print num
+
+a = [1,2,3,4,5,6]
+num = apply(count,a)
+print num
+```
+
+保存为count_apply.py，运行，看一下结果。                                     
+![count_apply.jpg](../../images/count_apply.jpg)
+
+####
 
 ####apply map 
 ##对象内置函数
