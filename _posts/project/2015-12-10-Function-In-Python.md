@@ -274,7 +274,172 @@ NameError: name 'bar' is not defined
 ```
 
 ####函数装饰器
-装饰器实际上也是函数
+装饰器实际上也是函数，它的功能是在类或者是函数运行之前或者是之后运行一些额外的代码。      
+装饰器的使用也是与普通函数一致，让我们来试一下，首先是一个无参的装饰器，在代码执行前后加上执行时间。                             
+
+```python
+#coding=utf-8
+
+from time import ctime,sleep
+
+def timefun(func):
+  print ctime()
+  return func
+
+@timefun
+def foo():
+  print "This is foo"
+
+for i in range(3):
+  foo()
+  sleep(2)
+
+print "-"*20
+timefun(foo)
+
+print "-"*20
+timefun(foo)()
+```
+
+保存为decorator_demo.py，运行，看一下结果。                        
+![decorator_demo.jpg](../../images/decorator_demo.jpg)           
+
+非常可惜的是，如果这样写的话，这个装饰器好像就只能使用一次，那我们想要在每一次调用的时候都打印出时间要怎么办呢？。                            
+我们在装饰器里也定义了一个函数，使用内嵌函数就可以实现每次调用装饰器都打印出时间。        
+
+```python
+#coding=utf-8
+
+from time import ctime,sleep
+
+def timefun(func):
+  def showtime():
+    print ctime()
+    return func()
+  return showtime
+
+@timefun
+def foo():
+  print "This is foo"
+
+for i in range(3):
+  foo()
+  sleep(2)
+
+print "-"*20
+timefun(foo)
+
+print "-"*20
+timefun(foo)()
+```
+
+保存为decorator_improve.py，运行，看一下结果。                          
+![decorator_improve.jpg](../../images/decorator_improve.jpg)                         
+
+但是如果这样的话，就没有任何的区别了。                             
+
+```python
+#coding=utf-8
+
+from time import ctime,sleep
+
+def timefun(func):
+  def showtime():
+    print ctime()
+    return func
+  return showtime()
+
+@timefun
+def foo():
+  print "This is foo"
+
+for i in range(3):
+  foo()
+  sleep(2)
+
+print "-"*20
+timefun(foo)
+
+print "-"*20
+timefun(foo)()
+```
+
+保存为decorator_back.py，运行，看一下效果。                        
+![decorator_back.jpg](../../images/decorator_back.jpg)             
+
+装饰器也可以是一个类，使用`_call`函数，使在每次调用的时候使用装饰器即可。                  
+现在就大概明白了，装饰器的功能就是在原有的函数功能的基础上包装一下，给它增加新的功能。
+>或许有人会问，那为什么我们不去重写这个函数呢？
+>1. 或许这个函数是标准函数库里的或者是他人写的函数，不好修改，我们只需给它加上一些装饰而已，就会比较简单。
+>2. 或许我们并不是每一个函数都需要装饰，这样的话，更容易控制。            
+
+装饰器用来做静态变量。                               
+
+Python里是没有静态变量的，只有静态成员变量，但是我们有时候需要在函数里调用静态变量，可是又不想创建一个类，怎么办呢？                                    
+
+首先是来看一下Python里面没有静态变量                            
+
+```python
+>>> def fin(x):
+...     _i = 0
+...     _i = _i+1
+...     print _i
+...     if x<2: return 1
+...     return (fin(x-1)+fin(x-2))
+...
+>>> fin(5)
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+8
+```
+
+我们利用装饰器当做静态变量，但是非常坑爹的是，在非递归调用里可以正常使用，完全当做一个静态变量，但是在递归调用里就出问题。                        
+
+```python
+#coding=utf-8
+
+def static(func):
+  def count(*args):
+    count._call += 1
+    print count._call
+    func(*args)
+  count._call = 0
+  return count
+
+#在非递归调用中完全可以当做静态变量来使用
+@static
+def echo():
+  pass
+
+for i in range(5):
+  echo()
+
+#但是在递归调用中就出问题
+# @decorator
+# def fin(x):
+#   if x<2: return 1
+#   return (fin(x-1)+fin(x-2))
+
+# print fin(5)
+```
+
+保存为static.py，运行，看一下结果。                               
+![static.jpg](../../images/static.jpg)
+
+
 
 ####匿名函数
 匿名函数的关键字是lambda
@@ -307,9 +472,8 @@ print num
 保存为count_apply.py，运行，看一下结果。                                     
 ![count_apply.jpg](../../images/count_apply.jpg)
 
-####
+######filter()
 
-####apply map 
 ##对象内置函数
 
 包括`__name__` `__call__` `__init__` `__name__`
