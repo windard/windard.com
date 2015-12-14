@@ -55,25 +55,167 @@ Python的内置函数主要包括两大类，一是Python的函数式编程用�
 >>> type(type)
 <type 'type'>
 ```
-2. 对象类型转换 
+
+2. isinstance()判断变量
+
+```python
+>>> a = 1
+>>> isinstance(a,int)
+True
+>>> isinstance(a,object)
+True
+>>> isinstance(a,type)
+False
+>>> isinstance(1,int)
+True
+>>> isinstance(1,object)
+True
+>>> isinstance(1,type)
+False
+>>> isinstance(1,str)
+False
+>>> isinstance("1",str)
+True
+>>> isinstance("1",object)
+True
+>>> isinstance(int,object)
+True
+>>> isinstance(int,type)
+True
+```
+
+可以看到，在Python中其实也包含了万物皆对象的思想。                 
+
+```python
+>>> class foo:
+...     name="foo"
+...     def show():
+...             print foo.name
+...
+>>> a = foo()
+>>> isinstance(foo,object)
+True
+>>> isinstance(a,object)
+True
+>>> isinstance(a.show,object)
+True
+>>> isinstance(a,foo)
+True
+```
+
+3. 对象类型转换 
 
 |函数                   |说明                                             |
 |:-----:                |:------:                                          |
 |int(x=0[,base=10])     |将其他进制的字符串或数转化为十进制整数，若为十进制浮点数，则表示取整|
 |long(x=0[,base=10])    |将其他进制的字符串或数转化为长型数|
 |float(x=0)             |将其他进制的字符串或数转化为浮点数|
+|round(x)               |将一个浮点数四舍五入进行取整      |
 |complex(real [,imag ]) |创建一个复数                      |
 |str()                  |将对象转换为字符串                |
-|list()                 |将序列转换为列表
+|list()                 |将序列转换为列表                  |
 |tuple()                |将序列转换为元组                  |
 |set()                  |将序列转换为集合                  |
+|chr()                  |将一个整数转化为相应的ASCII字符   |
+|ord()                  |将一个ASCII字符转化为相应的整数   |
+|hex()                  |将一个整数转化为十六进制编码字符串|
+|oct()                  |将一个整数转化为八进制编码字符串  |
+|unicode(string[,encoding])                  |将其他格式的字符串转化为Unicode格式的字符串               |
 
+####id和del
+查看变量位置和删除变量。                                    
+id()用来查看变量在内存中的位置，在深拷贝和浅拷贝的区别的时候就是通过查看在内存中的位置来判断的。                           
+Python是有自动的垃圾回收机制的，但是有时候我们想要显式的删除一个变量，就可以使用这个函数。                   
 
+```python
+>>> a = "a"
+>>> a
+'a'
+>>> id(a)
+39859168
+>>> b = a
+>>> b
+'a'
+>>> id(a)
+39859168
+>>> id(b)
+39859168
+>>> del a
+>>> b
+'a'
+>>> id(b)
+39859168
+```
 
+####input和raw_input
+input()相当于eval(raw_input())，input()和raw_input()都是标准输入函数。                    
+raw_input()表示输入原生字符串，得到一个字符串，input()则是将其进行转换，故得到的可以是整形或浮点型输入。                            
 
+```python
+>>> a = raw_input("Please input a string: ")
+Please input a string: This is a string
+>>> a
+'This is a string'
+>>> type(a)
+<type 'str'>
+>>> b = raw_input()
+12345
+>>> b
+'12345'
+>>> type(b)
+<type 'str'>
+>>> a = input("Please input a string: ")
+Please input a string: "This is a string"
+>>> a
+'This is a string'
+>>> type(a)
+<type 'str'>
+>>> b = input()
+12345
+>>> b
+12345
+>>> type(b)
+<type 'int'>
+```
 
+所以可以看到在input()里直接输入字符串时需要加上引号，如果不加直接写就会报错，而且可以在input()里面直接进行函数表达式。              
 
-
+```python
+>>> a = input()
+This is a string
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+  File "<string>", line 1
+    This is a string
+                   ^
+SyntaxError: unexpected EOF while parsing
+>>> a = input()
+Thisisastring
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+  File "<string>", line 1, in <module>
+NameError: name 'Thisisastring' is not defined
+>>> a = input()
+"Hello"+" "+"World"
+>>> a
+'Hello World'
+>>> type(a)
+<type 'str'>
+>>> b = input()
+100+200
+>>> b
+300
+>>> type(b)
+<type 'int'>
+>>> b = input()
+"100+200"
+>>> b
+'100+200'
+>>> b = input()
+"100"+"200"
+>>> b
+'100200'
+```
 
 ####Python的序列里支持函数表达。   
 
@@ -221,7 +363,7 @@ SyntaxError: invalid syntax
 ```
 
 ####help和__doc__
-这两个是函数的内置函数，就是说每一个函数都会有这两个函数，实际上也可以用于函数库或者是Python对象中。                                                   
+这两个是函数的内置函数，就是说每一个函数都会有这两个函数，实际上也可以用于函数库或者是类或者对象中。                                                   
 他们的功能是查看该函数或者是函数库的说明文档。说明文档即函数声明之后第一个未被赋值的字符串，一般用`""`或者是`""""""`包围的部分。                            
 
 ```python
@@ -319,6 +461,59 @@ urlopen(url, data=None, proxies=None, context=None)
 
 当说明文档太长时，按`q`退出。                        
 可以用`help`查看具体用法，用`__doc__`查看相关说明。                
+
+####dir和__dict__
+这是用来查看函数或者对象的属性和方法的。                          
+dir()返回列表，\_\_dict\_\_返回字典。                              
+在新式类与旧式类的比较中会用到这些函数。                     
+
+```python
+>>> def foo():
+...     pass
+...
+>>> type(foo)
+<type 'function'>
+>>> dir(foo)
+['__call__', '__class__', '__closure__', '__code__', '__defaults__', '__delattr__', '__dict__', '__doc__', '__format__', '__get__', '__getattribute__', '__globals__', '__hash__', '__init__', '__module__', '__name__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__sizeof__', '__str__', '__subclasshook__', 'func_closure', 'func_code', 'func_defaults', 'func_dict', 'func_doc', 'func_globals', 'func_name']
+>>> foo.__dict__
+{}
+>>> class foo:
+...     name="foo"
+...     def bar():
+...             print foo.name
+...
+>>> a = foo()
+>>> type(foo)
+<type 'classobj'>
+>>> type(a)
+<type 'instance'>
+>>> dir(foo)
+['__doc__', '__module__', 'bar', 'name']
+>>> foo.__dict__
+{'__module__': '__main__', 'bar': <function bar at 0x0265A330>, 'name': 'foo', '__doc__': None}
+>>> dir(a)
+['__doc__', '__module__', 'bar', 'name']
+>>> a.__dict__
+{}
+>>> class foo(object):
+...     name="foo"
+...     def bar():
+...             print foo.name
+...
+>>> a = foo()
+>>> type(foo)
+<type 'type'>
+>>> type(a)
+<class '__main__.foo'>
+>>> dir(foo)
+['__class__', '__delattr__', '__dict__', '__doc__', '__format__', '__getattribute__', '__hash__', '__init__', '__module__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__sizeof__', '__str__', '__subclasshook__', '__weakref__', 'bar', 'name']
+>>> foo.__dict__
+dict_proxy({'__module__': '__main__', 'bar': <function bar at 0x02AE4C70>, 'name': 'foo', '__dict__': <attribute '__dict__' of 'foo' objects>, '__weakref__': <attribute '__weakref__' of 'foo' objects>, '__doc__': None})
+>>> dir(a)
+['__class__', '__delattr__', '__dict__', '__doc__', '__format__', '__getattribute__', '__hash__', '__init__', '__module__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__sizeof__', '__str__', '__subclasshook__', '__weakref__', 'bar', 'name']
+>>> a.__dict__
+{}
+```
 
 ####内嵌函数
 在Python里面一个函数内部可以创建另一个函数并调用它，当然也只能在这个函数内部使用。
