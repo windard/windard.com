@@ -56,6 +56,34 @@ Python的内置函数主要包括两大类，一是Python的函数式编程用�
 <type 'type'>
 ```
 
+>也可以用`__class__`
+>如
+>
+>```python
+>>> a = 1
+>>> a.__class__
+<type 'int'>
+>>> a = "i"
+>>> a.__class__
+<type 'str'>
+>>> def echo():
+...     pass
+...
+>>> echo.__class__
+<type 'function'>
+>>> int.__class__
+<type 'type'>
+>>> type.__class__
+<type 'type'>
+>>> class foo:
+...     def bar():
+...             pass
+...
+>>> a = foo()
+>>> a.__class__
+<class __main__.foo at 0x0291EA40>
+>```
+
 2. isinstance()判断变量
 
 ```python
@@ -115,6 +143,7 @@ True
 |str()                  |将对象转换为字符串                |
 |list()                 |将序列转换为列表                  |
 |tuple()                |将序列转换为元组                  |
+|dict()                 |两个序列作为一个序列里的两个元素,将其转换为一个字典          |
 |set()                  |将序列转换为集合                  |
 |chr()                  |将一个整数转化为相应的ASCII字符   |
 |ord()                  |将一个ASCII字符转化为相应的整数   |
