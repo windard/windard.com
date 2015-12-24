@@ -5,6 +5,7 @@ description: win 10的性能比起前几代Windows已经有了很大的提高，
 category: blog
 ---
 
+
 Windows 10或者说Windows操作系统如果长时间的不关机的话，都会变得非常不稳定。在之前还能坚持8天左右，后来就两三天不关机就非常不稳定了，查看系统进程`system`占用内存相当大。           
 
 由于此，萌生了换操作系统的想法，一直在虚拟机里用Linux系统，Ubuntu使用起来感觉还是挺不错的。趁着在周六有时间，花了一下午的时间，装好了Ubuntu 14.0.4 LTS gnome的版本。               
@@ -42,16 +43,13 @@ timeout 50
 后来在桌面下找到`Install`的文件，打开了才开始了正常的安装。                    
 
 2. 果然装双系统没有那么简单，最终还是失败了。                               
-在已经把easyBCD设置好了以后，在开机时选择开机启动项，但是Ubuntu那里并没有什么卵用，就停在开机的黑屏上了，至今无解。                              
-另一位同学也是这个情况，换了一个Ubuntu的版本仍然不行，不知道是什么鬼。                     
+但是这个失败应该是与我的双硬盘有关，我的电脑里有一个固态硬盘加一个机械硬盘，果然就没有能够装起来，后来我给我的同学装虚拟机，就成功了，他的电脑里只有一个硬盘。                  
 
 
 参考链接：                                      
 [U盘安装Windows 10和Ubuntu Linux双系统图解教程](http://www.linuxdiyf.com/linux/13140.html)
 
 [windows10下安装Ubuntu15.04双系统](http://www.linuxdiyf.com/linux/13395.html)
-
-[U盘安装Windows 10和Ubuntu Linux双系统图解教程](http://www.linuxdiyf.com/linux/13140.html)
 
 [如何安装win10和linux [ubuntu14]双系统](http://jingyan.baidu.com/article/4d58d5411380dd9dd5e9c07e.html)
 
