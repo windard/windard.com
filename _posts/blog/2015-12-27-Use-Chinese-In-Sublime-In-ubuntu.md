@@ -143,7 +143,7 @@ export LD_PRELOAD=/opt/Sublime_Text_2/libsublime-imfix.so
 exec /opt/Sublime_Text_2/sublime_text "$@"
 ```
 
->在我的电脑里原来的`subl`竟然有8M，只是一个小小的链接而已，太恐怖了。
->在你将`subl`的内容修改了之后，可能还需要更改一下权限才能够使用
+>在我的电脑里原来的`subl`竟然有8M，只是一个小小的链接而已，太恐怖了。                           
+>在你将`subl`的内容修改了之后，可能还需要更改一下权限才能够使用。                          
 
 现在你就可以任何终端上输入`subl`来打开sublime并输入中文了。           
