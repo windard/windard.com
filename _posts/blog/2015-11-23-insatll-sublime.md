@@ -11,14 +11,16 @@ category: blog
 ####Install via the Package Manager(apt-get):
 
 For Sublime-Text-2     
-```
+
+```shell
 sudo add-apt-repository ppa:webupd8team/sublime-text-2
 sudo apt-get update
 sudo apt-get install sublime-text
 ```
 
 For Sublime-Text-3
-```
+
+```shell
 sudo add-apt-repository ppa:webupd8team/sublime-text-3
 sudo apt-get update
 sudo apt-get install sublime-text-installer
@@ -28,7 +30,8 @@ sudo apt-get install sublime-text-installer
 Download from the Sublime Site:   
 
 32-bit:     
-```
+
+```shell
 wget http://c758482.r82.cf2.rackcdn.com/Sublime\ Text\ 2.0.2.tar.bz2
 tar vxjf Sublime\ Text\ 2.0.2.tar.bz2
 cd Sublime\ Text\ 2
@@ -36,7 +39,8 @@ cd Sublime\ Text\ 2
 ```
 
 64-bit:       
-```
+
+```shell
 wget http://c758482.r82.cf2.rackcdn.com/Sublime\ Text\ 2.0.2\ x64.tar.bz2
 tar vxjf Sublime\ Text\ 2.0.2\ x64.tar.bz2
 cd Sublime\ Text\ 2
@@ -44,7 +48,8 @@ cd Sublime\ Text\ 2
 ```
 
 For Both:         
-```
+
+```shell
 sudo mv Sublime\ Text\ 2 /opt/
 sudo ln -s /opt/Sublime\ Text\ 2/sublime_text /usr/bin/subl
 ```

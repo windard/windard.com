@@ -111,12 +111,10 @@ void gtk_im_context_set_client_window (GtkIMContext *context,
 gcc -shared -o libsublime-imfix.so sublime-imfix.c `pkg-config --libs --cflags gtk+-2.0` -fPIC
 ```
 
-##加载编译好的库文件
-
-*注意，此处的家目录换成你自己的家目录`/home/widnard`*
+##加载编译好的模块
 
 ```shell
-export LD_PRELOAD=/home/windard/libsublime-imfix.so subl
+export LD_PRELOAD=./libsublime-imfix.so subl
 ```
 
 ```shell
@@ -125,4 +123,27 @@ source ~/.bashrc
 
 现在你使用`subl`打开sublime就可以输入中文了。
 
-如果你的桌面上有sublime的图标的话也还是要做修改的，但是我没有就算了。自己百度去吧。                        
+但是这样还没完，你只有每次都加载了这个模块才能够在sublime里使用中文，比如说你重新打开一个终端，输入`subl`打开sublime就无法输入中文了。           
+
+##最后的修改
+
+先把家目录下生成的`~/libsublime-imfix.so`移动到你的sublime安装目录下。
+
+
+```shell
+sudo mv ~/libsublime-imfix.so /opt/Sublime_Text_2
+```
+
+然后修改你的`subl`，将你的`/usr/bin/subl`改为以下内容，注意你自己的sublime安装目录。                    
+
+```bash
+#!/bin/sh
+
+export LD_PRELOAD=/opt/Sublime_Text_2/libsublime-imfix.so
+exec /opt/Sublime_Text_2/sublime_text "$@"
+```
+
+>在我的电脑里原来的`subl`竟然有8M，只是一个小小的链接而已，太恐怖了。
+>在你将`subl`的内容修改了之后，可能还需要更改一下权限才能够使用
+
+现在你就可以任何终端上输入`subl`来打开sublime并输入中文了。           
