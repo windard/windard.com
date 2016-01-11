@@ -121,6 +121,9 @@ True
 ...     def show():
 ...             print foo.name
 ...
+>>> class bar:
+...     name="bar"
+...
 >>> a = foo()
 >>> isinstance(foo,object)
 True
@@ -130,6 +133,8 @@ True
 True
 >>> isinstance(a,foo)
 True
+>>> isinstance(a,bar)
+False                                                                  
 ```
 
 3. 对象类型转换 

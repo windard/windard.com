@@ -13,6 +13,7 @@ String字符串是类，而字符数组char[]是基本数据类型，但是for�
 1. String.toCharArray()
 
 ```java
+char str1[];
 String str = "abcdefg";
 str1 = str.toCharArray();
 for(char cc:str1){
