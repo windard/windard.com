@@ -209,3 +209,20 @@ sudo tlp usb 开启USB电池管理模式
 
 最后，因为我不确定这个是不是开机启动的，所以我把它加到了开机启动。
 
+sudo hdparm -B /dev/sda 可见硬盘/dev/sda的APM_level值为254,表示硬盘性能最大化,这需要保持高水平的硬盘转速,硬盘发热量自然就大. 
+
+如果返回/dev/sda: APM_level = not supported,则表示你的硬盘不支持APM(高级电源管理). 
+
+APM_level的全称为Advanced Power Management level,即(硬盘)高级电源管理级别. 
+
+该值的取值范围为1~255,值越大,硬盘性能越高,其中255表示关闭硬盘/dev/sda的电源管理,254表示在开启电源管理下的最高性能,1表示最低的硬盘性能但最省电。
+
+这个值在1~127区间时允许spin-down,在128~254这个区间则禁止spin-down. 
+>spin-down是指在闲置时挂起硬盘,停止转动,但是频繁的spin-down和spin-up会使硬盘寿命变短. 
+
+在上面的tlp设置里面有这个选项，我把第一个设为了192，第二个设为了128.
+
+```bash
+ DISK_APM_LEVEL_ON_AC="192 192"
+ DISK_APM_LEVEL_ON_BAT="128 128"
+```
