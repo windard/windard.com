@@ -176,7 +176,7 @@ echo OFF > /sys/kernel/debug/vgaswitcheroo/switch
 
 看到网上有一个教程说是设置磁盘转速，有一个说是设置swap分区使用率。看到用的人好像不太多，想想就算了。
 
-有一个叫TPL的电池管理软件，可以一试。
+有一个叫TLP的电池管理软件，可以一试。
 
 ```bash
 sudo add-apt-repository ppa:linrunner/tlp
@@ -185,4 +185,27 @@ sudo apt-get install tlp tlp-rdw
 sudo tlp start
 ```
 
+顺便可以调整一下电池充电阈值，好的充电阀值参数能更好维护电池的寿命。
+
+编辑默认设置。
+
+```bash
+sudo gedit /etc/default/tlp
+```
+
+将
+```
+#START_CHARGE_THRESH_BAT0=50
+#STOP_CHARGE_THRESH_BAT0=99
+```
+去掉注释，并改为你想要的值。我在第一个写的是50，第二个是90。
+```bash
+sudo tlp ac 此命令意思为开启电源模式.
+sudo tlp bat 此命令意思为开启电池模式.
+sudo tlp stat 查看TLP工作情况
+sudo tlp-stat -C 查看TLP配置情况
+sudo tlp usb 开启USB电池管理模式
+```
+
+最后，因为我不确定这个是不是开机启动的，所以我把它加到了开机启动。
 
