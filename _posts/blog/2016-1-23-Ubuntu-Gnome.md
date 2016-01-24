@@ -105,3 +105,84 @@ sudo apt-get install wiznote
 ```bash
 sudo apt-get install libreoffice-l10n-zh-cn libreoffice-help-zh-cn
 ```
+
+
+##独显还是集显
+
+貌似看到网上说ubuntu的显卡驱动不太完善，电池耗电量颇大，对电池伤害严重以及图形化界面不稳定等问题。
+主要出现在ubuntu的集显和独显双显卡问题上，说是双显卡支持不好。吓得我赶紧照着网上的教程把独显给关了。
+
+查看显卡状态：
+
+```bash
+cat /sys/kernel/debug/vgaswitcheroo/switch  
+```
+
+我也不知道网上别人的是什么样子，但是我的是这样的，DIS是独显，IGD是集显，其他的我也不知道是什么意思。
+
+```bash
+0:DIS: :DynOff:0000:08:00.0
+1:IGD:+:Pwr:0000:00:02.0
+```
+
+然后使用一下命令先使用root权限，然后切换到集成显卡，最后关掉独立显卡。
+
+>一般集成显卡就是intel自带的显卡，支持的好一些，简称i卡，独立显卡就是nvidia的显卡，简称n卡，跟linux的感情不太好。
+
+```bash
+sudo su
+
+echo IGD > /sys/kernel/debug/vgaswitcheroo/switch
+echo OFF > /sys/kernel/debug/vgaswitcheroo/switch
+```
+
+别人这样之后的效果就是这样，DIS表示的独显已经关闭了。
+
+```bash
+0:IGD:+:Pwr:0000:00:02.0
+1:DIS: :Off:0000:01:00.0
+```
+
+但是我的再看一下结果还是原来的那个样子，并没有变化的说。
+
+```bash
+0:DIS: :DynOff:0000:08:00.0
+1:IGD:+:Pwr:0000:00:02.0
+```
+
+后来又找到说那个DynOff表示的是动态关闭的。好高端～～在ubuntu14.04之后的系统又高级了一些。刚好我的ubuntu就是14.04的LTS版本。。
+
+```bash
+OFF: The device is powered off
+ON: The device is powered on
+DynOff: The device is currently powered off but will be powered on when needed
+DynPwr: The device is currently powered on but will be powered off when not needed
+```
+
+好吧，如果有使用ubuntu14.04以前的同学可以看一下，还可以把上面那个关闭独显只开集显的命令加入到开机启动里去，这样的话就不用自己的关了。
+
+加入到开机启动里就是把
+```bash
+echo IGD > /sys/kernel/debug/vgaswitcheroo/switch
+echo OFF > /sys/kernel/debug/vgaswitcheroo/switch
+```
+加入到`/etc/rc.local`里的exit 0之前就可以了。
+
+不过我的独显在ubuntu下确实一般用不到，暂不管他。
+
+##电池管理
+
+说道独显和集显就是因为电池和磁盘容易受损，着实是我也觉得我的电池耗电有点快了。
+
+看到网上有一个教程说是设置磁盘转速，有一个说是设置swap分区使用率。看到用的人好像不太多，想想就算了。
+
+有一个叫TPL的电池管理软件，可以一试。
+
+```bash
+sudo add-apt-repository ppa:linrunner/tlp
+sudo apt-get update
+sudo apt-get install tlp tlp-rdw
+sudo tlp start
+```
+
+
