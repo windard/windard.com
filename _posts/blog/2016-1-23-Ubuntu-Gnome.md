@@ -243,3 +243,41 @@ APM_level的全称为Advanced Power Management level,即(硬盘)高级电源管�
  DISK_APM_LEVEL_ON_AC="192 192"
  DISK_APM_LEVEL_ON_BAT="128 128"
 ```
+
+##jdk && jre
+
+1. 安装的开源版本的jdk和jre
+
+```bash
+sudo apt-get update
+sudo apt-get install default-jre
+sudo apt-get install default-jdk
+```
+
+2. 安装Oracle jdk
+
+```bash
+sudo add-apt-repository ppa:webupd8team/java
+sudo apt-get update
+sudo apt-get install oracle-java7-installer     
+sudo update-java-alternatives -s java-7-oracle
+```
+
+或者是jdk8
+
+```bash
+sudo add-apt-repository ppa:webupd8team/java
+sudo apt-get update
+sudo apt-get install oracle-java8-installer
+sudo update-java-alternatives -s java-8-oracle
+```
+
+这样的安装过程一般会比较慢，也可以自己先把oracle的tar.gz的源码下载下来放在/var/cache/oracle-jdk8-installer ，然后再安装installer
+
+
+最后查看是否安装成功
+
+```bash
+java -version
+javac -version
+```
