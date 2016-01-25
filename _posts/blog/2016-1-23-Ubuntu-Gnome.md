@@ -13,8 +13,8 @@ category: blog
 
 ```bash
 sudo pon dsl-provider	启动pppoe连接
-sudo poff				停止pppoe连接
-plog					查看日志
+sudo poff		停止pppoe连接
+plog			查看日志
 ifconfig	ppp0		查看接口信息
 
 ```
