@@ -59,7 +59,8 @@ sudo apt-get install git
 
 ##sublime 
 相当好的代码编辑器，或者是你可以用它来编辑任何你想编辑的东西。
-具体的看我的另外两篇博客
+
+具体的看我的另外两篇博客。友情提示，sublime需要用到python，所以sublime 2就对应python2.X，sublime 3就对应python3.X 还是有一定区别的，推荐sublime2。
 
 ##vim
 竟然系统不自带vim，这个可以有。
@@ -75,6 +76,13 @@ sudo apt-get install fluxgui
 ```
 
 然后把它加到开机启动项里去，`gnome-session-properties`（启动应用程序）
+
+##一些快捷方式的调整
+有一些常用的在windows下非常习惯的快捷方式在ubuntu下有的不一样，这个肯定要改过来。
+
+比如说锁屏，在windows下是home键加L键，可是在ubuntu上确实home键加Alt键加L键，果断改之。
+
+还有我的电脑，在windows下是home键加E键，在ubuntu下没有这个选项，自己创建一个快捷方式好了，就是`nautilus /home/windard`。
 
 ##shutter
 截图工具，虽然用gnome-screenshot 也可以截图，但是这个功能更强大一点。
@@ -106,6 +114,9 @@ sudo apt-get install wiznote
 sudo apt-get install libreoffice-l10n-zh-cn libreoffice-help-zh-cn
 ```
 
+##虽然ubuntu-gnome的字体很好看，但是我的wps work里面用到了大量的微软雅黑字体，还是需要装一下的，本来以为很麻烦，结果就是在windows系统下的`C://Windows/fonts`下找到msyh.ttf就是微软雅黑字体了，然后装上就可以，因为我的ubuntu-gnome自带一个叫字体查看器的软件，可以用那个装字体。
+
+so easy的装好了字体之后，把sublime换成了微软雅黑的字体，还是挺漂亮的。
 
 ##独显还是集显
 
