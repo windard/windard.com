@@ -7,9 +7,9 @@ category: blog
 
 ##PPPoE
 
-××1. ××图形界面下，选择右上角的网络连接，或者在所有应用程序里找到网络连接。选择添加一个新的连接，选择DSL，进行设置就可以了。
+1. 图形界面下，选择右上角的网络连接，或者在所有应用程序里找到网络连接。选择添加一个新的连接，选择DSL，进行设置就可以了。
 
-××2. ××在终端中输入`sudo pppopconf`然后按照程序指导完成。
+2. 在终端中输入`sudo pppopconf`然后按照程序指导完成。
 
 ```bash
 sudo pon dsl-provider	启动pppoe连接
@@ -114,7 +114,8 @@ sudo apt-get install wiznote
 sudo apt-get install libreoffice-l10n-zh-cn libreoffice-help-zh-cn
 ```
 
-##虽然ubuntu-gnome的字体很好看，但是我的wps work里面用到了大量的微软雅黑字体，还是需要装一下的，本来以为很麻烦，结果就是在windows系统下的`C://Windows/fonts`下找到msyh.ttf就是微软雅黑字体了，然后装上就可以，因为我的ubuntu-gnome自带一个叫字体查看器的软件，可以用那个装字体。
+##一些字体的调整
+虽然ubuntu-gnome的字体很好看，但是我的wps work里面用到了大量的微软雅黑字体，还是需要装一下的，本来以为很麻烦，结果就是在windows系统下的`C://Windows/fonts`下找到msyh.ttf就是微软雅黑字体了，然后装上就可以，因为我的ubuntu-gnome自带一个叫字体查看器的软件，可以用那个装字体。
 
 so easy的装好了字体之后，把sublime换成了微软雅黑的字体，还是挺漂亮的。
 
@@ -173,10 +174,12 @@ DynPwr: The device is currently powered on but will be powered off when not need
 好吧，如果有使用ubuntu14.04以前的同学可以看一下，还可以把上面那个关闭独显只开集显的命令加入到开机启动里去，这样的话就不用自己的关了。
 
 加入到开机启动里就是把
+
 ```bash
 echo IGD > /sys/kernel/debug/vgaswitcheroo/switch
 echo OFF > /sys/kernel/debug/vgaswitcheroo/switch
 ```
+
 加入到`/etc/rc.local`里的exit 0之前就可以了。
 
 不过我的独显在ubuntu下确实一般用不到，暂不管他。
@@ -205,11 +208,14 @@ sudo gedit /etc/default/tlp
 ```
 
 将
+
 ```
 #START_CHARGE_THRESH_BAT0=50
 #STOP_CHARGE_THRESH_BAT0=99
 ```
+
 去掉注释，并改为你想要的值。我在第一个写的是50，第二个是90。
+
 ```bash
 sudo tlp ac 此命令意思为开启电源模式.
 sudo tlp bat 此命令意思为开启电池模式.
