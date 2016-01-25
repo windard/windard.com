@@ -207,7 +207,7 @@ sudo tlp start
 sudo gedit /etc/default/tlp
 ```
 
-将
+将SSDVPS
 
 ```
 #START_CHARGE_THRESH_BAT0=50
