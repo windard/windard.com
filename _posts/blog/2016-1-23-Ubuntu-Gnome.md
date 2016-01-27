@@ -281,3 +281,19 @@ sudo update-java-alternatives -s java-8-oracle
 java -version
 javac -version
 ```
+
+##禁用错误提示
+不知道是什么原因，总是一开机就有各种错误提示，可以取消这种提示。
+
+```bash
+sudo vim /etc/default/apport
+```
+
+将enable的值由1改为0
+
+然后不用重启计算机，只需要重启服务就可以。
+
+```bash
+sudo service apport restart
+```
+
