@@ -90,7 +90,7 @@ Main-Class: helloWorld
 
 ###重点
 
-1. 以上四行只有最后一行是必需的，其他都可以省略。
+1. 以上四句只有最后一句是必需的，其他都可以省略。
 
 2. 注意，配置文件最后必须空一行，即最后以回车结束新起一行。
 >Warning: The text file must end with a new line or carriage return. The last line will not be parsed properly if it does not end with a new line or carriage return.
