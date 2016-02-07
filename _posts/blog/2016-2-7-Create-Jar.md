@@ -58,7 +58,7 @@ public class helloWorld{
 
 ```
 
-##编译class文件
+###编译class文件
 
 ```bash
 windard@windard:~$ javac helloWorld.java 
@@ -66,7 +66,7 @@ windard@windard:~$ java helloWorld
 Hello World
 ```
 
-##创建配置文件
+###创建配置文件
 
 在根目录下创建MANIFEST.MF，内容如下
 
