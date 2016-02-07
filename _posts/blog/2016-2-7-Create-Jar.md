@@ -78,7 +78,7 @@ Main-Class: helloWorld
 
 ```
 
-###说明：
+####说明：
 
 1. 第一行指定编译的版本，若无，则JDK默认生成：Manifest-Version: 1.0。
 
@@ -88,20 +88,20 @@ Main-Class: helloWorld
 
 4. 第四行指明程序运行的主类。
 
-###重点
+####重点
 
 1. 以上四句只有最后一句是必需的，其他都可以省略。
 
 2. 注意，配置文件最后必须空一行，即最后以回车结束新起一行。
 >Warning: The text file must end with a new line or carriage return. The last line will not be parsed properly if it does not end with a new line or carriage return.
 
-##编译为hello.jar文件
+###编译为hello.jar文件
 
 ```bash
 jar cvfm hello.jar MANIFEST.MF helloWorld.class
 ```
 
-##查看效果
+###查看效果
 
 ```bash
 windard@windard:~$ jar cvfm hello.jar MANIFEST.MF helloWorld.class
