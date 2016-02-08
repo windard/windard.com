@@ -135,8 +135,11 @@ Apache 的错误日志文件默认为`/var/log/apache2/error.log`。
 添加如下行：  
 `ServerName localhost`  
 **安装PHP**  
-`$ sudo apt-get install php5`  
-执行之后，PHP 应该就已经部署完毕了。可以使用phpinfo()函数来测试 PHP 是否已经就绪：  
+`$ sudo apt-get install php5 libapache2-mod-php5`  
+执行之后，PHP 应该就已经部署完毕了。       
+但是默认安装Apache的根目录在`/var/www/html`这个目录需要用root权限才能够读写，我们需要先更改一下权限。    
+`sudo chmod 777 /var/www/html`      
+然后使用phpinfo()函数来测试 PHP 是否已经就绪：  
 `$ sudo vi /var/www/phpinfo.php`  
 在文件里输入：  
 `<?php phpinfo(); ?>`  
@@ -144,9 +147,15 @@ Apache 的错误日志文件默认为`/var/log/apache2/error.log`。
 **安装PHP其他模块**  
 `
 $ sudo apt-get install php5-mysql php5-curl php5-gd php5-intl php-pear php5-imagick php5-imap php5-mcrypt php5-memcache php5-ming php5-ps php5-pspell php5-recode php5-snmp php5-sqlite php5-tidy php5-xmlrpc php5-xsl
-`  
+`         
+**配置Apache**      
+1. 启用mod_rewrite模块，这是Apache的一个很重要的模块。           
+`sudo a2enmod rewrite`                 
+2. Firefox中文乱码问题。               
+`sudo vi /etc/apache2/apache2.conf`              
+在后面加上 `AddDefaultCharset UTF-8`            
 **安装MySQL**  
-`$ sudo apt-get install mysql-server`  
+`$ sudo apt-get install mysql-server mysql-client`  
 **其他**  
 1. 全局禁用 Index，这个配置在Windows下和Linux下是一样的  
 Index 就是访问一个不存在 index.html、index.php 等文件的目录时服务器列出的文件列表，这样会对用户展示文件结构，如果想禁用，可以修改 Apache 的配置文件：  
