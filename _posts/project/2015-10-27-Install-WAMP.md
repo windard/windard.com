@@ -10,7 +10,7 @@ description: 一直用的是xampp或者是wamp等等集成的开发环境，还�
 wamp，即Windows下安装Apache，PHP和MySQL。  
 我是在win10下装了并没有很难，也没有遇到什么很大的问题。网上有不少教程，可惜都太老了。  
 
-##先装PHP
+## 先装PHP
 1. 进入[http://windows.php.net/download/](http://windows.php.net/download/)，下载PHP的最新版本，截止到目前最新版本是5.6.14。  
 ![php_download.jpg](../../images/php_download.jpg)  
  - 最上面的第一个选项(Download source code)是下载源代码，需要自己编译。
@@ -35,14 +35,14 @@ wamp，即Windows下安装Apache，PHP和MySQL。
  - 去掉`extension=php_openssl.dll`前面的分号（893行左右）
  - 去掉`extension_dir = "ext"`前面的分号（736行左右）
 
-##再装MySQL
+## 再装MySQL
 1. 有两篇教程讲的非常详细，我也是按照他们的教程做的。
  - [如何在Windows上安装MySQL数据库服务器](http://zh.wikihow.com/%E5%9C%A8Windows%E4%B8%8A%E5%AE%89%E8%A3%85MySQL%E6%95%B0%E6%8D%AE%E5%BA%93%E6%9C%8D%E5%8A%A1%E5%99%A8)
  - [MySQL 5.6 for Windows 解压缩版配置安装](http://jingyan.baidu.com/article/f3ad7d0ffc061a09c3345bf0.html)
 2. 其实也是正常的安装，下一步，下一步，完成。然后，把MySQL的bin加入环境变量，然后配置my.ini，如果你也是按照第一篇教程把`datadir`不是放在C盘，而且出了问题的话，可以看一下我的另一篇博客讲到了我遇到过的问题。
 3. MySQL的启动是在管理员权限的cmd里，`net start mysql`启动，`net stop mysql`停止，我没有安装PHPmyadmin等MySQL的可视化操作，所以在一般的cmd下就可以`mysql -u username -p password`，当然`username`和`password`分别换成你自己的。
 
-##最后Apache
+## 最后Apache
 1. 进入[http://httpd.apache.org/](http://httpd.apache.org/)，下载Apache的最新版本，截止到目前的最新版本是2.4.17。  
 ![apache_website.jpg](../../images/apache_website.jpg)
 
@@ -115,7 +115,7 @@ wamp，即Windows下安装Apache，PHP和MySQL。
 
 >装好Apache这些之后在Windows上怎么查看端口使用情况呢？在cmd里输入`netstat -ano`就可以看到电脑的端口使用情况以及相应进程的PID。
 
-##顺带记录一下在Ubuntu下安装lamp的步骤  
+## 顺带记录一下在Ubuntu下安装lamp的步骤  
 **安装Apache**  
 `$ sudo apt-get install apache2`  
 安装好之后，配置文件应该位于/etc/apache2中，默认情况下无需修改即可使用。默认的网站目为/var/www/。  
@@ -163,7 +163,7 @@ Index 就是访问一个不存在 index.html、index.php 等文件的目录时�
 ```
 
 
-##顺带记录一下在centos下安装lamp的过程  
+## 顺带记录一下在centos下安装lamp的过程  
 **安装Apache**  
 `$ yum install httpd httpd-devel `  
 启动Apache  
@@ -186,7 +186,7 @@ yum install php-mysql php-gd php-imap php-ldap php-odbc php-pear php-xml php-xml
 
 
 
-##参考链接
+## 参考链接
 [在windows下搭建mysql,php,apache环境(3)-apache的部署](http://www.vimer.cn/2009/12/%E5%9C%A8windows%E4%B8%8B%E6%90%AD%E5%BB%BAmysqlphpapache%E7%8E%AF%E5%A2%833-apache%E7%9A%84%E9%83%A8%E7%BD%B2.html)  
 [在windows下搭建mysql,php,apache环境(2)-php的部署](http://www.vimer.cn/2009/12/%E5%9C%A8windows%E4%B8%8B%E6%90%AD%E5%BB%BAmysqlphpapache%E7%8E%AF%E5%A2%832-php%E7%9A%84%E9%83%A8%E7%BD%B2.html)  
 [在windows下搭建mysql,php,apache环境(1)-mysql的部署](http://www.vimer.cn/2009/12/%E5%9C%A8windows%E4%B8%8B%E6%90%AD%E5%BB%BAmysqlphpapache%E7%8E%AF%E5%A2%831-mysql%E7%9A%84%E9%83%A8%E7%BD%B2.html)  
