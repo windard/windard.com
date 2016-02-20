@@ -297,3 +297,9 @@ sudo vim /etc/default/apport
 sudo service apport restart
 ```
 
+##nmon
+是一个可以监控当前系统性能的小工具，可以查看网络，内存，cpu，磁盘等的使用情况，感觉还是可以的。
+
+```bash
+sudo apt-get install nmon
+```
