@@ -191,7 +191,9 @@ yum install php-mysql php-gd php-imap php-ldap php-odbc php-pear php-xml php-xml
 `  
 安装完之后再次重启Apache。  
 
-
+##最后的配置
+是否开机启动        
+mysql数据库编码问题    
 
 ## 参考链接
 [在windows下搭建mysql,php,apache环境(3)-apache的部署](http://www.vimer.cn/2009/12/%E5%9C%A8windows%E4%B8%8B%E6%90%AD%E5%BB%BAmysqlphpapache%E7%8E%AF%E5%A2%833-apache%E7%9A%84%E9%83%A8%E7%BD%B2.html)  
