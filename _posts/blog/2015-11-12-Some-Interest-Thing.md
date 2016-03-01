@@ -95,6 +95,7 @@ C:\Users\dell\Desktop\theme>
     3. 在开始菜单上右击，找到命令提示符，选择点击即可。                     
     4. 在所有程序里找到cmd。            
     5. 在`C:\Windows\System32`目录下找到cmd.exe                   
+    6. 选择某个文件夹，按住shift键，右击选择在此处打开命令行窗口
 
 19. 简单好用截屏小工具[FastStone Capture](../software/FSCapture.zip)，不仅仅能截图，各种图，还能做一点简单基本的图片处理。           
 ![faststone.JPG](../../images/faststone.JPG)         
