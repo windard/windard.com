@@ -145,9 +145,7 @@ Apache 的错误日志文件默认为`/var/log/apache2/error.log`。
 `<?php phpinfo(); ?>`  
 然后`curl localhost/phpinfo.php`来查看。  
 **安装PHP其他模块**  
-`
-$ sudo apt-get install php5-mysql php5-curl php5-gd php5-intl php-pear php5-imagick php5-imap php5-mcrypt php5-memcache php5-ming php5-ps php5-pspell php5-recode php5-snmp php5-sqlite php5-tidy php5-xmlrpc php5-xsl
-`         
+`$ sudo apt-get install php5-mysql php5-curl php5-gd php5-intl php-pear php5-imagick php5-imap php5-mcrypt php5-memcache php5-ming php5-ps php5-pspell php5-recode php5-snmp php5-sqlite php5-tidy php5-xmlrpc php5-xsl`         
 **配置Apache**      
 1. 启用mod_rewrite模块，这是Apache的一个很重要的模块。           
 `sudo a2enmod rewrite`                 
@@ -193,7 +191,9 @@ yum install php-mysql php-gd php-imap php-ldap php-odbc php-pear php-xml php-xml
 `  
 安装完之后再次重启Apache。  
 
-
+##最后的配置
+是否开机启动        
+mysql数据库编码问题    
 
 ## 参考链接
 [在windows下搭建mysql,php,apache环境(3)-apache的部署](http://www.vimer.cn/2009/12/%E5%9C%A8windows%E4%B8%8B%E6%90%AD%E5%BB%BAmysqlphpapache%E7%8E%AF%E5%A2%833-apache%E7%9A%84%E9%83%A8%E7%BD%B2.html)  

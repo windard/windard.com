@@ -118,3 +118,5 @@ Hello World
 ```bash
 jar cvfm hello.jar MANIFEST.MF -C bin .  
 ```
+
+其实是可以将java文件打包为exe的，也就是在打包文件里加上一个小型的jre，也就是java running environment，只不过这样就比较复杂也没有必要了。
