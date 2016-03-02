@@ -236,6 +236,8 @@ Father Over
 
 除了私有方法和私有变量，成员方法与成员变量还是可以覆盖父类的同名成员方法或成员变量，如果在覆盖了之后还想要调用父类的成员方法或者是想要父类的成员变量，可以使用super关键字。
 
+除了可以在类的成员方法中调用父类的成员方法，也可以在子类的实例对象中调用父类的成员方法，只不过这两种调用有一点点不同。
+
 ```python
 #coding=utf-8
 
@@ -273,16 +275,17 @@ class Son(Father):
 
 if __name__ == '__main__':
 	s = Son("Windard")	
-
+	super(Son,s).work()
 ```
 
 运行结果是：
 
 ```python
 I AM FATHER :Windard . father
-I AM SON :Windard
+I AM SON :Windard . father
 I word in factory
 I work in compary
+I word in factory
 Father Over
 Son Over
 ```
