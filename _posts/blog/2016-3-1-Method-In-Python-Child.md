@@ -7,7 +7,7 @@ category: blog
 
 ## Python的面向对象
 
-无论是Java，还是Python，PHP，JavaScript等等面向对象语言，都肯定有构造方法，构造方法就是在某一个类在实例化的时候首先自动调用的方法。既然有构造方法，就有删除方法，在PHP中称为析构方法，也就是在PHP的一个对象在消失的时候自动调用的方法。
+无论是Java，还是Python，PHP，JavaScript等等面向对象语言，都肯定有构造方法，构造方法就是在某一个类在实例化的时候首先自动调用的方法。既然有构造方法，就有销毁方法，在PHP中称为析构方法，也就是在PHP的一个对象在消失的时候自动调用的方法。
 
 还有就是Python和PHP都不支持构造方法重载或成员函数重载，不过能使用默认参数。
 
@@ -15,7 +15,7 @@ category: blog
 
 Python由于历史遗留问题，在Python2于Python3中有较大差异，而且在面向对象时也出现一个新式类与旧式类的区别，如果一个类没有任何的父类，那么它就是新式类，如果有继承而来的父类，就是新式类，而所有类的父类就是object，也就是说如果一个类确实是没有父类的话，就可以继承object类来成为一个新式类。
 
-关于新式类与旧式类的区别，本文不再做详细论述，全部使用新式类。
+关于新式类与旧式类的区别，本文不再做详细论述，全部使用新式类，因为只有新式类才能够使用super函数。
 
 还有一点Python比较奇怪的地方就是Python在实例化一个类的时候不使用new关键字，直接像一个函数一样调用就可以了。
 
@@ -126,9 +126,9 @@ super(Son,self).__init__(args)
 
 当然如果子类中没有显式的书写构造方法，还是会自动调用父类的构造方法。
 
-## Python继承中的删除方法
+## Python继承中的销毁方法
 
-删除方法与构造方法相反，是在这个对象结束的时候调用的。
+销毁方法与构造方法相反，是在这个对象被销毁的时候被调用的。
 
 ```python
 #coding=utf-8
@@ -152,7 +152,7 @@ if __name__ == '__main__':
 Son Over
 ```
 
-删除方法也和构造方法一样，如果子类已经有了删除方法就不会自动的调用父类的删除方法，不过如果想要显式的调用父类的删除方法就只有一种方法。
+销毁方法也和构造方法一样，如果子类已经有了销毁方法就不会自动的调用父类的销毁方法，不过如果想要显式的调用父类的销毁方法就只有一种方法。
 
 ```python
 #coding=utf-8
@@ -178,9 +178,9 @@ Father Over
 Son Over
 ```
 
-在子类中调用父类的删除方法只有一个办法，就是通过super来调用，而且在删除方法中是不能够有参数的。
+在子类中调用父类的销毁方法只有一个办法，就是通过super来调用，而且在销毁方法中是不能够有参数的。
 
-如果子类没有显式的书写删除方法，那么在子类消失时，还是会自动的调用父类的删除方法。
+如果子类没有显式的书写销毁方法，那么在子类消失时，还是会自动的调用父类的销毁方法。
 
 ```python
 #coding=utf-8
@@ -213,7 +213,7 @@ Father Over
 |特殊方法 				|描述 											|
 |------					|-----------									|
 |__init__(self[,args])  | 这个方法在新建对象恰好要被返回使用之前被调用	|
-|__del__(self)    |恰好在对象要被删除之前调用							|			
+|__del__(self)    |恰好在对象要被销毁之前调用							|			
 |__str__(self)   |在我们对对象使用print语句或是使用str()时调用			|
 |__lt__(self,other)   | 当使用 小于运算符（<）时调用。类似地，对于所有的运算符（+，>等等）都有特殊的方法	  											    |
 |__getitem__(self,key) |   使用x[key]索引操作符时调用					|
@@ -226,7 +226,8 @@ Father Over
 
 执行父类的构造方法就意味着父类也被构造出来了，那么如果没有执行父类的构造方法，也就是说没有构造父类，那么还有父类么？
 
-在Python中如果子类重写了父类的构造方法，而且没有显式的调用父类的构造方法的话，就意味着没有父类了，也就不能调用父类的成员变量和成员方法，也就没有覆盖父类的成员变量和成员方法一说了。
+因为Python特殊的性质，如果在子类里重写了父类的构造方法，而且没有显式的调用父类的构造方法的话，还是可以调用父类的成员方法和成员变量的，甚至在销毁方法中可以调用父类的销毁方法。
+
 
 因为Python是弱语言类型，不需要在类的方法之外显式的声明成员方法，所以就不会像Java一样对成员变量的默认初始化。
 
@@ -234,7 +235,7 @@ Father Over
 
 在Java的成员方法里调用其他的成员方法和成员变量时使用this关键字不是必须的，但是在Python中调用同一个子类的其他的成员方法和成员变量必须使用self关键字。
 
-除了私有方法和私有变量，成员方法与成员变量还是可以覆盖父类的同名成员方法或成员变量，如果在覆盖了之后还想要调用父类的成员方法或者是想要父类的成员变量，可以使用super关键字。
+除了私有方法和私有变量，成员方法与成员变量还是可以覆盖父类的同名成员方法或成员变量，如果在覆盖了之后还想要调用父类的成员方法或者是想要父类的成员变量，可以使用super关键字或是直接调用父类的方法。
 
 除了可以在类的成员方法中调用父类的成员方法，也可以在子类的实例对象中调用父类的成员方法，只不过这两种调用有一点点不同。
 
@@ -247,45 +248,118 @@ class Father(object):
 		self.name = name
 		print "I AM FATHER :"+self.name
 
-	def work(self):
-		print "I word in factory"
+	def work(self,name):
+		print "I word in factory",name
 
 	def __del__(self):
 		print "Father Over"
 
 class Son(Father):
-	def __init__(self):
-		super(Son,self).__init__()
-		print "I Am Son"
 
 	def __init__(self,name):
 		super(Son,self).__init__(name+" . father")
 		self.name = name
 		print "I AM SON :"+self.name	
-		super(Son,self).work()
-		self.work()
+		super(Son,self).work("Working")
+		self.work("Programing")
 
-	def work(self):
-		print "I work in compary" 
+	def work(self,name):
+		Father.work(self,name)
+		print "I work in compary",name 
 
 	def __del__(self):
 		super(Son,self).__del__()
 		print "Son Over"
 
-
 if __name__ == '__main__':
 	s = Son("Windard")	
-	super(Son,s).work()
+	super(Son,s).work("Working")
 ```
 
 运行结果是：
 
 ```python
 I AM FATHER :Windard . father
-I AM SON :Windard . father
-I word in factory
-I work in compary
-I word in factory
+I AM SON :Windard
+I word in factory Working
+I word in factory Programing
+I work in compary Programing
+I word in factory Working
 Father Over
 Son Over
 ```
+
+如果把显示的调用父类的构造方法的话，就是将`super(Son,self).__init__(name+" . father")`去掉的话，结果为：
+
+```python
+I AM SON :Windard
+I word in factory Working
+I word in factory Programing
+I work in compary Programing
+I word in factory Working
+Father Over
+Son Over
+```
+
+## 在继承的中构造方法和成员方法
+
+如果某个成员方法在子类中被重写或者是调用了self自身的成员变量，那么无论这个成员方法在构造方法中还是在成员方法中，调用它的具体执行取决于是在父类还是在子类中。
+
+无论是父类的成员方法或者构造方法，如果这个方法里调用到了self自身的成员方法而且这个方法在子类中被调用的，那么它不再调用自身的成员方法，而是调用子类的成员方法。
+
+如果子类直接调用父类的成员方法，而且这个成员方法中用到了self自身的成员变量，那么它其实是调用子类的成员变量。
+
+```python
+#coding=utf-8
+
+class Father(object):
+
+	def __init__(self,name):
+		self.name = name
+		self.work("Working")
+
+	def work(self,name):
+		print "My name is :",self.name
+		print "I word in factory",name
+
+	def __del__(self):
+		print "Father Over"
+
+class Son(Father):
+
+	def __init__(self,name):
+		super(Son,self).__init__(name+" . father")
+		self.name = name
+		super(Son,self).work("Working")
+		self.work("Programing")
+
+	def work(self,name):
+		Father.work(self,name)
+		print "I work in compary",name 
+
+	def __del__(self):
+		super(Son,self).__del__()
+		print "Son Over"
+
+if __name__ == '__main__':
+	s = Son("Windard")	
+	super(Son,s).work("Working")
+```
+
+结果是：
+
+```python
+My name is : Windard . father
+I word in factory Working
+I work in compary Working
+My name is : Windard
+I word in factory Working
+My name is : Windard
+I word in factory Programing
+I work in compary Programing
+My name is : Windard
+I word in factory Working
+Father Over
+Son Over
+```
+
