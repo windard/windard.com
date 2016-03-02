@@ -363,3 +363,106 @@ Father Over
 Son Over
 ```
 
+---
+
+除了可以在子类的构造方法和成员方法中调用父类的成员方法之外，还可以在子类的销毁方法中调用父类的销毁方法，但是在子类的销毁方法中不能调用自己的成员方法。
+
+如果某一个成员方法调用了其他的成员方法，并且这个被调用的成员方法在子类中被重写的话，那么在子类中调用父类的这个成员方法，这个成员方法就会调用子类的被重写之后的成员方法。
+
+而如果这个成员方法调用的成员方法没有在子类中被重写，那么这个被调用的成员方法用的self自身的成员变量，还是调用父类的成员变量。
+
+```python
+#coding=utf-8
+
+class Father(object):
+
+	def __init__(self,name):
+		self.name = name
+		self.work("Working")
+
+	def work(self,name):
+		print "My name is :",self.name
+		print "I word in factory",name
+
+	def __del__(self):
+		print "Father Over"
+
+class Son(Father):
+
+	def __init__(self,name):
+		super(Son,self).__init__(name+" . father")
+		self.name = name
+		super(Son,self).work("Working")
+		self.work("Programing")
+
+	def __del__(self):
+		# super(Son,self).work("Working")
+		# self.work("Working")
+		super(Son,self).__del__()
+		print "Son Over"
+
+if __name__ == '__main__':
+	s = Son("Windard")	
+	super(Son,s).work("Working")
+```
+
+结果是：
+
+```python
+My name is : Windard . father
+I word in factory Working
+My name is : Windard
+I word in factory Working
+My name is : Windard
+I word in factory Programing
+My name is : Windard
+I word in factory Working
+Father Over
+Son Over
+```
+
+可是，如果这个成员方法调用的是私有方法，那么如果在子类中调用父类的这个方法的话，那么这个方法还是会调用父类的私有方法。
+
+```python
+#coding=utf-8
+
+class Father(object):
+
+	def __init__(self,name):
+		self.name = name
+		self.__work("Working")
+
+	def __work(self,name):
+		print "My name is :",self.name
+		print "I word in factory",name
+
+	def __del__(self):
+		print "Father Over"
+
+class Son(Father):
+
+	def __init__(self,name):
+		super(Son,self).__init__(name+" . father")
+		self.name = name
+		self.__work("Programing")
+
+	def __work(self,name):
+		print "I work in compary",name 
+
+	def __del__(self):
+		super(Son,self).__del__()
+		print "Son Over"
+
+if __name__ == '__main__':
+	s = Son("Windard")	
+```
+
+结果是：
+
+```python
+My name is : Windard . father
+I word in factory Working
+I work in compary Programing
+Father Over
+Son Over
+```
