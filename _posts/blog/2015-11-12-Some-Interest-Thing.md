@@ -145,3 +145,12 @@ C:\Users\dell\Desktop\theme>
 
 36. [Clover](../software/Clover_Setup_3.0.406.zip) 将你的文件管理器变成像浏览器一样，如果你喜欢谷歌浏览器，那么你也会喜欢这个。
 ![clover.png](../../images/clover.png)
+
+37. windows 创建WiFi热点
+    1. 打开cmd
+    2. netsh wlan set hostednetwork mode=allow
+    3. netsh wlan set hostednetwork ssid=wifiname key=wifipassword
+    4. netsh wlan start hostednetwork
+    5. 进入[网络连接]->[更改适配器设置] 选择一个网络将其共享到Microsoft Virtual wlan Miniport Adapter
+    7. 可以用WiFi了。
+    >查看WiFi连接状况：netsh wlan show hostednetwork

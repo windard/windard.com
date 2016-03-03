@@ -226,16 +226,16 @@ Father Over
 
 执行父类的构造方法就意味着父类也被构造出来了，那么如果没有执行父类的构造方法，也就是说没有构造父类，那么还有父类么？
 
-因为Python特殊的性质，如果在子类里重写了父类的构造方法，而且没有显式的调用父类的构造方法的话，还是可以调用父类的成员方法和成员变量的，甚至在销毁方法中可以调用父类的销毁方法。
+因为Python特殊的性质，如果在子类里重写了父类的构造方法，而且没有显式的调用父类的构造方法的话，还是可以调用父类的成员方法的，甚至在销毁方法中可以调用父类的销毁方法。
 
 
 因为Python是弱语言类型，不需要在类的方法之外显式的声明成员方法，所以就不会像Java一样对成员变量的默认初始化。
 
 虽然Python中没有public，protected，private等关键字来确定管理权限，不过可以通过使用双下划线`__`来表示私有变量或私有方法，相当于private。
 
-在Java的成员方法里调用其他的成员方法和成员变量时使用this关键字不是必须的，但是在Python中调用同一个子类的其他的成员方法和成员变量必须使用self关键字。
+在Java的成员方法里调用其他的成员方法和成员变量时使用this关键字不是必须的，但是在Python中调用同一个子类的其他的成员方法必须使用self关键字。
 
-除了私有方法和私有变量，成员方法与成员变量还是可以覆盖父类的同名成员方法或成员变量，如果在覆盖了之后还想要调用父类的成员方法或者是想要父类的成员变量，可以使用super关键字或是直接调用父类的方法。
+除了私有方法和私有变量，成员方法与成员变量是可以覆盖父类的同名成员方法或成员变量，如果在覆盖了之后还想要调用父类的成员方法或者是想要父类的成员变量，可以使用super关键字或是直接调用父类的方法，但是父类的成员变量就销毁了，无法再调用父类的成员变量。
 
 除了可以在类的成员方法中调用父类的成员方法，也可以在子类的实例对象中调用父类的成员方法，只不过这两种调用有一点点不同。
 
@@ -299,6 +299,39 @@ I work in compary Programing
 I word in factory Working
 Father Over
 Son Over
+```
+
+在子类覆盖了父类的成员变量就无法再找到父类的成员变量了。
+
+```python
+#coding=utf-8
+
+class Father(object):
+
+  def __init__(self,name):
+      self.name = name
+
+class Son(Father):
+
+  def __init__(self,name):
+      super(Son,self).__init__(name+" . father")
+      self.name = name
+      print self.name
+      #输出这一句会报错
+      # print super(Son,self).name
+      print dir(super(Son,self))
+      print super(Son,self).__dict__
+
+if __name__ == '__main__':
+  s = Son("Windard")  
+```
+
+结果是：
+
+```python
+Windard
+['__class__', '__delattr__', '__doc__', '__format__', '__get__', '__getattribute__', '__hash__', '__init__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__self__', '__self_class__', '__setattr__', '__sizeof__', '__str__', '__subclasshook__', '__thisclass__', 'name']
+{'name': 'Windard'}
 ```
 
 ## 在继承的中构造方法和成员方法
