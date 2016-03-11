@@ -143,7 +143,8 @@ Apache 的错误日志文件默认为`/var/log/apache2/error.log`。
 `$ sudo vi /var/www/phpinfo.php`  
 在文件里输入：  
 `<?php phpinfo(); ?>`  
-然后`curl localhost/phpinfo.php`来查看。  
+然后`curl localhost/phpinfo.php`来查看。     
+php的配置文件`php.ini`在`/etc/php5/apache2`里面。                 
 **安装PHP其他模块**  
 `$ sudo apt-get install php5-mysql php5-curl php5-gd php5-intl php-pear php5-imagick php5-imap php5-mcrypt php5-memcache php5-ming php5-ps php5-pspell php5-recode php5-snmp php5-sqlite php5-tidy php5-xmlrpc php5-xsl`         
 **配置Apache**      
