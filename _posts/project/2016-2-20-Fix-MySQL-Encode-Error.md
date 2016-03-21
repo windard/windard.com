@@ -123,3 +123,16 @@ mysql_query("SET NAMES 'UTF8'");
 #如果是用mysqli就是这个
 #mysqli_set_charset($recouce ,"utf8");
 ```
+
+如果其他地方都没有什么问题了的话，还可以试一下在phpmyadmin里新建table时的将'排序规则'或者是叫做'整理'，选择`utf8_general_ci`，或者是在新建数据库时使用`CREATE DATABASE `dbname` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci; `，新建数据表时使用`CREATE TABLE `test` ( 
+`id` INT NOT NULL , 
+`name` VARCHAR( 10 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL , 
+PRIMARY KEY ( `id` ) 
+) ENGINE = MYISAM ; `
+
+在连接数据库之后，可以加入这两行代码，使其正常读写数据库。
+
+```
+mysqli_query("set character set 'utf8'");//读库 
+mysqli_query("set names 'utf8'");//写库 
+```
