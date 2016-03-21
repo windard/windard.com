@@ -85,7 +85,7 @@ description: 无论是在windows上还是linux上，好像MySQL的存储格式�
   - 在`[mysql]`字段中加入`default-character-set=utf8`（注意，一个是mysql，一个是mysqld）  
  2. 然后再重启MySQL就可以了，但是我的MySQL在这里重启的时候出了一点问题，没有办法关掉。我就把系统重启了一下，再次进入MySQL就可以看到数据库编码已经完全恢复了正常。  
  ![MySQL_successful_linux.jpg](../../images/MySQL_successful_linux.jpg)  
- 3. 如果还有问题，那就是在连接的时候出了问题，在sql语句执行的最前面加上这句代码`SET NAMES ‘utf8′;`,它相当于一下三条代码。  
+ 3. 如果还有问题，那就是在连接的时候出了问题，在sql语句执行的最前面加上这句代码`SET NAMES 'utf8';`,它相当于一下三条代码。  
  ·`
   SET character_set_client = utf8;  
   SET character_set_results = utf8;  
