@@ -147,7 +147,7 @@ Apache 的错误日志文件默认为`/var/log/apache2/error.log`。
 **安装PHP其他模块**  
 `$ sudo apt-get install php5-mysql php5-curl php5-gd php5-intl php-pear php5-imagick php5-imap php5-mcrypt php5-memcache php5-ming php5-ps php5-pspell php5-recode php5-snmp php5-sqlite php5-tidy php5-xmlrpc php5-xsl`         
 **配置Apache**      
-1. 启用mod_rewrite模块，这是Apache的一个很重要的模块。           
+1. 启用mod_rewrite模块，这是Apache的一个很重要的模块，使用Apache伪静态。           
 `sudo a2enmod rewrite`                 
 2. Firefox中文乱码问题。               
 `sudo vi /etc/apache2/apache2.conf`              
