@@ -47,6 +47,15 @@ print text2
 [中文语言包](../software/chi_sim.traineddata)   
 中文的使用方法`tesseract -l chi_sim imagename ouyputfile`
 
+##最后更新
+还是linux上好使吖，再次需要了图像识别，发现我的ubuntu 14.04LTS 竟然自带有OCR Tesseract 这个图像识别引擎，就算是没有也只需要一行代码即可装上。
+
+```bash
+sudo apt-get install tesseract-ocr
+```
+
+ubuntu的软件库，关于[OCR Tesseract ](https://ubuntu.flowconsult.at/linux/ocr-tesseract-text-recognition-ubuntu-14-04/)
+tesseract-ocr转移到github上了，[代码仓库](https://github.com/tesseract-ocr/tesseract)
 
 
 关于中文

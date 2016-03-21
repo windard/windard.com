@@ -309,5 +309,60 @@ ubuntu好像这个问题比较严重，一般就是当你合上笔记本电脑�
 
 但是如果笔记本不能合上这是个严重的问题的吖，如果挂起不能唤醒的话，那我们就不要挂起好了，在设置--》电源里面，把合上盖子挂起改为合上盖子忽略就好了。
 
+##shadowsocks
 
+###hosts
+如果对翻墙的需求并不太大的情况下推荐使用更改hosts的办法来上google等网站，简单方便快速。                          
+这里提供一个[hosts](../project/hosts)文件以供下载，还有一个稳定提供hosts文件的[站点](https://github.com/racaljk/hosts)。
+
+这里是各种版本的[shadowsocks](https://github.com/shadowsocks/shadowsocks/wiki/Ports-and-Clients)地址
+
+###shadowsocks
+
+这里是shadowsocks在github上的[项目地址](https://github.com/shadowsocks/shadowsocks)，不过已经移除了全部代码。                   
+使用pip下载安装                              
+`sudo pip install shadowsocks`                    
+然后编辑`/etc/shadowsocks.json`               
+`sudo vim /etc/shadowsocks.json`                   
+
+将你的shadowsocks的配置文件编辑进去，类似于这样。                  
+
+```bash
+{
+    "server":"xx.xx.xx.xx",
+    "server_port":xxxx,
+    "local_address": "127.0.0.1",
+    "local_port":1080,
+    "password":"xxxxxxxx",
+    "timeout":300,
+    "method":"aes-256-cfb",
+}
+```
+
+各项参数的含义：           
+- server 服务器 IP (IPv4/IPv6)，注意这也将是服务端监听的 IP 地址            
+- server_port 服务器端口             
+- local_port 本地端端口           
+- password 用来加密的密码            
+- timeout 超时时间（秒）                      
+- method 加密方法，可选择“bf-cfb”,“aes-256-cfb”,“des-cfb”,“rc4″,等等。默认是一种不安全的加密，推荐用“aes-256-cfb”         
+
+为了支持这些加密方式，需要安装python的一个加密模块
+`sudo apt-get install python-m2crypto`
+
+然后你就可以使用shadowsocks了，`sudo sslocal -c /etc/shadowsocks.json`
+
+当然如果你的浏览器可能也还需要设定一下代理，或者是直接开启全局代理模式。
+
+###shadowsock-qt5
+图形化界面的shadowsocks                    
+```bash
+sudo add-apt-repository ppa:hzwhuang/ss-qt5
+sudo apt-get update
+sudo apt-get install shadowsocks-qt5
+```
+
+使用`sudo ss-qt5`
+
+最后在[这里](http://www.socks163.com/?from=techzero)有一些免费的shadowsocks节点可以试一下，或者是自己搭建shadowsocks海外节点把。
 
