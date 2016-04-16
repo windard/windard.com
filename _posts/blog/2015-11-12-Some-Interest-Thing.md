@@ -154,3 +154,4 @@ C:\Users\dell\Desktop\theme>
     5. 进入[网络连接]->[更改适配器设置] 选择一个网络将其共享到Microsoft Virtual wlan Miniport Adapter
     7. 可以用WiFi了。
     >查看WiFi连接状况：netsh wlan show hostednetwork
+    >停止使用WiFi : netsh wlan stop hostednetwork
