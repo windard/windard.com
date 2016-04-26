@@ -1,7 +1,7 @@
 ---
 layout: post
-title: Ubuntu 的一些安装操作 
-description: 简单的记录一下，以备不时之需。  
+title: Ubuntu 的一些安装操作
+description: 简单的记录一下，以备不时之需。
 category: blog
 ---
 
@@ -57,7 +57,7 @@ sudo apt-get install git
 
 后续操作看我另外一篇博客
 
-##sublime 
+##sublime
 相当好的代码编辑器，或者是你可以用它来编辑任何你想编辑的东西。
 
 具体的看我的另外两篇博客。友情提示，sublime需要用到python，所以sublime 2就对应python2.X，sublime 3就对应python3.X 还是有一定区别的，推荐sublime2。
@@ -91,7 +91,7 @@ sudo apt-get install fluxgui
 sudo apt-get install shutter
 ```
 
-##ubuntu-tweak 
+##ubuntu-tweak
 跟windows下的电脑管家比较类似。
 
 ```bash
@@ -127,7 +127,7 @@ so easy的装好了字体之后，把sublime换成了微软雅黑的字体，还
 查看显卡状态：
 
 ```bash
-cat /sys/kernel/debug/vgaswitcheroo/switch  
+cat /sys/kernel/debug/vgaswitcheroo/switch
 ```
 
 我也不知道网上别人的是什么样子，但是我的是这样的，DIS是独显，IGD是集显，其他的我也不知道是什么意思。
@@ -226,16 +226,16 @@ sudo tlp usb 开启USB电池管理模式
 
 最后，因为我不确定这个是不是开机启动的，所以我把它加到了开机启动。
 
-sudo hdparm -B /dev/sda 可见硬盘/dev/sda的APM_level值为254,表示硬盘性能最大化,这需要保持高水平的硬盘转速,硬盘发热量自然就大. 
+sudo hdparm -B /dev/sda 可见硬盘/dev/sda的APM_level值为254,表示硬盘性能最大化,这需要保持高水平的硬盘转速,硬盘发热量自然就大.
 
-如果返回/dev/sda: APM_level = not supported,则表示你的硬盘不支持APM(高级电源管理). 
+如果返回/dev/sda: APM_level = not supported,则表示你的硬盘不支持APM(高级电源管理).
 
-APM_level的全称为Advanced Power Management level,即(硬盘)高级电源管理级别. 
+APM_level的全称为Advanced Power Management level,即(硬盘)高级电源管理级别.
 
 该值的取值范围为1~255,值越大,硬盘性能越高,其中255表示关闭硬盘/dev/sda的电源管理,254表示在开启电源管理下的最高性能,1表示最低的硬盘性能但最省电。
 
-这个值在1~127区间时允许spin-down,在128~254这个区间则禁止spin-down. 
->spin-down是指在闲置时挂起硬盘,停止转动,但是频繁的spin-down和spin-up会使硬盘寿命变短. 
+这个值在1~127区间时允许spin-down,在128~254这个区间则禁止spin-down.
+>spin-down是指在闲置时挂起硬盘,停止转动,但是频繁的spin-down和spin-up会使硬盘寿命变短.
 
 在上面的tlp设置里面有这个选项，我把第一个设为了192，第二个设为了128.
 
@@ -259,7 +259,7 @@ sudo apt-get install default-jdk
 ```bash
 sudo add-apt-repository ppa:webupd8team/java
 sudo apt-get update
-sudo apt-get install oracle-java7-installer     
+sudo apt-get install oracle-java7-installer
 sudo update-java-alternatives -s java-7-oracle
 ```
 
@@ -312,20 +312,20 @@ ubuntu好像这个问题比较严重，一般就是当你合上笔记本电脑�
 ##shadowsocks
 
 ###hosts
-如果对翻墙的需求并不太大的情况下推荐使用更改hosts的办法来上google等网站，简单方便快速。                          
+如果对翻墙的需求并不太大的情况下推荐使用更改hosts的办法来上google等网站，简单方便快速。
 这里提供一个[hosts](../project/hosts)文件以供下载，还有一个稳定提供hosts文件的[站点](https://github.com/racaljk/hosts)。
 
 这里是各种版本的[shadowsocks](https://github.com/shadowsocks/shadowsocks/wiki/Ports-and-Clients)地址
 
 ###shadowsocks
 
-这里是shadowsocks在github上的[项目地址](https://github.com/shadowsocks/shadowsocks)，不过已经移除了全部代码。                   
-使用pip下载安装                              
-`sudo pip install shadowsocks`                    
-然后编辑`/etc/shadowsocks.json`               
-`sudo vim /etc/shadowsocks.json`                   
+这里是shadowsocks在github上的[项目地址](https://github.com/shadowsocks/shadowsocks)，不过已经移除了全部代码。
+使用pip下载安装
+`sudo pip install shadowsocks`
+然后编辑`/etc/shadowsocks.json`
+`sudo vim /etc/shadowsocks.json`
 
-将你的shadowsocks的配置文件编辑进去，类似于这样。                  
+将你的shadowsocks的配置文件编辑进去，类似于这样。
 
 ```bash
 {
@@ -339,13 +339,13 @@ ubuntu好像这个问题比较严重，一般就是当你合上笔记本电脑�
 }
 ```
 
-各项参数的含义：           
-- server 服务器 IP (IPv4/IPv6)，注意这也将是服务端监听的 IP 地址            
-- server_port 服务器端口             
-- local_port 本地端端口           
-- password 用来加密的密码            
-- timeout 超时时间（秒）                      
-- method 加密方法，可选择“bf-cfb”,“aes-256-cfb”,“des-cfb”,“rc4″,等等。默认是一种不安全的加密，推荐用“aes-256-cfb”         
+各项参数的含义：
+- server 服务器 IP (IPv4/IPv6)，注意这也将是服务端监听的 IP 地址
+- server_port 服务器端口
+- local_port 本地端端口
+- password 用来加密的密码
+- timeout 超时时间（秒）
+- method 加密方法，可选择“bf-cfb”,“aes-256-cfb”,“des-cfb”,“rc4″,等等。默认是一种不安全的加密，推荐用“aes-256-cfb”
 
 为了支持这些加密方式，需要安装python的一个加密模块
 `sudo apt-get install python-m2crypto`
@@ -355,7 +355,7 @@ ubuntu好像这个问题比较严重，一般就是当你合上笔记本电脑�
 当然如果你的浏览器可能也还需要设定一下代理，或者是直接开启全局代理模式。
 
 ###shadowsock-qt5
-图形化界面的shadowsocks                    
+图形化界面的shadowsocks
 ```bash
 sudo add-apt-repository ppa:hzwhuang/ss-qt5
 sudo apt-get update
@@ -366,3 +366,5 @@ sudo apt-get install shadowsocks-qt5
 
 最后在[这里](http://www.socks163.com/?from=techzero)有一些免费的shadowsocks节点可以试一下，或者是自己搭建shadowsocks海外节点把。
 
+## 安装问题
+安装ubuntu的时候有时候会卡在`正在完成文件复制`的地方，一般是因为电脑已经联网，在网上下载安装文件，建议断开网络安装会比较快一点，安装好了之后再进入系统更新。

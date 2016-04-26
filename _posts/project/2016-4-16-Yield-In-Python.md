@@ -14,7 +14,7 @@ yield首先可以当做一般的return来使用，调用生成yield的函数返�
 ...     yield 1
 ...     yield 2
 ...     yield [1,2]
-... 
+...
 >>> a = yield_test
 >>> a
 <function yield_test at 0xb6df78b4>
@@ -27,6 +27,31 @@ yield首先可以当做一般的return来使用，调用生成yield的函数返�
 2
 >>> a.next()
 [1, 2]
+>>> a.next()
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+StopIteration
+
+```
+
+或者是在yield用于生成序列：
+
+```python
+>>> def foo():
+...     for i in range(4):
+...             yield i
+...
+>>> a = foo()
+>>> a
+<generator object foo at 0xb70692ac>
+>>> a.next()
+0
+>>> a.next()
+1
+>>> a.next()
+2
+>>> a.next()
+3
 >>> a.next()
 Traceback (most recent call last):
   File "<stdin>", line 1, in <module>
