@@ -250,7 +250,7 @@ FTP客户端，还是很有用的，虽然在Windows下可以开启FTP服务，�
 75. Image Viewer for Windows 7                         
 因为看到了网上的谣传说 Windows 下看不了GIF动态图，就下载了这个软件用来看动态图，后来才知道 Windows 10  下自带的图片查看器是可以看GIF动态图的
 
-76 Awesomium SDK                         
+76. Awesomium SDK                         
 用来帮助 markdownpad 在 Windows 10 下的兼容性                 
 
 77. Launchy_2.5                         
