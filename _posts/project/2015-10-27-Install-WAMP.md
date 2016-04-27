@@ -175,8 +175,8 @@ Index 就是访问一个不存在 index.html、index.php 等文件的目录时�
 **安装Apache**  
 `$ yum install httpd httpd-devel `  
 启动Apache  
-`sudo  /etc/init.d/httpd start`  
-或者`sudo service httpd start`  
+`sudo  /etc/init.d/httpd -k start`  
+或者`sudo service httpd -k start`  
 **安装MySQL**  
 `$ yum install mysql mysql-server`  
 启动MySQL  
