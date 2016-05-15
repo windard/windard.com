@@ -1167,8 +1167,69 @@ Traceback (most recent call last):
 SyntaxError: can't assign to operator
 
 ```
+
 ##### execfile
 执行python脚本
+
+#### 切片
+python切片可以在字符串切片也可以给序列切片，用法`sequence[start,stop,step]`
+
+```python
+>>> a="abcdefg"
+>>> a[-1:]
+'g'
+>>> a[:-1]                 //相当于字符串逆序
+'abcdef'
+>>> a[:]
+'abcdefg'
+>>> a[::-1]
+'gfedcba'
+>>> a[::-2]
+'geca'
+>>> a[2:-2]
+'cde'
+>>> b=["a","b","c","d","e"]
+>>> b[::-1]
+['e', 'd', 'c', 'b', 'a']
+>>> b[1:-1]
+['b', 'c', 'd']
+
+```
+
+python字符串逆序输出
+
+```python
+#coding=utf-8
+
+a = "123456"
+
+print a[::-1]
+
+for i in range(len(a)-1,-1,-1):
+    print a[i],
+
+import sys
+
+print ""
+
+for i in range(len(a)-1,-1,-1):
+    sys.stdout.write(a[i])
+
+print ""
+b = list(a)
+b.reverse()
+print "".join(b)
+
+```
+
+输出
+
+```python
+654321
+6 5 4 3 2 1
+654321
+654321
+```
 
 ##对象内置函数
 

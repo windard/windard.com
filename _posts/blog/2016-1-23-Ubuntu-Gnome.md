@@ -27,7 +27,7 @@ category: blog
 ├── usr     存放用户应用程序
 └── var     存放邮件、系统日志等变化文件
 
-##PPPoE
+## PPPoE
 
 1. 图形界面下，选择右上角的网络连接，或者在所有应用程序里找到网络连接。选择添加一个新的连接，选择DSL，进行设置就可以了。
 
@@ -41,7 +41,7 @@ ifconfig	ppp0		查看接口信息
 
 ```
 
-##WIFI 热点
+## WIFI 热点
 
 本来看了一下网上的教程，发现竟然可以使用自带的网络连接来创建wifi热点（虽然 windows也可以用自带的程序创建wifi热点），那我想应该比windows下要简单的一些，结果发现弄一半天并不能弄好。
 
@@ -70,7 +70,7 @@ ifconfig	ppp0		查看接口信息
 
 结果没有成功，暂时放弃
 
-##git
+## git
 与github上传下载
 
 ```bash
@@ -79,16 +79,16 @@ sudo apt-get install git
 
 后续操作看我另外一篇博客
 
-##sublime
+## sublime
 相当好的代码编辑器，或者是你可以用它来编辑任何你想编辑的东西。
 
 具体的看我的另外两篇博客。友情提示，sublime需要用到python，所以sublime 2就对应python2.X，sublime 3就对应python3.X 还是有一定区别的，推荐sublime2。
 
-##vim
+## vim
 竟然系统不自带vim，这个可以有。
 具体的vimrc看我的另外一篇博客的配置。
 
-##F.lux
+## F.lux
 这是我在windows下也用的护眼软件，能够自动的根据时间来调节电脑屏幕的亮度，觉得挺不错的。没想到竟然也有linux版本，肯定要接着使用。
 
 ```bush
@@ -99,21 +99,23 @@ sudo apt-get install fluxgui
 
 然后把它加到开机启动项里去，`gnome-session-properties`（启动应用程序）
 
-##一些快捷方式的调整
+## 一些快捷方式的调整
 有一些常用的在windows下非常习惯的快捷方式在ubuntu下有的不一样，这个肯定要改过来。
 
 比如说锁屏，在windows下是home键加L键，可是在ubuntu上确实home键加Alt键加L键，果断改之。
 
 还有我的电脑，在windows下是home键加E键，在ubuntu下没有这个选项，自己创建一个快捷方式好了，就是`nautilus /home/windard`。
 
-##shutter
+还有资源管理器，也是非常有用的，Ctrl+Shift+` ，创建一个快捷方式，`gnome-system-monitor`
+
+## shutter
 截图工具，虽然用gnome-screenshot 也可以截图，但是这个功能更强大一点。
 
 ```bash
 sudo apt-get install shutter
 ```
 
-##ubuntu-tweak
+## ubuntu-tweak
 跟windows下的电脑管家比较类似。
 
 ```bash
@@ -122,7 +124,7 @@ sudo apt-get update
 sudo apt-get install ubuntu-tweak
 ```
 
-##为知笔记
+## 为知笔记
 
 ```bash
 sudo add-apt-repository ppa:wiznote-team
@@ -130,18 +132,18 @@ sudo apt-get update
 sudo apt-get install wiznote
 ```
 
-##更新LibreOffice
+## 更新LibreOffice
 把LibreOffice的英文界面改成中文
 ```bash
 sudo apt-get install libreoffice-l10n-zh-cn libreoffice-help-zh-cn
 ```
 
-##一些字体的调整
+## 一些字体的调整
 虽然ubuntu-gnome的字体很好看，但是我的wps work里面用到了大量的微软雅黑字体，还是需要装一下的，本来以为很麻烦，结果就是在windows系统下的`C://Windows/fonts`下找到msyh.ttf就是微软雅黑字体了，然后装上就可以，因为我的ubuntu-gnome自带一个叫字体查看器的软件，可以用那个装字体。
 
 so easy的装好了字体之后，把sublime换成了微软雅黑的字体，还是挺漂亮的。
 
-##独显还是集显
+## 独显还是集显
 
 貌似看到网上说ubuntu的显卡驱动不太完善，电池耗电量颇大，对电池伤害严重以及图形化界面不稳定等问题。
 主要出现在ubuntu的集显和独显双显卡问题上，说是双显卡支持不好。吓得我赶紧照着网上的教程把独显给关了。
@@ -206,7 +208,7 @@ echo OFF > /sys/kernel/debug/vgaswitcheroo/switch
 
 不过我的独显在ubuntu下确实一般用不到，暂不管他。
 
-##电池管理
+## 电池管理
 
 说道独显和集显就是因为电池和磁盘容易受损，着实是我也觉得我的电池耗电有点快了。
 
@@ -266,7 +268,7 @@ APM_level的全称为Advanced Power Management level,即(硬盘)高级电源管�
  DISK_APM_LEVEL_ON_BAT="128 128"
 ```
 
-##jdk && jre
+## jdk && jre
 
 1. 安装的开源版本的jdk和jre
 
@@ -304,7 +306,7 @@ java -version
 javac -version
 ```
 
-##禁用错误提示
+## 禁用错误提示
 不知道是什么原因，总是一开机就有各种错误提示，可以取消这种提示。
 
 ```bash
@@ -319,27 +321,27 @@ sudo vim /etc/default/apport
 sudo service apport restart
 ```
 
-##nmon
+## nmon
 是一个可以监控当前系统性能的小工具，可以查看网络，内存，cpu，磁盘等的使用情况，感觉还是可以的。
 
 ```bash
 sudo apt-get install nmon
 ```
 
-##挂起后不能唤醒
+## 挂起后不能唤醒
 ubuntu好像这个问题比较严重，一般就是当你合上笔记本电脑盖子之后，电脑就进入挂起状态，然后打开盖子就无法唤醒，之前我在网上也简单的看了一些博客，但是都比较复杂，不知道怎么弄。
 
 但是如果笔记本不能合上这是个严重的问题的吖，如果挂起不能唤醒的话，那我们就不要挂起好了，在设置--》电源里面，把合上盖子挂起改为合上盖子忽略就好了。
 
-##shadowsocks
+## shadowsocks
 
-###hosts
+### hosts
 如果对翻墙的需求并不太大的情况下推荐使用更改hosts的办法来上google等网站，简单方便快速。
 这里提供一个[hosts](../project/hosts)文件以供下载，还有一个稳定提供hosts文件的[站点](https://github.com/racaljk/hosts)。
 
 这里是各种版本的[shadowsocks](https://github.com/shadowsocks/shadowsocks/wiki/Ports-and-Clients)地址
 
-###shadowsocks
+### shadowsocks
 
 这里是shadowsocks在github上的[项目地址](https://github.com/shadowsocks/shadowsocks)，不过已经移除了全部代码。
 使用pip下载安装
@@ -376,7 +378,7 @@ ubuntu好像这个问题比较严重，一般就是当你合上笔记本电脑�
 
 当然如果你的浏览器可能也还需要设定一下代理，或者是直接开启全局代理模式。
 
-###shadowsock-qt5
+## shadowsock-qt5
 图形化界面的shadowsocks
 ```bash
 sudo add-apt-repository ppa:hzwhuang/ss-qt5
