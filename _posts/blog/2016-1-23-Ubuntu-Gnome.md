@@ -7,6 +7,7 @@ category: blog
 
 ## Ubuntu / Linux 目录结构
 
+```bash
  /              根目录
 ├── bin     存放用户二进制文件
 ├── boot    存放内核引导配置文件
@@ -26,6 +27,7 @@ category: blog
 ├── tmp     存放临时文件
 ├── usr     存放用户应用程序
 └── var     存放邮件、系统日志等变化文件
+```
 
 ## PPPoE
 
@@ -79,13 +81,16 @@ sudo apt-get install git
 
 后续操作看我另外一篇博客
 
+## chromium
+不多说，开源的chrome，在ubuntu的软件仓库里有，直接`sudo apt-get install chromium`即可
+
 ## sublime
 相当好的代码编辑器，或者是你可以用它来编辑任何你想编辑的东西。
 
 具体的看我的另外两篇博客。友情提示，sublime需要用到python，所以sublime 2就对应python2.X，sublime 3就对应python3.X 还是有一定区别的，推荐sublime2。
 
 ## vim
-竟然系统不自带vim，这个可以有。
+竟然系统不自带vim，系统自带vi，vim可以有。
 具体的vimrc看我的另外一篇博客的配置。
 
 ## F.lux
@@ -106,7 +111,7 @@ sudo apt-get install fluxgui
 
 还有我的电脑，在windows下是home键加E键，在ubuntu下没有这个选项，自己创建一个快捷方式好了，就是`nautilus /home/windard`。
 
-还有资源管理器，也是非常有用的，Ctrl+Shift+` ，创建一个快捷方式，`gnome-system-monitor`
+还有资源管理器，也是非常有用的，Ctrl+Shift+\` ，创建一个快捷方式，`gnome-system-monitor` 。
 
 ## shutter
 截图工具，虽然用gnome-screenshot 也可以截图，但是这个功能更强大一点。
@@ -138,8 +143,11 @@ sudo apt-get install wiznote
 sudo apt-get install libreoffice-l10n-zh-cn libreoffice-help-zh-cn
 ```
 
+## wps和搜狗输入法
+如果不想用自带的LibreOffice也可以用wps，下载之后双击就可以安装，还有搜狗输入法，也是下载之后双击即可安装。
+
 ## 一些字体的调整
-虽然ubuntu-gnome的字体很好看，但是我的wps work里面用到了大量的微软雅黑字体，还是需要装一下的，本来以为很麻烦，结果就是在windows系统下的`C://Windows/fonts`下找到msyh.ttf就是微软雅黑字体了，然后装上就可以，因为我的ubuntu-gnome自带一个叫字体查看器的软件，可以用那个装字体。
+虽然ubuntu-gnome的字体很好看，但是我的wps work里面用到了大量的微软雅黑字体，还是需要装一下的，本来以为很麻烦，结果就是在windows系统下的`C://Windows/fonts`下找到msyh.ttf就是微软雅黑字体了，然后双击打开就可以装上。因为ubuntu-gnome自带一个叫字体查看器的软件，可以用那个装字体。
 
 so easy的装好了字体之后，把sublime换成了微软雅黑的字体，还是挺漂亮的。
 
@@ -374,12 +382,13 @@ ubuntu好像这个问题比较严重，一般就是当你合上笔记本电脑�
 为了支持这些加密方式，需要安装python的一个加密模块
 `sudo apt-get install python-m2crypto`
 
-然后你就可以使用shadowsocks了，`sudo sslocal -c /etc/shadowsocks.json`
+然后你就可以使用shadowsocks了，这是客户端的使用：`sudo sslocal -c /etc/shadowsocks.json`，如果你是搭建ss服务器端就是这样：`sudo ssserver -c /etc/shadowsocks.json`
 
 当然如果你的浏览器可能也还需要设定一下代理，或者是直接开启全局代理模式。
 
 ## shadowsock-qt5
 图形化界面的shadowsocks
+
 ```bash
 sudo add-apt-repository ppa:hzwhuang/ss-qt5
 sudo apt-get update

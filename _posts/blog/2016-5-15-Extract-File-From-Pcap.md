@@ -200,3 +200,57 @@ drwxrwxr-x 3 windard windard   4096  5月 15 22:55 ../
 
 记录下每个文件的位置，然后写一个脚本将数据包插进去，然后得到一个文件，可是因为没有文件头，并不能看出是什么文件。
 
+只能一个一个的试一下，最终加上13个字节的png文件头正常显示了出来，是一个png图片，flag在图片中。
+
+python代码：
+
+```python
+#coding=utf-8
+
+data = [
+    {"name":"","start":1080486},
+    {"name":"(1)","start":986065},
+    {"name":"(2)","start":1397670},
+    {"name":"(3)","start":337541},
+    {"name":"(4)","start":2001846},
+    {"name":"(5)","start":467298},
+    {"name":"(6)","start":1507903},
+    {"name":"(7)","start":552789},
+    {"name":"(8)","start":1276598},
+    {"name":"(9)","start":1888311},
+    {"name":"(10)","start":13},
+    {"name":"(11)","start":2106781},
+    {"name":"(12)","start":1540792},
+    {"name":"(13)","start":145550},
+    {"name":"(14)","start":905781},
+    {"name":"(15)","start":1987909},
+    {"name":"(16)","start":694834},
+    {"name":"(17)","start":27943},
+    {"name":"(18)","start":1774960},
+    {"name":"(19)","start":892465},
+    {"name":"(20)","start":1904693},
+    {"name":"(21)","start":188923},
+    {"name":"(22)","start":1672374},
+]
+
+f = open("myheart.png","wb")
+
+#写入文件头
+f.write('89504E470D0A1A0A0000000D49'.decode('hex'))
+
+#写入数据
+for i in data:
+    d = open("LoiRLUoq"+i["name"],"rb")
+    f.seek(i["start"])
+    f.write(d.read())
+    d.close()
+
+f.close()
+print "Successful"
+
+```
+
+最终的图片
+
+![myheart](../../images/myheart.png)
+
