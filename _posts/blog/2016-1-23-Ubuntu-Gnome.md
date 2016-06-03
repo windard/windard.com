@@ -400,4 +400,25 @@ sudo apt-get install shadowsocks-qt5
 最后在[这里](http://www.socks163.com/?from=techzero)有一些免费的shadowsocks节点可以试一下，或者是自己搭建shadowsocks海外节点把。
 
 ## 安装问题
-安装ubuntu的时候有时候会卡在`正在完成文件复制`的地方，一般是因为电脑已经联网，在网上下载安装文件，建议断开网络安装会比较快一点，安装好了之后再进入系统更新。
+安装ubuntu的时候有时候会卡在 `正在完成文件复制` 的地方，一般是因为电脑已经联网，在网上下载安装文件，建议断开网络安装会比较快一点，安装好了之后再进入系统更新。
+
+## aria2
+Ubuntu 上的下载器，比 wget 好用一点，也可以结合 uGet 使用。
+
+```
+sudo apt-get install aria2
+sudo apt-get insrall uget
+```
+
+## 网易云音乐
+前几天还在找一个好的音乐播放器，这几天就出了，真好，在官网下载 deb 安装包，下载双击即可安装。
+
+## Franz
+这个不是微信，只是一个即时聊天工具框架，刚好支持微信而已，还支持很多其他的聊天工具，可惜没有 QQ 。
+
+## SMPlayer
+SMPlayer 是一个视频播放器，感觉还可以。
+
+```
+sudo apt-get install smplayer
+```
