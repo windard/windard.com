@@ -401,6 +401,62 @@ SyntaxError: invalid syntax
 1
 ```
 
+#### python 没有三元运算符 ? :
+如果学过其他的编程语言的话，三元运算符还是在很多地方很有帮助的，但是非常遗憾的是 python 并不支持原生的三元运算符，如果你需要这样的效果的话，可以用另一种方法。
+
+其他编程语言：
+
+```
+a = 5 > 4 ? 1 : 2
+```
+
+python
+
+```
+a = 1 if 5 > 4 else 2
+```
+
+#### pyhton 跳出多重循环
+单重循环还是和其他的编程语言一样的用单个 break 就可以了。
+
+```python
+i = 0
+while 1:
+    print i
+    i += 1
+    if i>5 :
+        break
+```
+
+但是像这种的双层循环如果直接用两个 break 是无法跳出的，需要这样才能正常跳出循环。
+
+```python
+i = 0
+while 1:
+    print "Outer ",i
+    while 1:
+        print "Inner ",i
+        if i>5:
+            break
+        i+=1
+    else:
+        continue
+    break
+```
+
+结果是
+
+```
+Outer  0
+Inner  0
+Inner  1
+Inner  2
+Inner  3
+Inner  4
+Inner  5
+Inner  6
+```
+
 #### range,zip,enumerate,all,any
 
 ###### range(start,stop[,step])
@@ -713,6 +769,7 @@ timefun(foo)()
 ```
 
 保存为decorator_demo.py，运行，看一下结果。
+
 ![decorator_demo.jpg](../../images/decorator_demo.jpg)
 
 非常可惜的是，如果这样写的话，这个装饰器好像就只能使用一次，那我们想要在每一次调用的时候都打印出时间要怎么办呢？。
@@ -745,6 +802,7 @@ timefun(foo)()
 ```
 
 保存为decorator_improve.py，运行，看一下结果。
+
 ![decorator_improve.jpg](../../images/decorator_improve.jpg)
 
 但是如果这样的话，就没有任何的区别了。
@@ -776,6 +834,7 @@ timefun(foo)()
 ```
 
 保存为decorator_back.py，运行，看一下效果。
+
 ![decorator_back.jpg](../../images/decorator_back.jpg)
 
 装饰器也可以是一个类，使用`__call__`函数，使在每次调用的时候使用装饰器即可。
@@ -848,9 +907,8 @@ for i in range(5):
 ```
 
 保存为static.py，运行，看一下结果。
+
 ![static.jpg](../../images/static.jpg)
-
-
 
 #### 匿名函数
 匿名函数的关键字是lambda，结构是` lambda [arg1[,arg2[,...]]] : expression `
