@@ -158,6 +158,14 @@ Writing superblocks and filesystem accounting information: done
 
 ```
 
+或者是格式化为其他格式的u盘
+
+```
+sudo mkfs.vfat /dev/sda1          //格式化为 VFAT 格式的 U 盘
+sudo mkfs.ntfs /dev/sda1          //格式化为 NTFS 格式的 U 盘
+sudo mkfs.ntfs -f /dev/sda1          //快速格式化
+```
+
 ### 挂载 U 盘
 
 ```
