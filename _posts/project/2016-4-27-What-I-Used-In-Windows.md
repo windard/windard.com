@@ -373,6 +373,9 @@ ruby 2.2 编译器
 105. OpenSSL
 Windows 下的 OpenSSL ，我不确定它能用
 
+106. Ext2Read
+在Windows下查看 Ext 文件格式的磁盘
+
 ## 整理一下
 
 ### 必备软件
