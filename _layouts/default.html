@@ -10,9 +10,9 @@
     <meta name="renderer" content="webkit">
     <meta name="description" content="Windard's simple Blog web" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
-    <link rel="stylesheet" href="../css/default.css" type="text/css" />
+    <link rel="stylesheet" href="{{ site.url }}/css/default.css" type="text/css" />
     <link rel="alternate" type="application/atom+xml" title="Recent Entries" href="{{ site.feed }}" />
-    <script src="../js/jquery-1.7.1.min.js" type="text/javascript"></script>
+    <script src="{{ site.url }}/js/jquery-1.7.1.min.js" type="text/javascript"></script>
 </head>
 <body>
 
@@ -22,9 +22,9 @@
             <a class="home-follow" href="#" title="Contact Me">+</a>
         </div>
         <div class="home-contact">
-            <a href="http://www.wenqiangyang.com/" target="_blank" style="margin-left:-5px;" title="主站"><img src="../images/main().ico" alt="主站" width="25"/></a>
-            <a href="http://simple.wenqiangyang.com/" target="_blank" style="text-align:center;" title="简站"><img src="../images/simple().ico" alt="简站" width="22"/></a>
-            <a href="http://english.wenqiangyang.com/" target="_blank" style="text-align:right" title="English"><img src="../images/english().ico" alt="英文" width="22"/></a>
+            <a href="https://github.com/windard" target="_blank" style="margin-left:-5px;" title="Github"><img src="{{ site.url }}/images/GitHub-Mark-Light-64px.png" alt="Github" width="25"/></a>
+            <a href="https://www.zhihu.com/people/yang-wen-qiang-68" target="_blank" style="text-align:center;" title="Zhihu"><img src="{{ site.url }}/images/zhihu-logo_96.png" alt="Zhihu" width="22"/></a>
+            <a href="https://www.facebook.com/profile.php?id=100010903784358" target="_blank" style="text-align:right" title="Facebook"><img src="{{ site.url }}/images/facebook-flat-vector-logo.png" alt="Facebook" width="22"/></a>
         </div>
     </div>
 
@@ -41,6 +41,22 @@
                     $('.home-contact').slideDown(100);
                 }
             });
+        })
+        $(document).ready(function(){
+            var backToTopTxt = "▲", backToTopEle = jQuery('<div class="backToTop"></div>').appendTo(jQuery("body")).text(backToTopTxt).attr("title","Back top top").click(function() {
+                jQuery("html, body").animate({ scrollTop: 0 }, 120);
+            }), backToTopFun = function() {
+                var st = jQuery(document).scrollTop(), winh = jQuery(window).height();
+                (st > 200)? backToTopEle.show(): backToTopEle.hide();    
+                //IE6下的定位
+                if (!window.XMLHttpRequest) {
+                    backToTopEle.css("top", st + winh - 166); 
+                }
+            };
+
+            backToTopEle.hide(); 
+                jQuery(window).bind("scroll", backToTopFun);
+            jQuery('div.main a,div.pic a').attr('target', '_blank');
         })
     </script>
 </body>

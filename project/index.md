@@ -24,21 +24,20 @@ layout: home
         </ul>
     </div>
     <div class="aside">
-		<img src="../images/headlogo.jpg" alt="headlogo" style="width:50%;margin-top:15%">		
-		<p>杨文强</p>
-		<p>喜欢编程，热爱运动，爱好创造新的东西</p>
-		<p>在这场人生新的旅行中，愿你我安好，万世太平</p>
-	<div class="contact" style="margin-top:10%">
-		<h4>You can find me on <a href="http://www.github.com/1106911190">Github</a><br />Or QQ:1106911190</h4>
-
-	</div>
-	<div class="copyright" style="margin-top:20%">
-		<p><h5 style="font-family:arial;">Copyright &nbsp;&copy;&nbsp;2015 All rights reserved</h5>
-			<h5>Powerd By <a href="https://github.com/jekyll/jekyll">Jekyll</a></h5>
-		</p>
-	</div>		
+        <div class="head" style="margin-top:15%">
+        <img src="{{ site.url }}/images/headlogo.jpg" alt="headlogo" style="width:50%;margin-top:15%;margin-bottom:10%">     
+        <p>但行好事，莫问前程</p>
+        <p>愿你我安好，一世太平</p>
+        </div>
+    <div class="contact" style="margin-top:35%">
+        <p>You can find me on <a href="http://www.github.com/1106911190">Github</a></p>
+    </div>
+    <div class="copyright" style="margin-top:-5%">
+        <p><p style="font-family:arial;">Design With Love By <a href="http://windard.com">Windard</a></p>
+        </p>
+    </div>      
 
     </div>
 </div>
 
-<a href="http://github.com/1106911190"><img id="github_url"  style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png" alt="Fork me on GitHub" /></a>
+<a href="http://github.com/1106911190" class="forkme"><img id="github_url"  style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png" alt="Fork me on GitHub" /></a>
