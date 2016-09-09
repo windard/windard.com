@@ -27,7 +27,7 @@ layout: default
         {{ content }}
         <hr>
         <div class="copyright">
-        <p><strong>本文固定链接：</strong>{{ site.url  }}{{ page.url }}<br><strong>原创文章,转载请注明出处：</strong><a href='{{ site.url+page.url }}'>{{ page.title }} By Windard</a></p>
+        <p><strong>本文固定链接：</strong>{{ site.url  }}{{ page.url }}<br><strong>原创文章,转载请注明出处：</strong><a href='{{ site.url }}{{ page.url }}'>{{ page.title }} By Windard</a></p>
         
         </div>
         <div id="disqus_thread"></div>
@@ -38,7 +38,7 @@ layout: default
              */
             
             var disqus_config = function () {
-                this.page.url = {{ site.url + page.url }};  // Replace PAGE_URL with your page's canonical URL variable
+                this.page.url = {{ site.url }}{{ page.url }};  // Replace PAGE_URL with your page's canonical URL variable
                 this.page.identifier = {{ page.title }}; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
             };
             
