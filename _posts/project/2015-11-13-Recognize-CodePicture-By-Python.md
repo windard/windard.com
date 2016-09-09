@@ -24,11 +24,11 @@ text2 = image_to_string(im2)
 print text2
 ```
 两张图片分别如下。    
-![code.png](../../images/code.png)     
-![fonts_test.png](../../images/fonts_test.png)    
+![code.png](/images/code.png)     
+![fonts_test.png](/images/fonts_test.png)    
 
 识别出来的效果如下。    
-![code_successful.jpg](../../images/code_successful.jpg)     
+![code_successful.jpg](/images/code_successful.jpg)     
 
 ##重要更新：
 

@@ -16,7 +16,7 @@ for i in range(100):
 	print i,
 ```
 
-  ![line_break_2_1.jpg](../../images/line_break_2_1.jpg)   
+  ![line_break_2_1.jpg](/images/line_break_2_1.jpg)   
   >注意，虽然没有换行，但是在两次输出之间还是默认有一定的距离。
 
 2. 使用`sys.stdout.write()`。当然你得先引入sys这个库，而且有时候需要在这个后面加上`sys.stdio.flush()`，不然可能因为在缓存区里看不见。       
@@ -28,7 +28,7 @@ for i in range(100):
 	sys.stdout.write(str(i)+" ")
 ```
 
-  ![line_break_2_1_2.jpg](../../images/line_break_2_1_2.jpg)
+  ![line_break_2_1_2.jpg](/images/line_break_2_1_2.jpg)
   >注意，打印的参数只能是字符串或者是数组。
 
 ####Python 3.X
@@ -39,7 +39,7 @@ for i in range(100):
 		print("")
 	print(i,end=" ")
 ```
- ![line_break_3_1.jpg](../../images/line_break_3_1.jpg)
+ ![line_break_3_1.jpg](/images/line_break_3_1.jpg)
  
 2. 也是使用`sys.stdout.write`          
 ```python
@@ -50,4 +50,4 @@ for i in range(100):
 	sys.stdout.write(str(i)+" ")
 ```
  
- ![line_break_3_2.jpg](../../images/line_break_3_2.jpg)
+ ![line_break_3_2.jpg](/images/line_break_3_2.jpg)

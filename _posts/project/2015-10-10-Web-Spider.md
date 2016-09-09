@@ -36,7 +36,7 @@ print html
 ```
 
 保存为urllib_demo.py,运行。如果你得到的是一堆类似于这种的密密麻麻的数据，就说明urllib请求和接收正常。
-![BAIDU源码](../../images/baidu.jpg)
+![BAIDU源码](/images/baidu.jpg)
 
 可以看出来urllib库的主要函数就是urlopen()，其实跟基本的文件操作很类似，open打开一个文件，然后用read()读取文件内容，所以也能用readline()来单行读取文件内容。
 
@@ -72,7 +72,7 @@ print html
 ```
 
 保存为urllib_get.py,运行，看一下接收回来的数据。
-![GET请求](../../images/get.jpg)
+![GET请求](/images/get.jpg)
 在此处也可以采用另一种的写法：
 ```python
 import urllib
@@ -108,7 +108,7 @@ html = page.read()
 print html
 ```
 保存为urllib_post.py,运行，看一下接收回来的数据。
-![POST请求](../../images/post.jpg)
+![POST请求](/images/post.jpg)
 仔细分析一下源码可以看出来，urlopen的第一个参数已经出现了，就是params可以在发送http请求是附带其他数据或者参数，来实现不同的http请求。
 urllib除了可以发送简单get和post请求，还可以发送put和delect请求，这两种比较复杂，这里就不在做详细讲解了。
 
@@ -142,7 +142,7 @@ print "Code:"
 print code
 ```
 保存为urllib_info.py，运行，看一下结果。
-![urllib返回值](../../images/info.jpg)
+![urllib返回值](/images/info.jpg)
 可以看到http请求返回的信息，还有表示请求成功的200状态码。
 
 ######urllib.urlretrieve()
@@ -161,7 +161,7 @@ print code
 
 让我们来下载一个本地服务器的照片到python文件所在的文件夹。
 照片是这样的：
-![服务器上的照片](../../images/xidian_server.jpg)
+![服务器上的照片](/images/xidian_server.jpg)
 python代码如下：
 ```python
 import urllib
@@ -171,7 +171,7 @@ print pic[0]
 print pic[1]
 ```
 保存为urllib_urlretrieve.py,运行，看一下结果。
-![urlretrieve结果](../../images/urlretrieve.jpg)
+![urlretrieve结果](/images/urlretrieve.jpg)
 确实是返回文件名和文件信息，看一下文件夹，也保存下来了xidian.jpg这个照片。
 这里有一个小技巧，就是文件名的设定。
 我不是指定文件名了么，在url里面，不想早后面再自己手动的写文件名了，就可以这样写：
@@ -212,7 +212,7 @@ html = page.read()
 print html
 ```
 保存为urllib2_demo.py,运行，看一下结果。
-![urllib2_baidu_HTML](../../images/urllib2_baidu.jpg)
+![urllib2_baidu_HTML](/images/urllib2_baidu.jpg)
 可以看到跟urllib的基本写法一致，返回结果也一致。
 
 但是这只是看起来一致而已，如果我们去翻看官方手册的话就会看到其实它们的参数有一定的不同。`urllib.urlopen(url[,data[,proxies]])`和`urlopen (url [,data [,timeout]])`虽然前两个参数都是http请求地址URL和传输的数据data，但是第三个参数由没什么用的proxies换为了超时时间timeout，即在中断连接前尝试的时间，这样的话可以设定http请求如果超过多长时间就放弃，避免长时间的等待，浪费网络资源。
@@ -237,7 +237,7 @@ html = page.read()
 print html
 ```
 保存为urllib2_request.py，运行，看一下结果。
-![urllib2_baidu_HTML2](../../images/urllib2_baidu2.jpg)
+![urllib2_baidu_HTML2](/images/urllib2_baidu2.jpg)
 显得并没有什么区别，当然没有什么区别，百度对headers并不敏感，但是起码说明这个语法是正确的，那么接下来就让我们来看一下这个函数到底有哪些参数。
 （当然在headers里面也远不仅仅只有User-Agent这一个参数，但这个参数是必选参数，当然也还有一些其他的参数。）
 **Request (url [data,headers [,origin_req_host ,[unverifiable]]]])**
@@ -262,7 +262,7 @@ html = page.read()
 print html
 ```
 保存为urllib2_post.py，运行，看一下结果。
-![urllib2_POST](../../images/urllib2_post.jpg)
+![urllib2_POST](/images/urllib2_post.jpg)
 确实可以发送一个带着http请求头的post请求，虽然看不出来与之前有什么区别。
 那么既然可以发送post请求，那么用之前的第二种方法发送get请求当然也可以，这里就不再做演示了。
 
@@ -318,7 +318,7 @@ print get_html
 print post_html
 ```
 保存为requests.request.py,运行，看一下结果。
-![requests_request](../../images/requests_request.jpg)
+![requests_request](/images/requests_request.jpg)
 确实都能够成功的发送相应的请求。
 
 

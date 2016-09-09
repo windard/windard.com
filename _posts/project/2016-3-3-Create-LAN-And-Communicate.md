@@ -32,33 +32,33 @@ description: 主要通过有线或无线的方式创建局域网，然后测试�
 如果不在同一网段的话，就需要设定一下IP地址。因为正常情况下电脑的IP地址是动态分配的，也就是说，在连接之前不是不能确定它的IP地址的，那么为了方便，我们将两台电脑的IP地址全部设为静止IP。
 
 这是我的动态分配的IP地址。
-![ipconfig_raw](../../images/ipconfig_raw.JPG)
+![ipconfig_raw](/images/ipconfig_raw.JPG)
 
 那么在哪里将电脑的IP地址设为静止IP呢？
 右击[开始]，点击[控制面板]，点击[查看网络状态和任务]，点击[更改适配器设置]，找到你的[以太网]连接。 
 
-![control_canel.png](../../images/control_canel.png)
+![control_canel.png](/images/control_canel.png)
 
-![chack_interect.png](../../images/chack_interect.png)
+![chack_interect.png](/images/chack_interect.png)
 
-![change_config.png](../../images/change_config.png)
+![change_config.png](/images/change_config.png)
 
-![eth0_connect.png](../../images/eth0_connect.png)
+![eth0_connect.png](/images/eth0_connect.png)
 
 右击，选择[属性]，找到ipv4，双击这一选项。
 
-![change_set.png](../../images/change_set.png)
+![change_set.png](/images/change_set.png)
 
-![changeipv4.png](../../images/changeipv4.png)
+![changeipv4.png](/images/changeipv4.png)
 
-![ipv4_setting.png](../../images/ipv4_setting.png)
+![ipv4_setting.png](/images/ipv4_setting.png)
 
 改为使用下面的IP地址，并设IP地址为一个合适的值，如192.168.0.100，设子网掩码为一个合适的值，如255.255.255.0，然后保存更改。
 
-![ipv4_changed.png](../../images/ipv4_changed.png)
+![ipv4_changed.png](/images/ipv4_changed.png)
 
 使用ipconfig，查看IP地址。
-![ipv4_changed_cmd.png](../../images/ipv4_changed_cmd.png)
+![ipv4_changed_cmd.png](/images/ipv4_changed_cmd.png)
 
 
 然后同样的步骤将另一台电脑的IP地址也设为一个合适的值，如192.168.0.101。现在，两台电脑就都在同一个局域网内了。它们的IP地址就是设定的值。
@@ -80,7 +80,7 @@ description: 主要通过有线或无线的方式创建局域网，然后测试�
 
 5. 进入[网络连接]->[更改适配器设置] 选择一个可用网络将其共享到Microsoft Virtual wlan Miniport Adapter                    
 
-![share_internet.png](../../images/share_internet.png)             
+![share_internet.png](/images/share_internet.png)             
 
 7. 其他电脑连接你的WiFi，即创建局域网             
 >查看WiFi连接状况：netsh wlan show hostednetwork

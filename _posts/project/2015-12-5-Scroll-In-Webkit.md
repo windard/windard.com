@@ -53,7 +53,7 @@ description: 现在都已经是在二十一世纪，可是原生的滚动条还�
 ```
 
 结果就是这样，在chrome 48.0上的样子。                                   
-![beautiful_scroll_begin.jpg](../../images/beautiful_scroll_begin.jpg)
+![beautiful_scroll_begin.jpg](/images/beautiful_scroll_begin.jpg)
 
 ##开始用css美化滚动条
 chrome浏览器在很多年之前就支持滚动条的css操作，但是非常可惜的是直到现在都没有指定一个统一的标准，所以我们在使用css属性时需要加上`-webkit-`浏览器前缀属性。                   
@@ -84,7 +84,7 @@ chrome支持的滚动条css属性有这些，属于css伪类。
 ```
 
 然后效果就是这样。                     
-![beautiful_scroll_decond.jpg](../../images/beautiful_scroll_decond.jpg)
+![beautiful_scroll_decond.jpg](/images/beautiful_scroll_decond.jpg)
 或者换成这样的代码。                      
 
 ```css
@@ -105,7 +105,7 @@ chrome支持的滚动条css属性有这些，属于css伪类。
 ```
 
 然后效果就是这样。                            
-![beautiful_scroll_decond_2.jpg](../../images/beautiful_scroll_decond_2.jpg)
+![beautiful_scroll_decond_2.jpg](/images/beautiful_scroll_decond_2.jpg)
 甚至你还可以这样，当鼠标移入div区域的时候才显示滚动条，否则滚动条消失。                 
 
 ```css
@@ -129,7 +129,7 @@ chrome支持的滚动条css属性有这些，属于css伪类。
 ```
 
 在你鼠标不在的时候不显示。只有当你的鼠标移入div区域的时候，滚动条才会显示。             
-![beautiful_scroll_last.jpg](../../images/beautiful_scroll_last.jpg)
+![beautiful_scroll_last.jpg](/images/beautiful_scroll_last.jpg)
 
 
 ##其他的浏览器呢
@@ -155,7 +155,7 @@ IE的滚动条分别有以下属性，这次不再是伪类了，而是实实在
 ```
 
 效果就是这样的。                       
-![beautiful_scroll_ie.jpg](../../images/beautiful_scroll_ie.jpg)
+![beautiful_scroll_ie.jpg](/images/beautiful_scroll_ie.jpg)
 
 还有其他的浏览器呢？？？                        
 只能怪他们不争气了，没有css属性，那就只用用js插件了，有一个插件还不错的样子，[malihu-custom-scrollbar-plugin](https://github.com/malihu/malihu-custom-scrollbar-plugin)        

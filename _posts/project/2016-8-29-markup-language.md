@@ -13,4 +13,4 @@ description: markdown ， reStructedText ， Textile ， POD 等。
 
 > 轻量级标记语言对照。md为Markdown，gfm是GitHub风格的Markdown，rst为reStructedText，ttl为Textile，asc为AsciiDoc，org为Org-mode。
 
-![markup_language](../../images/markup_language.png)
+![markup_language](/images/markup_language.png)

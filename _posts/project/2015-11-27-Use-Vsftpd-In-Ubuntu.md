@@ -10,7 +10,7 @@ description: 我的ubuntu是在虚拟机中的，所以有时候与宿主机的�
 vsftpd即very security ftp，好吧，这样听起来还是似乎挺不错的样子。其实在ubuntu上是自带了一个ftp的客户端的，所以我们只需要一个ftp服务器段就可以了。                                
 ```sudo apt-get install vsftpd```                 
 这样就装好了我们的vsftpd，用`dpkg`来看一下。                   
-![vsftpd.jpg](../../images/vsftpd.jpg)      
+![vsftpd.jpg](/images/vsftpd.jpg)      
 
 
 ##启动与关闭

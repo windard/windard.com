@@ -11,7 +11,7 @@ description: 最近Ubuntu的16.04 LTS版本出来了，gnome版本竟然也是�
 
 1. 360国际版
 个人本身是非常不喜欢360的，看到同学用360浏览器或者安全卫士什么的就觉得不太舒服，还有各种卫士的小球球。但是这个360国际版竟然还可以，只有一些基本的功能，UI也还可以
-![360TotalSecurity](../../images/360TotalSecurity.png)
+![360TotalSecurity](/images/360TotalSecurity.png)
 
 2. Adobe Application Manager
 什么玩意儿，还总是经常提醒我更新，自从我知道flash有很多安全漏洞，chrome都不自带flash之后，就开始对Adobe公司没什么好感了，这个应该是我之前安装它们的PS时带的，虽然从来都没有用过PS
@@ -51,7 +51,7 @@ CorelDRAW，图像处理
 
 12. EasyBCD 2.2
 增加电脑启动引导，装双系统的用的
-![easyBCD](../../images/easyBCD.png)
+![easyBCD](/images/easyBCD.png)
 
 13. Eclipse
 Java的IDE，从来没用过，还不如用编辑器然后在cmd里编译，比较习惯这种方式，C语言也是用gcc在cmd里编译，不喜欢笨重的IDE
@@ -76,7 +76,7 @@ C语言编译器，好东西，直接给你生成一个EXE文件。用法：gcc 
 
 20. Google Earth
 可以看到地球全景的呦，能以3D模型的方式看到地球上的任何地方，对你的电脑GPU是一个严重的考验
-![googleearth](../../images/googleearth.png)
+![googleearth](/images/googleearth.png)
 
 21. Haroopad - The next document processor
 Markdown编辑器，我以前用的是markdownpad，但是在Windows10上有兼容性问题就改用这个，后来兼容性问题修好了，但是我都不想用了。在chrome上装了一个markdown实时预览的插件就可以在sublime里面编辑markdown
@@ -230,7 +230,7 @@ Windows 10 的浏览器，感觉还可以，不过还是不如 chrome ，用的�
 
 69. CCleaner
 垃圾清理和注册表清理，挺好用的一个小工具
-![ccleaner](../../images/ccleaner.png)
+![ccleaner](/images/ccleaner.png)
 
 70. EA-Key
 没什么卵用，一个文件加密工具，使用 AES256 加密方式

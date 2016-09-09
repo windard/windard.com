@@ -333,7 +333,7 @@ print num
 ```
 
 保存为count.py，运行，看一下结果。
-![count.jpg](../../images/count.jpg)
+![count.jpg](/images/count.jpg)
 
 不仅仅是对列表类型的支持，字典也可以。
 
@@ -356,7 +356,7 @@ echo(**{"1":"one","2":"two","3":"three"})
 ```
 
 保存为count_dict.py，运行，看一下结果。
-![count_dict.jpg](../../images/count_dict.jpg)
+![count_dict.jpg](/images/count_dict.jpg)
 
 #### Python 不再支持自加自减
 在C语言或者是其他的大部分语言，自加自减都是很重要的一个运算符，但是可能是为了减少像`++i`和`i++`的歧义吧，反正是没有了。
@@ -770,7 +770,7 @@ timefun(foo)()
 
 保存为decorator_demo.py，运行，看一下结果。
 
-![decorator_demo.jpg](../../images/decorator_demo.jpg)
+![decorator_demo.jpg](/images/decorator_demo.jpg)
 
 非常可惜的是，如果这样写的话，这个装饰器好像就只能使用一次，那我们想要在每一次调用的时候都打印出时间要怎么办呢？。
 我们在装饰器里也定义了一个函数，使用内嵌函数就可以实现每次调用装饰器都打印出时间。
@@ -803,7 +803,7 @@ timefun(foo)()
 
 保存为decorator_improve.py，运行，看一下结果。
 
-![decorator_improve.jpg](../../images/decorator_improve.jpg)
+![decorator_improve.jpg](/images/decorator_improve.jpg)
 
 但是如果这样的话，就没有任何的区别了。
 
@@ -835,7 +835,7 @@ timefun(foo)()
 
 保存为decorator_back.py，运行，看一下效果。
 
-![decorator_back.jpg](../../images/decorator_back.jpg)
+![decorator_back.jpg](/images/decorator_back.jpg)
 
 装饰器也可以是一个类，使用`__call__`函数，使在每次调用的时候使用装饰器即可。
 现在就大概明白了，装饰器的功能就是在原有的函数功能的基础上包装一下，给它增加新的功能。
@@ -908,7 +908,7 @@ for i in range(5):
 
 保存为static.py，运行，看一下结果。
 
-![static.jpg](../../images/static.jpg)
+![static.jpg](/images/static.jpg)
 
 #### 匿名函数
 
@@ -967,7 +967,7 @@ print num
 ```
 
 保存为count_apply.py，运行，看一下结果。
-![count_apply.jpg](../../images/count_apply.jpg)
+![count_apply.jpg](/images/count_apply.jpg)
 
 ###### filter(func,seq)
 fulter即过滤器，给定一个过滤函数和序列，每个序列元素都经过这个过滤函数删选，保留返回为真的元素。
@@ -1002,7 +1002,7 @@ print filter(odd,allNum)
 ```
 
 保存为create_odd.py，运行，看一下结果。
-![create_odd.jpg](../../images/create_odd.jpg)
+![create_odd.jpg](/images/create_odd.jpg)
 
 可以看到每次结果都不一样，且返回不多于10个的奇数。
 
@@ -1022,7 +1022,7 @@ print filter(lambda n : n%2 ,allNum)
 ```
 
 保存为create_odd_lambda.py，运行，看一下结果。
-![create_odd_lambda.jpg](../../images/create_odd_lambda.jpg)
+![create_odd_lambda.jpg](/images/create_odd_lambda.jpg)
 
 第二次重构
 
@@ -1040,7 +1040,7 @@ print [n for n in allNum if n%2]
 ```
 
 保存为create_odd_list.py，运行，看一下结果。
-![create_odd_list.jpg](../../images/create_odd_list.jpg)
+![create_odd_list.jpg](/images/create_odd_list.jpg)
 
 第三次重构
 
@@ -1053,7 +1053,7 @@ print [n for n in [randint(1,99) for i in range(10)] if n%2]
 ```
 
 保存为create_odd_list_list.py，运行，看一下结果。
-![create_odd_list_list.jpg](../../images/create_odd_list_list.jpg)
+![create_odd_list_list.jpg](/images/create_odd_list_list.jpg)
 
 第四次重构
 

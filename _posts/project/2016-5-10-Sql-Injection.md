@@ -22,8 +22,8 @@ flag in flag
 
 打开页面是一个表单，有一个重置数据库的链接，点击之后显示数据库已重置，还提供了表单页面的源码。
 
-![web_post](../../images/web_post.png)
-![web_sql_reset](../../images/web_sql_reset.png)
+![web_post](/images/web_post.png)
+![web_sql_reset](/images/web_sql_reset.png)
 
 页面源码：
 
@@ -190,7 +190,7 @@ PING出事了吧
 
 打开页面，试验了一下确实能够 ping 到，开始我以为是 dvwa 里的命令执行漏洞，因为那个刚好也是用 ping 来做示例。
 
-![ping_test](../../images/ping_test.png)
+![ping_test](/images/ping_test.png)
 
 但是这个明显比 dvwa 里的那个要高端多了，只要输入的值不是正确的ip地址都会报错，看来正则匹配的很严格吖。
 
@@ -275,7 +275,7 @@ simple injection
 小明老板经常嫌弃小明太懒了，这次老板给了小明一个简单的问题，解决不了就要被炒鱿鱼喽~
 ```
 
-![iscc_web6](../../images/iscc_web6.png)
+![iscc_web6](/images/iscc_web6.png)
 
 题目都提示了 sql 注入，用 sqlmap 跑一跑，但是因为这个站用了 WAF ，需要在 sqlmap 中使用一个过 WAF 的脚本才能注入。
 
@@ -348,7 +348,7 @@ double kill
 
 根据题目提示的意思应该是要有两个漏洞，看站点提供了上传通道那就应该有，再看网站链接长成这样 `http://101.200.145.44/web5/index.php?page=submit`，估计就是文件包含漏洞了。
 
-![iscc_web5](../../images/iscc_web5.png)
+![iscc_web5](/images/iscc_web5.png)
 
 文件上传过滤的挺死的，后台验证，只允许是 jpg 或者 png 格式的图片，那就将 一句话木马写入到图片中再上传上去好了。
 
@@ -370,7 +370,7 @@ ASPX:<%@ Page Language="Jscript" %><%eval(Request.Item["pass"],"unsafe");%>
 
 然后就可以将文件木马上传上去，查看图片，记下文件位置，即可 url 中使用文件包含漏洞来查看上传的木马图片，在木马图片 url 的最后需要使用 `%00` 截断符截断，访问 `http://101.200.145.44/web5/index.php?page=uploads/1464138923.gif%00` 。
 
-![iscc_web5_2](../../images/iscc_web5_2.png)
+![iscc_web5_2](/images/iscc_web5_2.png)
 
 得到 flag ，`flag{e34349fe-42f4-4d78-b221-48094fe2b2af}`
 

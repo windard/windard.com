@@ -8,7 +8,7 @@ category: blog
 这篇博客就是在我的ubuntu 15.04 下的 sublime Text 2里面用fcitx输入法写的。
 或许你用的不是ubuntu 15或者是sublime Text 3，但是基本都一样。
 不过，如果你用的输入法不是fcitx，就要注意一下了。
-![sublime_chinese.png](../../images/sublime_chinese.png)
+![sublime_chinese.png](/images/sublime_chinese.png)
 
 ##安装必要的软件环境
 
