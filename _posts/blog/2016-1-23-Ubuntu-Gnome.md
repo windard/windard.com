@@ -278,7 +278,7 @@ APM_level的全称为Advanced Power Management level,即(硬盘)高级电源管�
  DISK_APM_LEVEL_ON_BAT="128 128"
 ```
 
-## jdk && jre
+## jdk & jre
 
 1. 安装的开源版本的jdk和jre
 
@@ -347,7 +347,7 @@ ubuntu好像这个问题比较严重，一般就是当你合上笔记本电脑�
 
 ### hosts
 如果对翻墙的需求并不太大的情况下推荐使用更改hosts的办法来上google等网站，简单方便快速。
-这里提供一个[hosts](../project/hosts)文件以供下载，还有一个稳定提供hosts文件的[站点](https://github.com/racaljk/hosts)。
+这里提供一个[hosts](/software/hosts)文件以供下载，还有一个稳定提供hosts文件的[站点](https://github.com/racaljk/hosts)。
 
 这里是各种版本的[shadowsocks](https://github.com/shadowsocks/shadowsocks/wiki/Ports-and-Clients)地址
 

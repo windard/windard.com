@@ -5,7 +5,6 @@ category: project
 description: 一直用的是xampp或者是wamp等等集成的开发环境，还没有试过自己装wamp然后配置好的感觉，就来试了一下
 ---
 
-[TOC]
 
 wamp，即Windows下安装Apache，PHP和MySQL。  
 我是在win10下装了并没有很难，也没有遇到什么很大的问题。网上有不少教程，可惜都太老了。  
@@ -108,14 +107,16 @@ wamp，即Windows下安装Apache，PHP和MySQL。
  }  
  ```  
  
- 将上面的XXX分别换成你自己的数据库用户名和密码就可以了。如果出现的是如下界面，即安装成功。  
+ 将上面的XXX分别换成你自己的数据库用户名和密码就可以了。如果出现的是如下界面，即安装成功。 
+
  ![php_mysql.jpg](/images/php_mysql.jpg)  
   
 那么到现在就全部安装完了，自己安装配置wamp有没有感觉很好呢？  
 
->装好Apache这些之后在Windows上怎么查看端口使用情况呢？在cmd里输入`netstat -ano`就可以看到电脑的端口使用情况以及相应进程的PID。
+> 装好Apache这些之后在Windows上怎么查看端口使用情况呢？在cmd里输入`netstat -ano`就可以看到电脑的端口使用情况以及相应进程的PID。
 
 ## 顺带记录一下在Ubuntu下安装lamp的步骤  
+
 **安装Apache**  
 `$ sudo apt-get install apache2`  
 安装好之后，配置文件应该位于/etc/apache2中，默认情况下无需修改即可使用。默认的网站目为/var/www/。  
@@ -124,6 +125,7 @@ wamp，即Windows下安装Apache，PHP和MySQL。
 那么停止与重启就最后一个分别换成`stop`和`restart`就可以了。  
 因为Apache也会自动加入系统服务，所以也可以这样写。  
 `$ sudo service apache2 start`  
+
 *测试*  
 装好并启动 Apache 服务后，本地服务器应该就可以用了。可以利用curl访问 localhost 来测试：  
 `$ curl localhost`  
@@ -134,6 +136,7 @@ Apache 的错误日志文件默认为`/var/log/apache2/error.log`。
 `$ sudo vi /etc/apache2/apache2.conf`  
 添加如下行：  
 `ServerName localhost`  
+
 **安装PHP**  
 `$ sudo apt-get install php5 libapache2-mod-php5`  
 执行之后，PHP 应该就已经部署完毕了。       
@@ -146,15 +149,18 @@ Apache 的错误日志文件默认为`/var/log/apache2/error.log`。
 然后`curl localhost/phpinfo.php`来查看。     
 php的配置文件`php.ini`在`/etc/php5/apache2`里面。                 
 **安装PHP其他模块**  
-`$ sudo apt-get install php5-mysql php5-curl php5-gd php5-intl php-pear php5-imagick php5-imap php5-mcrypt php5-memcache php5-ming php5-ps php5-pspell php5-recode php5-snmp php5-sqlite php5-tidy php5-xmlrpc php5-xsl`         
+`$ sudo apt-get install php5-mysql php5-curl php5-gd php5-intl php-pear php5-imagick php5-imap php5-mcrypt php5-memcache php5-ming php5-ps php5-pspell php5-recode php5-snmp php5-sqlite php5-tidy php5-xmlrpc php5-xsl`        
+
 **配置Apache**      
 1. 启用mod_rewrite模块，这是Apache的一个很重要的模块，使用Apache伪静态。           
 `sudo a2enmod rewrite`                 
 2. Firefox中文乱码问题。               
 `sudo vi /etc/apache2/apache2.conf`              
-在后面加上 `AddDefaultCharset UTF-8`            
+在后面加上 `AddDefaultCharset UTF-8`       
+
 **安装MySQL**  
 `$ sudo apt-get install mysql-server mysql-client`  
+
 **其他**  
 1. 全局禁用 Index，这个配置在Windows下和Linux下是一样的  
 Index 就是访问一个不存在 index.html、index.php 等文件的目录时服务器列出的文件列表，这样会对用户展示文件结构，如果想禁用，可以修改 Apache 的配置文件：  
@@ -172,28 +178,34 @@ Index 就是访问一个不存在 index.html、index.php 等文件的目录时�
 
 
 ## 顺带记录一下在centos下安装lamp的过程  
+
 **安装Apache**  
 `$ yum install httpd httpd-devel `  
 启动Apache  
 `sudo  /etc/init.d/httpd -k start`  
 或者`sudo service httpd -k start`  
+
 **安装MySQL**  
 `$ yum install mysql mysql-server`  
 启动MySQL  
 `sudo /etc/init.d/mysqld start`  
 或者`sudo service mysqld start`  
+
 **安装PHP**  
 `$ yum install php php-devel`  
 然后重启Apache使PHP生效。  
 `sudo /etc/init.d/httpd restart`  
+
 **安装PHP的扩展**  
 `
 yum install php-mysql php-gd php-imap php-ldap php-odbc php-pear php-xml php-xmlrpc
 `  
 安装完之后再次重启Apache。  
 
-##最后的配置
+## 最后的配置
+
 是否开机启动        
+
 mysql数据库编码问题    
 
 ## 参考链接
