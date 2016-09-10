@@ -206,3 +206,11 @@ h3.about {color:#777;margin-top:20px;font-size:22px;margin-bottom:10px}
 blockquote p{
     margin-bottom: 10px;
 }
+html::-webkit-scrollbar{
+    width:0px;
+    transition: all ease-in-out 0.5s;
+    background-color: #8F5252;
+}
+html:hover::-webkit-scrollbar{
+    width:20px;
+}
