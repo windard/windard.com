@@ -209,8 +209,4 @@ blockquote p{
 html::-webkit-scrollbar{
     width:0px;
     transition: all ease-in-out 0.5s;
-    background-color: #8F5252;
-}
-html:hover::-webkit-scrollbar{
-    width:20px;
 }
