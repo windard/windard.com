@@ -86,4 +86,28 @@ C:\Users\dell\Desktop\python
   9   36ms     0/ 100 =  0%     0/ 100 =  0%  202.102.69.10
 
 跟踪完成。
+
+C:\Users\dell\Downloads
+λ nslookup 208.97.177.124
+服务器:  ns1.xidian.edu.cn
+Address:  202.117.112.3
+
+名称:    apache2-heavy.perrier.dreamhost.com
+Address:  208.97.177.124
+
+C:\Users\dell\Downloads
+λ ping -a 208.97.177.124
+
+正在 Ping apache2-heavy.perrier.dreamhost.com [208.97.177.124] 具有 32 字节的数据:
+来自 208.97.177.124 的回复: 字节=32 时间=308ms TTL=40
+来自 208.97.177.124 的回复: 字节=32 时间=309ms TTL=40
+来自 208.97.177.124 的回复: 字节=32 时间=311ms TTL=40
+请求超时。
+
+208.97.177.124 的 Ping 统计信息:
+    数据包: 已发送 = 4，已接收 = 3，丢失 = 1 (25% 丢失)，
+往返行程的估计时间(以毫秒为单位):
+    最短 = 308ms，最长 = 311ms，平均 = 309ms
+
+
 ```

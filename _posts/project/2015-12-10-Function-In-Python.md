@@ -1367,7 +1367,7 @@ print "".join(b)
 
 ```
 
-##### 列表排序，逆置，计数，去重
+##### 列表排序，逆置，最大值，求和，求频数，计数，去重
 
 ```
 >>> b = [1,45,25,365,23,1,54,2]
@@ -1377,11 +1377,31 @@ print "".join(b)
 >>> b.reverse()
 >>> b
 [365, 54, 45, 25, 23, 2, 1, 1]
+>>> max(b)
+365
+>>> sum(b)
+516
+>>> b.count(1)
+2
 >>> rates = {x:b.count(x) for x in set(b)}
 >>> rates
 {1: 2, 2: 1, 365: 1, 45: 1, 54: 1, 23: 1, 25: 1}
 >>> set(b)
 set([1, 2, 365, 45, 54, 23, 25])
+```
+
+##### 寻找当前文件夹下 root 文件夹中的最大文件
+
+```
+>>> import os
+>>> print max([os.path.join(path,item) for path,_,items in os.walk(os.path.join(os.path.dirname(__file__),"root")) for item in items],key=lambda x:os.path.getsize(x))
+
+```
+
+功能同
+
+```
+find . -name "*.txt" -ls | sort -n -k7 | tail -n 1 
 ```
 
 ##### 元祖排序，倒置
