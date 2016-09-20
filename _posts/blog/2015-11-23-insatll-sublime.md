@@ -6,9 +6,9 @@ category: blog
 ---
 
 
-##Install Sublime Text In Linux
+## Install Sublime Text In Linux
 
-####Install via the Package Manager(apt-get):
+#### Install via the Package Manager(apt-get):
 
 For Sublime-Text-2     
 
@@ -26,7 +26,7 @@ sudo apt-get update
 sudo apt-get install sublime-text-installer
 ```
 
-####Install Manually via Terminal:
+#### Install Manually via Terminal:
 Download from the Sublime Site:   
 
 32-bit:     

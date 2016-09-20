@@ -25,34 +25,62 @@ layout: default
         <h1 class="entry-title"><a href="{{ page.url }}" title="{{ page.title }}">{{ page.title }}</a></h1>
         <p class="entry-date">{{ page.date|date:"%Y-%m-%d" }}</p>
         {{ content }}
+        <hr>
+        <div class="copyright">
+        <p><strong>本文固定链接：</strong>{{ site.url  }}{{ page.url }}<br><strong>原创文章,转载请注明出处：</strong><a href='{{ site.url }}{{ page.url }}'>{{ page.title }} By Windard</a></p>
+        
+        </div>
+        <div id="disqus_thread"></div>
+        <script>
+            /**
+             *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+             *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables
+             */
+            
+            var disqus_config = function () {
+                this.page.url = "{{ site.url }}{{ page.url }}";  // Replace PAGE_URL with your page's canonical URL variable
+                this.page.identifier = "{{ page.url }}"; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+            };
+            
+            (function() {  // DON'T EDIT BELOW THIS LINE
+                var d = document, s = d.createElement('script');
+                
+                s.src = '//windardswebsite.disqus.com/embed.js';
+                
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
     </div>
 
     <div class="sidenav infopage">
         <div class="info" style="text-align:center">
-            <img src="../images/headlogo.jpg" alt="headlogo">
+            <img src="{{ site.url }}/images/headlogo.jpg" alt="headlogo">
             <span >&nbsp;&nbsp;Windard</span>
-            <p>热爱技术，欢迎交流</p>
+            <p>{{ site.moto }}</p>
         </div>  
     </div>
 
     <div class="sidenav">
         <h2>Blog</h2>
         <ul class="artical-list">
-        {% for post in site.categories.blog%}
+        {% for post in site.categories.blog %}
             <li><a href="{{ post.url }}">{{ post.title }}</a></li>
         {% endfor %}
         </ul>
 
         <h2>Opinion</h2>
         <ul class="artical-list">
-        {% for post in site.categories.opinion%}
+        {% for post in site.categories.opinion %}
             <li><a href="{{ post.url }}">{{ post.title }}</a></li>
         {% endfor %}
         </ul>
 
         <h2>Project</h2>
         <ul class="artical-list">
-        {% for post in site.categories.project%}
+        {% for post in site.categories.project %}
             <li><a href="{{ post.url }}">{{ post.title }}</a></li>
         {% endfor %}
         </ul>
@@ -60,3 +88,13 @@ layout: default
 </div>
 
 <script src="/js/post.js" type="text/javascript"></script>
+<script>    
+//     $(document).ready(function(){
+//         $('#disqus_container .comment').on('click',function(){
+//                 $(this).html('加载中...');
+//                 var disqus_shortname = 'beiyuu';
+//                 var that = this;
+//                 BYB.includeScript('http://' + disqus_shortname + '.disqus.com/embed.js',function(){$(that).remove()}); //这是一个加载js的函数
+//         });        
+//     })
+// </script>

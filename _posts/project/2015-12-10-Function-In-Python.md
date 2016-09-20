@@ -59,9 +59,8 @@ Python的内置函数主要包括两大类，一是Python的函数式编程用�
 ```
 
 >也可以用`__class__`
->如
->
->```python
+
+```python
 >>> a = 1
 >>> a.__class__
 <type 'int'>
@@ -313,7 +312,7 @@ NameError: name 'Thisisastring' is not defined
 用一个C语言里很经典的例子，求一个不定长度的数列的和。
 
 ```python
-#coding=utf-8
+# coding=utf-8
 
 def count(*args):
 	num = 0
@@ -333,12 +332,12 @@ print num
 ```
 
 保存为count.py，运行，看一下结果。
-![count.jpg](../../images/count.jpg)
+![count.jpg](/images/count.jpg)
 
 不仅仅是对列表类型的支持，字典也可以。
 
 ```python
-#coding=utf-8
+# coding=utf-8
 
 def echo(**arge):
 	for (i,j) in arge.items():
@@ -356,7 +355,7 @@ echo(**{"1":"one","2":"two","3":"three"})
 ```
 
 保存为count_dict.py，运行，看一下结果。
-![count_dict.jpg](../../images/count_dict.jpg)
+![count_dict.jpg](/images/count_dict.jpg)
 
 #### Python 不再支持自加自减
 在C语言或者是其他的大部分语言，自加自减都是很重要的一个运算符，但是可能是为了减少像`++i`和`i++`的歧义吧，反正是没有了。
@@ -770,7 +769,7 @@ timefun(foo)()
 
 保存为decorator_demo.py，运行，看一下结果。
 
-![decorator_demo.jpg](../../images/decorator_demo.jpg)
+![decorator_demo.jpg](/images/decorator_demo.jpg)
 
 非常可惜的是，如果这样写的话，这个装饰器好像就只能使用一次，那我们想要在每一次调用的时候都打印出时间要怎么办呢？。
 我们在装饰器里也定义了一个函数，使用内嵌函数就可以实现每次调用装饰器都打印出时间。
@@ -803,7 +802,7 @@ timefun(foo)()
 
 保存为decorator_improve.py，运行，看一下结果。
 
-![decorator_improve.jpg](../../images/decorator_improve.jpg)
+![decorator_improve.jpg](/images/decorator_improve.jpg)
 
 但是如果这样的话，就没有任何的区别了。
 
@@ -835,7 +834,7 @@ timefun(foo)()
 
 保存为decorator_back.py，运行，看一下效果。
 
-![decorator_back.jpg](../../images/decorator_back.jpg)
+![decorator_back.jpg](/images/decorator_back.jpg)
 
 装饰器也可以是一个类，使用`__call__`函数，使在每次调用的时候使用装饰器即可。
 现在就大概明白了，装饰器的功能就是在原有的函数功能的基础上包装一下，给它增加新的功能。
@@ -908,7 +907,7 @@ for i in range(5):
 
 保存为static.py，运行，看一下结果。
 
-![static.jpg](../../images/static.jpg)
+![static.jpg](/images/static.jpg)
 
 #### 匿名函数
 
@@ -967,7 +966,7 @@ print num
 ```
 
 保存为count_apply.py，运行，看一下结果。
-![count_apply.jpg](../../images/count_apply.jpg)
+![count_apply.jpg](/images/count_apply.jpg)
 
 ###### filter(func,seq)
 fulter即过滤器，给定一个过滤函数和序列，每个序列元素都经过这个过滤函数删选，保留返回为真的元素。
@@ -1002,7 +1001,7 @@ print filter(odd,allNum)
 ```
 
 保存为create_odd.py，运行，看一下结果。
-![create_odd.jpg](../../images/create_odd.jpg)
+![create_odd.jpg](/images/create_odd.jpg)
 
 可以看到每次结果都不一样，且返回不多于10个的奇数。
 
@@ -1022,7 +1021,7 @@ print filter(lambda n : n%2 ,allNum)
 ```
 
 保存为create_odd_lambda.py，运行，看一下结果。
-![create_odd_lambda.jpg](../../images/create_odd_lambda.jpg)
+![create_odd_lambda.jpg](/images/create_odd_lambda.jpg)
 
 第二次重构
 
@@ -1040,7 +1039,7 @@ print [n for n in allNum if n%2]
 ```
 
 保存为create_odd_list.py，运行，看一下结果。
-![create_odd_list.jpg](../../images/create_odd_list.jpg)
+![create_odd_list.jpg](/images/create_odd_list.jpg)
 
 第三次重构
 
@@ -1053,7 +1052,7 @@ print [n for n in [randint(1,99) for i in range(10)] if n%2]
 ```
 
 保存为create_odd_list_list.py，运行，看一下结果。
-![create_odd_list_list.jpg](../../images/create_odd_list_list.jpg)
+![create_odd_list_list.jpg](/images/create_odd_list_list.jpg)
 
 第四次重构
 
@@ -1351,6 +1350,88 @@ print "".join(b)
 
 ```
 
-##对象内置函数
+#### 其他的常用函数
+
+##### 字符串转大写，转小写，逆置
+
+```
+>>> a = "cbkBIKb3r45oinvs"
+>>> a.upper()
+'CBKBIKB3R45OINVS'
+>>> a
+'cbkBIKb3r45oinvs'
+>>> a.lower()
+'cbkbikb3r45oinvs'
+>>> a[::-1]
+'svnio54r3bKIBkbc'
+
+```
+
+##### 列表排序，逆置，最大值，求和，求频数，计数，去重
+
+```
+>>> b = [1,45,25,365,23,1,54,2]
+>>> b.sort()
+>>> b
+[1, 1, 2, 23, 25, 45, 54, 365]
+>>> b.reverse()
+>>> b
+[365, 54, 45, 25, 23, 2, 1, 1]
+>>> max(b)
+365
+>>> sum(b)
+516
+>>> b.count(1)
+2
+>>> rates = {x:b.count(x) for x in set(b)}
+>>> rates
+{1: 2, 2: 1, 365: 1, 45: 1, 54: 1, 23: 1, 25: 1}
+>>> set(b)
+set([1, 2, 365, 45, 54, 23, 25])
+```
+
+##### 寻找当前文件夹下 root 文件夹中的最大文件
+
+```
+>>> import os
+>>> print max([os.path.join(path,item) for path,_,items in os.walk(os.path.join(os.path.dirname(__file__),"root")) for item in items],key=lambda x:os.path.getsize(x))
+
+```
+
+功能同
+
+```
+find . -name "*.txt" -ls | sort -n -k7 | tail -n 1 
+```
+
+##### 元祖排序，倒置
+
+```
+>>> c = {1:12,4:15,9:242,4:25,1234:242,23:24}
+>>> c
+{1: 12, 1234: 242, 23: 24, 4: 25, 9: 242}
+>>> sorted(c.iteritems(),key=lambda a:a[0],reverse=True) # 按键降序排列
+[(1234, 242), (23, 24), (9, 242), (4, 25), (1, 12)]
+>>> sorted(c.iteritems(),key=lambda a:a[0],reverse=False) # 按键升序排列
+[(1, 12), (4, 25), (9, 242), (23, 24), (1234, 242)]
+>>> sorted(c.iteritems(),key=lambda a:a[1],reverse=False) # 按值升序排列
+[(1, 12), (23, 24), (4, 25), (1234, 242), (9, 242)]
+>>> sorted(c.iteritems(),key=lambda a:a[1],reverse=True) # 按值降序排列
+[(1234, 242), (9, 242), (4, 25), (23, 24), (1, 12)]
+```
+
+##### 字符串，列表转换
+
+```
+>>> b = [1,45,25,365,23,1,54,2]
+>>> a = "Iwantyou"
+>>> b = [x for x in a]
+>>> b
+['I', 'w', 'a', 'n', 't', 'y', 'o', 'u']
+>>> "".join(b)
+'Iwantyou'
+```
+
+## 对象内置函数
 
 包括`__name__` `__call__` `__init__` `__main__`

@@ -278,7 +278,7 @@ APM_level的全称为Advanced Power Management level,即(硬盘)高级电源管�
  DISK_APM_LEVEL_ON_BAT="128 128"
 ```
 
-## jdk && jre
+## jdk & jre
 
 1. 安装的开源版本的jdk和jre
 
@@ -347,7 +347,7 @@ ubuntu好像这个问题比较严重，一般就是当你合上笔记本电脑�
 
 ### hosts
 如果对翻墙的需求并不太大的情况下推荐使用更改hosts的办法来上google等网站，简单方便快速。
-这里提供一个[hosts](../project/hosts)文件以供下载，还有一个稳定提供hosts文件的[站点](https://github.com/racaljk/hosts)。
+这里提供一个[hosts](/software/hosts)文件以供下载，还有一个稳定提供hosts文件的[站点](https://github.com/racaljk/hosts)。
 
 这里是各种版本的[shadowsocks](https://github.com/shadowsocks/shadowsocks/wiki/Ports-and-Clients)地址
 
@@ -424,3 +424,47 @@ SMPlayer 是一个视频播放器，感觉还可以。
 ```
 sudo apt-get install smplayer
 ```
+
+## node
+在 Ubuntu 下安装 node 可以使用 nvm 比较方便。
+
+树莓派下可以直接下载二进制包安装比较方便 `http://nodejs.org/dist/`
+
+注意将路径加入系统环境变量中。
+
+查看系统环境变量 `echo $PATH`
+
+```
+root@256d7bdde650:~# echo $PATH
+/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+```
+
+查看当前用户家目录 `echo $PATH`
+
+```
+root@256d7bdde650:~# echo $HOME
+/root
+```
+
+查看所有的环境变量 `env`
+
+```
+root@256d7bdde650:~# env
+HOSTNAME=256d7bdde650
+TERM=xterm
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+PWD=/root
+SHLVL=1
+HOME=/root
+_=/usr/bin/env
+OLDPWD=/root/node-v4.4.4-linux-armv6l
+```
+
+仅此次加入环境变量
+
+```
+export path=$path:/path1:/path2:/pahtN
+```
+
+永久加入环境变量，修改文件 `/etc/profile`，在最后加入 `export path=$path:/path1:/path2:/pahtN` ,然后 `source /etc/profile ` 重新加载环境变量
+

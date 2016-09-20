@@ -10,23 +10,26 @@ description: MySQL ERROR
 1. 报错了要去看错误日志，以前从来不看那东西的，然而还是要翻出来看一看，错误的原因非常详细的记录在上上面，很重要的。
 2. 问题是多变的，网上的答案是不变。在看了别人的解答过程之后，要自己思考根据实际去解决问题。
 
->如果再加一点的话，就是，没事不要在Windows上装直接MySQL。
+> 如果再加一点的话，就是，没事不要在Windows上装直接MySQL。
 
 一开始我本来是想简简单单在Windows上装个MySQL而已的，结果发现它装上之后就成了自启动服务了，占了我的3306端口不说，而且开机自启动。   
 这一点非常不好，我决定要把它关掉。  
 
 也是在网上找了很多资料，终于在MySQL的官方文档里找到了，（这里说一点，很多官方文档都是英文的，习惯去看。），发现了这个语句`mysql -u root shutdown;`当然，此时你在MySQL里面。  
->cmd登陆mysql的语句就是`mysql -u uername -p passwd`  
+
+> cmd登陆mysql的语句就是`mysql -u uername -p passwd`  
 
 好了，成功的关掉了，结果就再也没有打开了。  
 
 这里补充说明一下我的MySQL的情况，因为我一般不喜欢把软件装在C盘，所以就把MySQL放在D盘`D:\Program Files (x86)`下，看了网上的安装教程，好像转好了之后需要配置一下my.ini，（这里有一点非常坑爹吖！这个配置文件是什么鬼，好像在Linux下是叫做my.cof么？还是版本太老的原因），将`basedir`和`datadir`设为你自己想要放的文件的位置。  
 
 结果我就欢喜也设定在了D盘相同的位置下。  
+
 ```shell
 basedir = D:\\Program Files (x86)\\MySQL\\MySQL Server 5.7
 datadir = D:\\Program Files (x86)\\MySQL\\MySQL Server 5.7\\data
 ```
+
 而且我看很多的网上教程里没有说的关于斜杠`\`与反斜杠`/`的问题，但是我在MySQL的官方文档里面看到是要按照我的这种写法，在Windows下。  
 
 然后我想再次开启MySQL的时候就悲剧了，先是在普通的cmd下启动MySQL，提示错误`发生系统错误 5。拒绝访问。`我想在cmd里打开mysql也报错`ERROR 2003 (HY000): Can't connect to MySQL server on 'localhost' (10061)`  
@@ -50,23 +53,30 @@ datadir = D:\\Program Files (x86)\\MySQL\\MySQL Server 5.7\\data
 
 
 :-(
+
 最后附上一个忘记密码更改MySQL密码的方法，希望大家不会用到。
 1. 以管理员身份启动cmd。
+
 ```
 #先关掉MySQL服务
 net stop mysql
 #以安全模式运行MySQL
 mysqld --skip-grant-tables  
 ```
+
 2. 不要关闭，再启动一个新的cmd命令窗口,可以是管理员身份或者一般身份
+
 ```
 #使用储存密码的数据库
 use mysql;
 #更改密码
 update user set authentication_string=password("123456") where user="root";  
 ```
-此处我在网上的教程里面看到有的在`authentication_string`处用的是`password`，不知道是什么原因，但是我的MySQL里面没有`password`这一项。  
+
+此处我在网上的教程里面看到有的在`authentication_string`处用的是`password`，不知道是什么原因，但是我的MySQL里面没有`password`这一项，在 `Windows` 上 MySQL 数据库里是密码是 `authentication_string`，在 `Linux` 上就是 `password`。  
+
 3. 关闭以上两个窗口，启动MySQL服务，即以管理员身份运行cmd。
+
 ```
 net start mysql
 ```

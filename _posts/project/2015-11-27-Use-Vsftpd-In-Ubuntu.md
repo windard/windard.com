@@ -5,29 +5,37 @@ category: project
 description: 我的ubuntu是在虚拟机中的，所以有时候与宿主机的文件需要相关的转移，ubuntu的vsftpd与其他的linux发行版本似乎还是有一点点的不一样的
 ---
 
-##在ubuntu上装vsftpd            
+## 在ubuntu上装vsftpd            
 
 vsftpd即very security ftp，好吧，这样听起来还是似乎挺不错的样子。其实在ubuntu上是自带了一个ftp的客户端的，所以我们只需要一个ftp服务器段就可以了。                                
-```sudo apt-get install vsftpd```                 
-这样就装好了我们的vsftpd，用`dpkg`来看一下。                   
-![vsftpd.jpg](../../images/vsftpd.jpg)      
+```sudo apt-get install vsftpd```          
+
+这样就装好了我们的vsftpd，用`dpkg`来看一下。      
+
+![vsftpd.jpg](/images/vsftpd.jpg)      
 
 
-##启动与关闭
-```service vsftpd start```                  
-毫无疑问，这就是启动了。                         
-```service vsftpd stop ```                  
+## 启动与关闭
+
+```service vsftpd start```         
+
+毫无疑问，这就是启动了。           
+
+```service vsftpd stop ```         
+
 关闭vsftpd服务器。             
 还有两个命令就是`status`和`restart`分别用来查看vsftpd的状态和重启ftp服务器。    
 
-##使用配置
+## 使用配置
 ```ftp localhost``` 进入命令行模式的ftp，可以使用匿名登录，也可以使用帐号登录。                                  
 一般使用vsftpd用的不是命令ftp,而是sftp 命令`sftp root@XX.XX.XX.XX`。                   
 如果是匿名登录的话，帐号就是`anonymus`密码随意写就可以了，匿名用户登录之后的根目录在`/src/ftp`。                                     
 帐号登录的话就是使用本机的帐号和密码登录,帐号密码登录的根目录就在`/home/账户名`。                              
-还有一种登录方式就是使用虚拟账户登录，就是说为ftp设置一个专门用来登录的账户，并指定其根目录。                           
->使用虚拟账户登录就需要先创建一个虚拟账户，这个账户没有登录操作系统的权限，但是可以登录vsftpd                 
->`useradd vsftpd -s /sbin/nologin -m username`，此处的-s是指定shell，但是`/sbin/nologin`是一个无效的shell，创建了一个无法登录操作系统的用户，-m 指定根目录，所以该用户的根目录在`/home/username`                                                    
+还有一种登录方式就是使用虚拟账户登录，就是说为ftp设置一个专门用来登录的账户，并指定其根目录。        
+
+> 使用虚拟账户登录就需要先创建一个虚拟账户，这个账户没有登录操作系统的权限，但是可以登录vsftpd             
+    
+> `useradd vsftpd -s /sbin/nologin -m username`，此处的-s是指定shell，但是`/sbin/nologin`是一个无效的shell，创建了一个无法登录操作系统的用户，-m 指定根目录，所以该用户的根目录在`/home/username`                                                    
 
 vsftpd主配置文件`/etc/vsftpd.conf`,主程序`/usr/sbin/vsftpd`,禁止使用vsftpd的用户列表`/etx/ftpusers`,允许使用vsftpd的用户列表`/etc/user_list`,匿名用户根目录`/src/ftp`,日志存储地址`/var/log/vsftpd.log`
 
