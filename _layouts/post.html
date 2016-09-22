@@ -1,7 +1,11 @@
 ---
 layout: default
 ---
-
+<script type="text/javascript">
+    var host = "yoursite.com";
+    if ((host == window.location.host) && (window.location.protocol != "https:"))
+        window.location.protocol = "https";
+</script>
 <link rel="stylesheet" href="/js/prettify/prettify.css" />
 <style type="text/css">
     body { background:#fff; }
@@ -28,7 +32,7 @@ layout: default
         <hr>
         <div class="copyright">
         <p><strong>本文固定链接：</strong>{{ site.url  }}{{ page.url }}<br><strong>原创文章,转载请注明出处：</strong><a href='{{ site.url }}{{ page.url }}'>{{ page.title }} By Windard</a></p>
-        
+
         </div>
         <div id="disqus_thread"></div>
         <script>
@@ -36,17 +40,17 @@ layout: default
              *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
              *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables
              */
-            
+
             var disqus_config = function () {
                 this.page.url = "{{ site.url }}{{ page.url }}";  // Replace PAGE_URL with your page's canonical URL variable
                 this.page.identifier = "{{ page.url }}"; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
             };
-            
+
             (function() {  // DON'T EDIT BELOW THIS LINE
                 var d = document, s = d.createElement('script');
-                
+
                 s.src = '//windardswebsite.disqus.com/embed.js';
-                
+
                 s.setAttribute('data-timestamp', +new Date());
                 (d.head || d.body).appendChild(s);
             })();
@@ -60,7 +64,7 @@ layout: default
             <img src="{{ site.url }}/images/headlogo.jpg" alt="headlogo">
             <span >&nbsp;&nbsp;Windard</span>
             <p>{{ site.moto }}</p>
-        </div>  
+        </div>
     </div>
 
     <div class="sidenav">
@@ -88,13 +92,13 @@ layout: default
 </div>
 
 <script src="/js/post.js" type="text/javascript"></script>
-<script>    
+<script>
 //     $(document).ready(function(){
 //         $('#disqus_container .comment').on('click',function(){
 //                 $(this).html('加载中...');
 //                 var disqus_shortname = 'beiyuu';
 //                 var that = this;
 //                 BYB.includeScript('http://' + disqus_shortname + '.disqus.com/embed.js',function(){$(that).remove()}); //这是一个加载js的函数
-//         });        
+//         });
 //     })
 // </script>

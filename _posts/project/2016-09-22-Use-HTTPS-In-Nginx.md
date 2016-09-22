@@ -19,5 +19,4 @@ HTTP 协议的 URL 由 `http://` 起始并默认使用端口 80 ， HTTPS 协议
 
 HTTPS 的核心是 SSL (Secure Socket Layer 安全套接层)/TLS (Transport Layer Security 安全传输层协议) ，其中包含了 对称加密，非对称加密和 HASH 加密等加密方式。
 
-![https_handshake.png](/images/https_handshake.png)
-
+在 HTTPS 协议中建立连接的时候，需要

@@ -1,9 +1,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <!--
-    * Author: Yang Wenqiang
-    -->
     <meta charset="utf-8" />
     <title>{% if page.title %}{{ page.title }} | {% endif %}{{ site.title }}</title>
     <meta name="author" content="Windard" />
@@ -13,6 +10,11 @@
     <link rel="stylesheet" href="{{ site.url }}/css/default.css" type="text/css" />
     <link rel="alternate" type="application/atom+xml" title="Recent Entries" href="{{ site.feed }}" />
     <script src="{{ site.url }}/js/jquery-1.7.1.min.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        var host = "yoursite.com";
+        if ((host == window.location.host) && (window.location.protocol != "https:"))
+            window.location.protocol = "https";
+    </script>
 </head>
 <body>
 
@@ -47,14 +49,14 @@
                 jQuery("html, body").animate({ scrollTop: 0 }, 120);
             }), backToTopFun = function() {
                 var st = jQuery(document).scrollTop(), winh = jQuery(window).height();
-                (st > 200)? backToTopEle.show(): backToTopEle.hide();    
+                (st > 200)? backToTopEle.show(): backToTopEle.hide();
                 //IE6下的定位
                 if (!window.XMLHttpRequest) {
-                    backToTopEle.css("top", st + winh - 166); 
+                    backToTopEle.css("top", st + winh - 166);
                 }
             };
 
-            backToTopEle.hide(); 
+            backToTopEle.hide();
                 jQuery(window).bind("scroll", backToTopFun);
             jQuery('div.main a,div.pic a').attr('target', '_blank');
         })
