@@ -18,11 +18,12 @@ email: 1106911190@qq.com
 moto: 但行好事，莫问前程
 description: 这是我的个人网站，平常也写一点东西在这里。
 baseurl: "" # the subpath of your site, e.g. /blog
-url: "http://windard.com" # the base hostname & protocol for your site
+url: https://windard.com # the base hostname & protocol for your site
+enforce_ssl: windard.com
 github_username:  windard
 feed: /feed.xml
 
-permalink: /:categories/:year/:month/:day/:title 
+permalink: /:categories/:year/:month/:day/:title
 
 # Build settings
 markdown: kramdown

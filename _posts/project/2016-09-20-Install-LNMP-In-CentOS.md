@@ -250,6 +250,8 @@ server {
 service nginx restart
 ```
 
+或者是可以使用 `nginx -t` 检查配置文件是否书写正确。
+
 此时如果在根目录 `/usr/share/nginx/html` 下创建一个名为 `info.php` 的文件，写入
 
 ```
