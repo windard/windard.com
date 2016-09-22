@@ -97,7 +97,7 @@ else {
 
 其实根据同样的思路，也可以用 `order by 1`， 请求数据 `user=flag , pass=' or 1=1 order by 1 #` , 在 burpsuite 中抓包结果是 `user=flag&pass=%27+or+1%3D1+order+by+1+%23+` , 也能够得到 flag 。
 
-在 MySQL 中的注释，除了有 `#` 之外，还可以是 `--  ` ，后面有几个空格或 tab 。
+在 MySQL 中的注释，除了有 `#` 之外，还可以是 `--  ` ，后面有几个空格或 tab ,虽然双横线也能注释，但是#号的使用效果好一些，有的地方双横线并不能注释#号确可以。
 
 除了万能密码之外，其实还能够直接将密码注出来，构造 payload 为`user=flag&pass=' or updatexml(1,concat(0x7e,(select pw from user limit 1,1 )),0) # '`，可以直接将 flag 用户的密码注出来，返回值为 `Error: XPATH syntax error: '~*75DBBA7B5806E761411'` ， flag 用户的密码为 `*75DBBA7B5806E761411` ，即可用此密码登陆，得到 flag 。
 
@@ -264,6 +264,10 @@ if( isset($_GET['file']))
 在浏览器中访问 `http://101.200.145.44/web2/1C9976C230DA289C1C359CD2A7C02D48/flag.php` ,得到 flag ,` flag{0d143dcd-5b29-4f4f-9b16-73665aeb45a8}`
 
 或者是另一个思路，看源代码，发现文件包含漏洞，访问 `http://101.200.145.44/web2/index.php?file=./1C9976C230DA289C1C359CD2A7C02D48/flag.php` ,结果坑爹的这个也会得到一个 flag ，不过是错的，真正的flag需要直接访问得到。
+
+#### ctf 中的源码
+
+一般在 ctf 的题目中有很多的都喜欢把源码提供给你，一般比如说 `index.php.txt` 或者 `index.php.bak` 或者 `.index.php.swp` ,或者 `index.php~` 等等可能就是暗藏源码的地方 。
 
 ### simple injection
 题目描述：
