@@ -20,3 +20,92 @@ HTTPS 的核心是 SSL (Secure Socket Layer 安全套接层)/TLS (Transport Laye
 在 HTTPS 协议中建立连接的时候，需要 HTTPS 证书，这个证书一般是由权威的第三方机构分发 ( Certificate Authorities )，然后在你的浏览器的网址栏里就会有一把绿色的锁，证书也可以自己生成，浏览器就会警告这是不受信任的机构分发的证书，地址栏加上一个带叉的红色的锁。
 
 一般的证书都是要花钱购买的，不过有两个可以申请到免费的个人证书的机构，[沃通数字证书在线申请](https://buy.wosign.com/free/?lan=cn) ，这个是中国的，而且证书分发很快，在线申请，一两天就能拿到，[StartSSL™ Certificates; Public Key Infrastructure](https://www.startssl.com/) ，这个是外国的。
+
+证书只在一开始建立连接协商密钥的时候用到，所以用自己生成的证书也可以，在证书生成之后将证书导入到浏览器之后，就不会再有警告了，虽然那个锁还是红色的。
+
+接下来我们来生成一个 HTTPS 证书把。在 Cent OS 7 上，使用 Nginx 服务器。
+
+## 制作使用证书
+
+### 查看 Nginx 是否支持 ssl
+
+```
+nginx -V
+```
+
+查看 Nginx 安装的模块，寻找是否有 `http_ssl_module` 模块，一般使用 yum 安装的话会有，自行编译安装的话，需要自己装上。
+
+### 生成证书
+
+我们将证书放在 `/etc/nginx` 下
+
+```
+cd /etc/nginx
+```
+
+创建服务器私钥 key，这里会需要输入一个口令。
+
+```
+openssl genrsa -des3 -out server.key 1024
+```
+
+创建签名请求的证书 csr ，在 `Common Name` 的地方输入你的服务器域名。
+
+```
+openssl req -new -key server.key -out server.csr
+```
+
+在 Nginx 加载证书时无法输入口令，所以在这里需要去掉口令，虽然在上一步里必须让我们输入口令。
+
+```
+cp server.key server.key.org
+openssl rsa -in server.key.org -out server.key
+```
+
+好，这个 csr 文件与我们从网上申请购买的证书格式是一样的，接下来就可以安装了。
+
+### 安装证书
+
+```
+openssl x509 -req -days 365 -in server.csr -signkey server.key -out server.crt
+```
+
+### 配置 Nginx
+
+修改 Nginx 配置文件 `/etc/nginx/nginx.conf`
+
+```
+server {
+    server_name YOUR_DOMAINNAME_HERE;
+    listen 443;
+    ssl on;
+    ssl_certificate /etc/nginx/server.crt;
+    ssl_certificate_key /etc/nginx/server.key;
+}
+```
+
+检测一下是否配置正确，注意 `ssl on;` 后面有一个分号。
+
+```
+nginx -t
+```
+
+重启 Nginx
+
+```
+sudo service nginx restart
+```
+
+你的 HTTPS 网站就可以访问了，虽然浏览器会警告证书不受信任，但还是一样有安全效果的。
+
+修改 Nginx 以下部分，将 HTTP 的请求跳转到 HTTPS 。
+
+```
+server {
+    listen 80;
+    server_name ww.yousite.com;
+    rewrite ^(.*) https://$server_name$1 permanent;
+}
+```
+
+接下来，你可以将生成的 csr 证书导入到你电脑的证书里，这样的话就不会有警告了，但是还是红色的锁的标志，或者是使用 Cloudflare 的 CDN 加速，开启 SSL 证书。
