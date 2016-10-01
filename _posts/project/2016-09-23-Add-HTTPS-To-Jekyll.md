@@ -64,6 +64,10 @@ enforce_ssl: windard.com
 <link rel="canonical" href=" { { site.url } }{ { page.url } }" />
 ```
 
+最近新看到一个将 HTTP 转 HTTPS 的办法，其实就在 CloudFare 里面，设置一个 `Page Rules ` 页面规则就可以了。
+
+设定 `Always Use HTTPS`,让所有的 `http://windard.com/* `的连接自动跳转到.
+
 参考链接
 
 [Set Up SSL on Github Pages With Custom Domains for Free](https://sheharyar.me/blog/free-ssl-for-github-pages-with-custom-domains/)
