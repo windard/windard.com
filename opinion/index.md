@@ -25,7 +25,7 @@ layout: home
     </div>
     <div class="aside">
         <div class="head" style="margin-top:15%">
-        <img src="{{ site.url }}/images/headlogo.jpg" alt="headlogo" style="width:50%;margin-top:15%;margin-bottom:10%">
+        <img src="/images/headlogo.jpg" alt="headlogo" style="width:50%;margin-top:15%;margin-bottom:10%">
         <p>但行好事，莫问前程</p>
         <p>愿你我安好，一世太平</p>
         </div>
