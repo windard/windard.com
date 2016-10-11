@@ -56,6 +56,7 @@ print len(n),n
 
 import copy
 
+digital = [1,2,3,4,5]
 nums = []
 
 def iteratool(n,a,size):
@@ -79,3 +80,37 @@ print len(nums),nums
 看起来正常了一点，但是当数据量增大的时候，迭代效率低，数据占据大量内存，应该可以用 yield 生成。可惜没有实现。
 
 谁有更好的想法，可以一同交流。
+
+这不就是全排列么。
+
+在网上找到了一个函数可以做到。
+
+```
+# coding=utf-8
+
+import itertools
+
+digital = "12345"
+nums = []
+
+for item in itertools.permutations(digital,3):
+    nums.append("".join(item))
+
+print nums
+```
+ 
+以上排列相当于 A(5,3)=60，itertools 还可以算 C(5,3)=10 的操作，即相同的数字不同的组合算同一个。 
+
+```
+# coding=utf-8
+
+import itertools
+
+digital = "12345"
+nums = []
+
+for item in itertools.combinations(digital,3):
+    nums.append("".join(item))
+
+print nums
+```
