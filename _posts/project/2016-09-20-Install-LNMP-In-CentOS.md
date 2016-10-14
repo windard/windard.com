@@ -40,17 +40,20 @@ sudo systemctl status firewalld
 或
 
 ```
-sudo service iptables status
+sudo service firewalld status
 ```
 
 查看最后一行是否为 inactive ，如下即为已关闭。
 
 ```
-[root@VM_15_35_centos ~]# sudo service iptables status
-Redirecting to /bin/systemctl status  iptables.service
-● iptables.service
-   Loaded: not-found (Reason: No such file or directory)
-   Active: inactive (dead)
+[root@VM_15_35_centos ~]# sudo service firewalld status
+Redirecting to /bin/systemctl status  firewalld.service
+● firewalld.service - firewalld - dynamic firewall daemon
+   Loaded: loaded (/usr/lib/systemd/system/firewalld.service; enabled; vendor preset: enabled)
+   Active: active (running) since 二 2016-10-11 08:22:20 UTC; 3 days ago
+ Main PID: 447 (firewalld)
+   CGroup: /system.slice/firewalld.service
+           └─447 /usr/bin/python -Es /usr/sbin/firewalld --nofork --nopid
 ```
 
 如果显示 active ，则需调整防火墙策略或者关闭防火墙。
@@ -73,13 +76,13 @@ sudo systemctl reload firewalld
 或者是关闭防火墙 (并不推荐)
 
 ```
-sudo service iptables stop
+sudo service firewalld stop
 ```
 
 或者是永久关闭防火墙 (并不推荐)
 
 ```
-sudo chkconfig --level 123456 iptables off
+sudo chkconfig --level 123456 firewalld off
 ```
 
 设置 Nginx 开机启动
