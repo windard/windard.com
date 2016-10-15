@@ -21,7 +21,7 @@ VPN (Virtual Private Network) ，虚拟专用网络， 一般常见的有很多�
 
 禁用 firewall ，安装使用 iptables。
 
-> 在接下来的操作中都是使用 root 权限，如果不是，请加上 sudo
+> 在接下来的操作中都是默认使用 root 权限，如果不是，请加上 sudo
 
 ```
 yum install iptables-services
@@ -36,9 +36,9 @@ systemctl start ip6tables
 iptables 常用命令
 
 ```
-iptables -L -n                                   #查看iptables现有规则
-iptables --list                                   # 查看 iptables 现有规则
-iptables -P INPUT ACCEPT            #先允许所有，不然有可能会杯具
+iptables -L -n                                    #查看iptables现有规则
+iptables --list                                   #查看 iptables 现有规则
+iptables -P INPUT ACCEPT            			  #先允许所有，不然有可能会杯具
 iptables -F                                       #清空所有默认规则
 iptables -X                                       #清空所有自定义规则
 iptables -Z                                       #所有计数器归0
