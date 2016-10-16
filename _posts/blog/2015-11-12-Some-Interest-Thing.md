@@ -169,3 +169,35 @@ C:\Users\dell\Desktop\theme>
     7. 可以用WiFi了。
     >查看WiFi连接状况：netsh wlan show hostednetwork
     >停止使用WiFi : netsh wlan stop hostednetwork
+
+
+38. 最简单的 翻墙 方式，更改 DNS
+
+PPPOE 拨号上网之后
+
+```
+// 修改 本地连接 的首选 DNS 为 谷歌的 DNS 服务器
+netsh interface ip set dns 本地连接 static 8.8.8.8
+// 修改 本地连接 的备选 DNS 为 谷歌的 DNS 服务器
+netsh interface ip add dns 本地连接 8.8.4.4
+```
+
+更改 IPv6 的 DNS
+
+```
+netsh interface ipv6 set dns 本地连接 static 2001:4860:4860::8888
+netsh interface ipv6 add dns 本地连接 static 2001:4860:4860::8844
+```
+
+恢复默认，PPPOE 重新拨号即可，或者
+
+```
+netsh interface ip set dns 本地连接 dhcp
+netsh interface ipv6 set dns 本地连接 dhcp
+```
+
+刷新 DNS 缓存
+
+```
+ipconfig /flushdns
+```
