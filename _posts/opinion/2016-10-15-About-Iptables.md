@@ -203,9 +203,19 @@ iptables –t nat -A PREROUTING -d [对外IP] -p tcp --dport [对外端口] -j D
 iptables -t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to-ports 8080
 ```
 
+#### 负载均衡
+
+端口转发实现负载均衡
+
+```
+iptables -t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to-ports 8001:8008
+```
+
 参考链接
 
-[Iptables小总结](https://yq.aliyun.com/articles/38737)
-[→_→ iptables](https://vvl.me/2016/08/iptables-two/)
-[初识 iptables](https://vvl.me/2016/08/iptables-one/)
-[CentOS 7 安装 iptables 防火墙](http://blog.mimvp.com/2016/07/centos-7-installing-the-iptables-firewall/)
+[Iptables小总结](https://yq.aliyun.com/articles/38737) <br>
+[→_→ iptables](https://vvl.me/2016/08/iptables-two/) <br>
+[初识 iptables](https://vvl.me/2016/08/iptables-one/) <br>
+[CentOS 7 安装 iptables 防火墙](http://blog.mimvp.com/2016/07/centos-7-installing-the-iptables-firewall/) <br>
+[通过iptables实现端口转发和内网共享上网](http://xstarcd.github.io/wiki/Linux/iptables_forward_internetshare.html) <br>
+[iptables学习笔记：端口转发之“内网访问外网”](http://blog.csdn.net/subfate/article/details/52659765)
