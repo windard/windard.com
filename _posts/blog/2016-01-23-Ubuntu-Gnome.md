@@ -349,11 +349,12 @@ ubuntu好像这个问题比较严重，一般就是当你合上笔记本电脑�
 如果对翻墙的需求并不太大的情况下推荐使用更改hosts的办法来上google等网站，简单方便快速。
 这里提供一个[hosts](/software/hosts)文件以供下载，还有一个稳定提供hosts文件的[站点](https://github.com/racaljk/hosts)。
 
-这里是各种版本的[shadowsocks](https://github.com/shadowsocks/shadowsocks/wiki/Ports-and-Clients)地址
-
 ### shadowsocks
 
-这里是shadowsocks在github上的[项目地址](https://github.com/shadowsocks/shadowsocks)，不过已经移除了全部代码。
+这里是shadowsocks在github上的[项目地址](https://github.com/shadowsocks/shadowsocks),代码<del>好像被删除了</del>可以看一看。
+
+这里是各种版本的[shadowsocks](https://github.com/shadowsocks/shadowsocks/wiki/Ports-and-Clients)地址
+
 使用pip下载安装
 `sudo pip install shadowsocks`
 然后编辑`/etc/shadowsocks.json`
@@ -400,6 +401,40 @@ sudo apt-get install shadowsocks-qt5
 使用`sudo ss-qt5`
 
 最后在[这里](http://www.socks163.com/?from=techzero)有一些免费的shadowsocks节点可以试一下，或者是自己搭建shadowsocks海外节点把。
+
+## 在 Cent OS 7 上使用 shadowsocks-libev
+
+```
+yum install -y gcc automake autoconf libtool make build-essential autoconf libtool
+yum install -y curl curl-devel unzip zlib-devel openssl-devel perl perl-devel cpio expat-devel gettext-devel asciidoc xmlto
+wget https://github.com/shadowsocks/shadowsocks-libev/archive/master.zip
+unzip master.zip
+cd shadowsocks-libev*
+./autogen.sh
+./configure --prefix=/usr && make
+make install
+```
+
+开启
+
+```
+ss-server -c config.json -f /var/run/shadowsocks.pid
+```
+
+配置文件这样可以同时监听 v4 和 v6
+
+```
+{
+    "server":["[::0]","0.0.0.0"],
+    "server_port":8688,
+    "local_address": "127.0.0.1",
+    "local_port":1080,
+    "password":"password",
+    "timeout":300,
+    "method":"aes-256-cfb",
+    "fast_open": false
+}
+```
 
 ## 安装问题
 安装ubuntu的时候有时候会卡在 `正在完成文件复制` 的地方，一般是因为电脑已经联网，在网上下载安装文件，建议断开网络安装会比较快一点，安装好了之后再进入系统更新。
