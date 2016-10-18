@@ -8,6 +8,10 @@ category: opinion
 
 今天试了一下几个网络跟踪调试的命令
 
+> 关于 ipv6 
+> Windows ping -> ping -6 ,tracert -> tracert -6, pathping -> pathping -6
+> Linux   ping -> ping6 ,traceroute -> traceroute6
+
 ```
 C:\Users\dell\Desktop\python
 λ ping www.baidu.com
@@ -109,6 +113,11 @@ C:\Users\dell\Downloads
 往返行程的估计时间(以毫秒为单位):
     最短 = 308ms，最长 = 311ms，平均 = 309ms
 
+```
+
+Ubuntu 下
+
+```
 
 windard@windard:～$ traceroute www.baidu.com
 traceroute to www.baidu.com (220.181.111.188), 30 hops max, 60 byte packets
