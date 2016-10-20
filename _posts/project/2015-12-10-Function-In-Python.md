@@ -842,6 +842,44 @@ timefun(foo)()
 >1. 或许这个函数是标准函数库里的或者是他人写的函数，不好修改，我们只需给它加上一些装饰而已，就会比较简单。
 >2. 或许我们并不是每一个函数都需要装饰，这样的话，更容易控制。
 
+来试一个含参的解释器
+
+```
+# coding=utf-8
+
+from time import ctime,sleep
+
+def showtime(func):
+  def getnow(*args):
+    """show the time when func run """
+    print ctime()
+    return func(*args)
+  return getnow
+
+@showtime
+def greet(now):
+  """ greet to others"""
+  print "Good "+now
+
+greet("Morning")
+
+sleep(1)
+
+greet("Afternon")
+
+```
+
+执行结果
+
+```
+Thu Oct 20 20:50:33 2016
+Good Morning
+Thu Oct 20 20:50:34 2016
+Good Afternon
+```
+
+> 如果是含有多个参数，则使用 `*args, **kwargs` 来代替 `*args`
+
 装饰器用来做静态变量。
 
 Python里是没有静态变量的，只有静态成员变量，但是我们有时候需要在函数里调用静态变量，可是又不想创建一个类，怎么办呢？
