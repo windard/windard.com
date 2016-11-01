@@ -219,3 +219,17 @@ html::-webkit-scrollbar-thumb{
 pre.highlighter-rouge{
     padding-top: 15px;
 }
+table{
+    margin: 20px 0;
+    border: 1px solid #ccc;
+}
+table tbody{
+    margin: 10px;
+    display: block;
+}
+table tr{
+    border-bottom: 1px solid #ccc;
+}
+table td{
+    padding: 5px; 
+}

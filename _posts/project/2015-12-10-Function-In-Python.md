@@ -967,6 +967,8 @@ for i in range(5):
 3
 >>> add(1)
 1
+>>> (lambda a,b=0 : a+b)(1,2)
+3
 ```
 
 #### apply filter map reduce
@@ -1485,8 +1487,15 @@ find . -name "*.txt" -ls | sort -n -k7 | tail -n 1
 ['I', 'w', 'a', 'n', 't', 'y', 'o', 'u']
 >>> "".join(b)
 'Iwantyou'
+>>> c = list(a)
+>>> c
+['I', 'w', 'a', 'n', 't', 'y', 'o', 'u']
 ```
 
 ## 对象内置函数
 
-包括`__name__` `__call__` `__init__` `__main__`
+包括`__name__` `__call__` `__init__` `__main__` `__file__` `__exit__` `__enter__` `__getattr__` `__setattr__`  `__str__` `__new__` `__del__`
+
+有时间的时候还是要看一下
+
+@classmethod @staticmethod @property __metaclass__
