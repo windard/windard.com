@@ -55,25 +55,30 @@ set editor="vim"
 例如`cat test.txt|mutt -s "Test" me@wenqiangyang.com`     
 
 还有一种发送邮件的方式`msmtp me@wenqiangyang.com`，然后就会进入编辑模式，按`Ctrl`+`D`退出编辑，然后邮件就会发送出去。    
->在编辑模式中使用`From:1106911190@qq.com`来表示发件人。
->使用`To:me@wenqiangyang.com`来表示收件人。
->使用`Subject:Test`来表示邮件主题
->再接下来的任意文本就是邮件内容了。
->如果你没有上面的那些的话，那么你的全部文本都会被当做邮件内容。
->![msmtp_demo.jpg](/images/msmtp_demo.jpg)
+
+>在编辑模式中使用`From:1106911190@qq.com`来表示发件人。 <br>
+>使用`To:me@wenqiangyang.com`来表示收件人。 <br>
+>使用`Subject:Test`来表示邮件主题 <br>
+>再接下来的任意文本就是邮件内容了。 <br>
+>如果你没有上面的那些的话，那么你的全部文本都会被当做邮件内容。 <br>
+>![msmtp_demo.jpg](/images/msmtp_demo.jpg) <br>
 
 ## 在centos和Ubuntu在安装msmtp和mutt   
-1. centos   
-- 使用yum安装   
+
+### centos   
+
+#### 使用yum安装   
+
 ```
 sudo yum install msmtp
 sudo yum install mutt
 ```
 
-- 使用源码编译
+#### 使用源码编译
 
 配置文件   
 在根目录下创建`.msmtprc`和`.muttrc`。   
+
 `.msmtprc`      
 
 ```
@@ -100,7 +105,7 @@ set editor=”vim”
 在都配置好了之后，就可以使用`echo "This is test" |mutt -c "Test" me@wenqiangyang.com`  
 即可发送邮件。    
 
-2. Ubuntu
+### Ubuntu
 使用apt-get安装
 
 ```
