@@ -43,7 +43,7 @@ sudo systemctl status firewalld
 sudo service firewalld status
 ```
 
-查看最后一行是否为 inactive ，如下即为已关闭。
+查看最后一行是否为 inactive ，如下即为仍未关闭。
 
 ```
 [root@VM_15_35_centos ~]# sudo service firewalld status
@@ -56,6 +56,15 @@ Redirecting to /bin/systemctl status  firewalld.service
            └─447 /usr/bin/python -Es /usr/sbin/firewalld --nofork --nopid
 ```
 
+这样即是已关闭 
+
+```
+[root@VM_1_214_centos nginx]# sudo service firewalld status
+Redirecting to /bin/systemctl status  firewalld.service
+* firewalld.service - firewalld - dynamic firewall daemon
+   Loaded: loaded (/usr/lib/systemd/system/firewalld.service; disabled; vendor preset: enabled)
+   Active: inactive (dead)
+```
 如果显示 active ，则需调整防火墙策略或者关闭防火墙。
 
 在 `/etc/firewalld/zones/public.xml` 中，在 `zone` 一节中加入

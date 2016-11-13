@@ -52,20 +52,20 @@ iptables  [-t 表名 ]  命令 链名 匹配  -j 操作
 
 - `-A` （append）追加一条规则
 - `-I` （insert）插入一条规则
-- `-D` （delete）删除一条规则，例如` iptables –D INPUT 3，删除第三条规
+- `-D` （delete）删除一条规则，例如 `iptables –D INPUT 3`，删除第三条规
 - `-F` （flush）清空规则
-- `-L` （list）列出规则，使用`-vnL来显示效果比较好，用 --line-number 显示规则序
+- `-L` （list）列出规则，使用`-vnL来显示效果比较好，用 `--line-number` 显示规则序
 - `-P` （policy）设置某链默认规则
 
 ##### 匹配条件
 
 - `-i` （input）进入接口 如 eth0,wlan0
 - `-o` （output）出去接口
-- `-s` （source）来源地址，例如 -s 192.168.1.0/24，可单IP
+- `-s` （source）来源地址，例如 `-s 192.168.1.0/24`，可单IP
 - `-d` （destination）目的地址
 - `-p` （protocol）协议类型（tcp、udp、icmp）
 - `-m` （match）完全匹配 
-- `--sport` 来源端口，例如 --sport 1000 ，匹配源端口1000，也可以1000:3000指定范围
+- `--sport` 来源端口，例如 `--sport 1000` ，匹配源端口1000，也可以1000:3000指定范围
 - `--dport` 目的端口
 - `--state` 状态 NEW（收到的第一个包），ESTABLISHED（开始连接的包），RELATED（连接稳定的包），INVALID（不正确的包），UNTRACKED（不被显示的包）
 - `--mac` 来源MAC地址匹配
@@ -112,7 +112,7 @@ iptables -Z                #所有计数器归0
 ```
 iptables -I INPUT -i lo -j ACCEPT
 iptables -I INPUT -p icmp -j ACCEPT
-iptables -I INPUT -m state --state RELATED啊,ESTABLISHED -j ACCEPT
+iptables -I INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
 ```
 
 允许 22 （ssh） 和 80 （http） 端口的访问
