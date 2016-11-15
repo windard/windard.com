@@ -195,6 +195,14 @@ iptables –t nat -A PREROUTING -d [对外IP] -p tcp --dport [对外端口] -j D
 
 这里不用再配 SNAT ，因为系统会根据数据包的来源再返还回去。
 
+还可以做流量劫持，比如你在路由器上，内网设备都通过 `br-lan`，把内网设备网站劫持到你的路由器配置页面。
+
+```
+iptables -t nat -A PREROUTING -i br-lan -p tcp --dport 80 -j DNAT --to 192.168.1.1:80
+``` 
+
+对 HTTPS 的站无效。
+
 #### 本地端口转发
 
 将本机的 8080 端口的服务转发到 80 端口上，只对外有效，在本机内并不做这个转换。
