@@ -117,7 +117,7 @@ sudo service nginx restart
 ```
 server {
     listen 80;
-    server_name ww.yousite.com;
+    server_name www.yousite.com;
     rewrite ^(.*) https://$server_name$1 permanent;
 }
 ```

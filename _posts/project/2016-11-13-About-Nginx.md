@@ -530,7 +530,7 @@ iptables -t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to-ports 8000
 ```
 server {
     listen 80;
-    server_name ww.yousite.com;
+    server_name www.yousite.com;
     rewrite ^(.*) https://$server_name$1 permanent;
 }
 ```
