@@ -81,6 +81,8 @@ iptables  [-t 表名 ]  命令 链名 匹配  -j 操作
 - `DNAT` 应用 nat 表的 PREROUTING 链，进行目的地址转换，可单个、一组IP
 - `MASQUERADE` 动态源地址转换，动态IP时使用
 
+默认 iptables 配置文件位置 `/etc/sysconfig/iptables`
+
 #### 简单使用
 
 关闭 iptables ，开启 iptables，查看 iptables 状态，重启 iptables
@@ -217,6 +219,22 @@ iptables -t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to-ports 8080
 
 ```
 iptables -t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to-ports 8001:8008
+```
+
+#### 默认 iptables 配置
+
+```
+iptables -nvL              
+iptables -F                
+iptables -X              
+iptables -Z       
+iptables -A INPUT -i lo -j ACCEPT
+iptables -A INPUT -p icmp -j ACCEPT
+iptables -A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT         
+iptables -A INPUT -p tcp -m tcp --dport 22 -j ACCEPT
+iptables -A INPUT -p tcp -m tcp --dport 80 -j ACCEPT
+iptables -A INPUT -j DROP
+iptables -A OUTPUT -j ACCEPT
 ```
 
 参考链接
