@@ -17,7 +17,7 @@ JavaScript 本身是有很多缺陷的，数字只有 int 类型，虽然说是 
 
 关于 SM4 算法流程，国家密码局是已经公开了的，可以找到一份 PDF 文档，写的清清楚楚，明明白白，比我想象的要简单一些，这里就展示一下我自己实现的 循环左移 之类的函数，为什么一直在提循环左移呢？肯定是因为算法里面会用到的吖。
 
-<object data="/software/sm4.pdf" height="525" type="application/pdf" width="729" internalinstanceid="7">
+<object data="/software/sm4.pdf" height="525" type="application/pdf" width="680" internalinstanceid="7">
 	<embed src="/software/sm4.pdf"><br>
 </object>
 

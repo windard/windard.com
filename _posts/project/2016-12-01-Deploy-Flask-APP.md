@@ -106,7 +106,7 @@ if __name__ == "__main__":
 
 ### Twisted
 
-也是一个有名的 python 网络库，不仅仅是 web 服务器，支持几乎所有的 reactor ，`--reactor=(options: "win32", "gi", "kqueue", "poll", "iocp", "select", "epoll", "gtk2", "gtk3", "wx", "default", "cf", "glib2")`
+也是一个有名的 python 基于事件驱动的网络框架，不仅仅是 web 服务器，支持几乎所有的 reactor ，`--reactor=(options: "win32", "gi", "kqueue", "poll", "iocp", "select", "epoll", "gtk2", "gtk3", "wx", "default", "cf", "glib2")`
 
 这样启动
 
@@ -147,7 +147,99 @@ server {
 
 ## uWSGI
 
-uWSGI 也是部署 web 服务的一种选择，其实也就是使用常见的 Nginx ， lighttpd 等 web 服务器来部署 Flask 项目。
+uWSGI 也是部署 web 服务的一种选择，它也是基于 WSGI 的，但是它将这些封装到了底层，提供更多的选择，常见的 web 服务器，如 Nginx，lighttpd 等都支持 uWSGI。
+
+uWSGI 本身就能够驱动 Flask 程序运行，同样是最上面的那个 Flask 文件，监听 127.0.0.1:3031 ，使用 4 个进程，2 个线程，监控端口在 127.0.0.1:9091.
+
+```
+uwsgi --http 127.0.0.1:3031 --wsgi-file hello.py --callable app --processes 4 --threads 2 --stats 127.0.0.1:9191
+```
+
+或者是写入一个 uWSGI 配置文件 `uwsgi.ini` 中。
+
+```
+[uwsgi]
+
+http = 127.0.0.1:3001
+
+chdir = /root/test
+
+wsgi-file = test.py
+
+callable = app
+
+processes = 4
+
+threads = 2
+
+stats = 127.0.0.1:9091
+
+``` 
+
+然后使用 `uwsgi uwsgi.ini` 来运行。
+
+虽然这样也是可以用的，但是直接用 uWSGI 来作为 web 服务器还是比较危险的，一般的作法是将 uWSGI 作为后端服务器，然后使用 Nginx 做反向代理，将前端请求转发到 uWSGI 服务器，这样就可以用 Nginx 做负载均衡，抗 DDOS 攻击等。
+
+将 uWSGI 作为后端服务器 和 将 uWSGI 直接作为服务器的最主要区别就是直接服务器的话服务器类型就是 http ，而作为后端服务器则是作为 一个 socket ，在 Nginx 里处理请求内容。所以作为直接服务器就可以使用浏览器访问，而作为一个 socket 组件则不能直接接受请求。
+
+使用 uWSGI 启动 Flask 作为后端服务器
+
+```
+uwsgi --socket 127.0.0.1:3031 --wsgi-file hello.py  --callable app --master --processes 4 --threads 2 --stats 127.0.0.1:9191
+```
+
+使用配置文件则是
+
+```
+[uwsgi]
+
+socket = 127.0.0.1:8001     //启动程序时所使用的地址和端口，通常在本地运行flask项目，
+                            //地址和端口是127.0.0.1:5000,
+                            //不过在服务器上是通过uwsgi设置端口，通过uwsgi来启动项目，
+                            //也就是说启动了uwsgi，也就启动了项目。
+chdir = /home/www/     //项目目录
+
+wsgi-file = manage.py      //flask程序的启动文件，通常在本地是通过运行  
+                           //      python manage.py runserver 来启动项目的
+
+callable = app      //程序内启用的application变量名
+
+processes = 4     //处理器个数
+
+threads = 2     //线程个数
+
+stats = 127.0.0.1:9191      //获取uwsgi统计信息的服务地址
+```
+
+然后在 Nginx 配置
+
+```
+location / {
+    include uwsgi_params;
+    uwsgi_pass 127.0.0.1:3031;
+}
+```
+
+除了配置本地端口通过 socket 之外，还能直接通过 sock 来传递请求。
+
+```
+uwsgi -s /tmp/uwsgi.sock --chmod-sock=666 -H /home/victor/demo --module helloworld -callable app
+```
+
+配置文件是
+
+```
+[uwsgi]
+socket = /run/uwsgi/flask/socket
+chdir = /root/test
+master = true
+file = test.py
+pidfile = /opt/flask/uwsgi.pid
+uid = www-data
+gid = www-data
+log-date = true
+logto = /var/log/uwsgi/uwsgi-emperor.log
+```
 
 ## fastCGI
 
