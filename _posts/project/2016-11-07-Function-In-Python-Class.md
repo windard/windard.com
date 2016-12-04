@@ -21,6 +21,8 @@ description: 完成上一篇 Python 的内置函数的关于 Python 的类未完
 - __file__ : 类所在的完整文件地址
 - __bases__ : 类的父类
 - __module__ : 类所在的模块
+- __str__ : 打印显示效果
+- __repr__ : 默认显示效果
 
 #### 实例的属性
 
@@ -78,3 +80,41 @@ def countsum(count):
 
 print countsum(100000)
 ```
+
+#### 优雅显示
+
+Python 的默认显示只能输出在内存中的位置，但是这对我们来说一般都没有什么用，可以让它更优雅的显示。
+
+```
+>>> class Foo(object):
+...     def __init__(self, id, name):
+...             self.id = id
+...             self.name = name
+...
+>>> bar = Foo(1,'bar')
+>>> bar
+<__main__.Foo object at 0x02ED09B0>
+>>> print bar
+<__main__.Foo object at 0x02ED09B0>
+```
+
+我们可以让其优雅的显示出来
+
+```
+>>> class Foo(object):
+...     def __init__(self, id, name):
+...             self.id = id
+...             self.name = name
+...     def __str__(self):
+...             return '({}, {})'.format(self.id, self.name)
+...     def __repr__(self):
+...             return '{}({}, {})'.format(self.__class__.__name__, self.id, self.name)
+...
+>>> bar = Foo(1,'bar')
+>>> bar
+Foo(1, bar)
+>>> print bar
+(1, bar)
+```
+
+这样显得优雅一些。
