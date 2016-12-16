@@ -9,59 +9,17 @@ description: ss是个好东西，VPN 是个好东西。
 
 为什么是 Cent OS 呢？因为一般服务器常用的都是 Cent OS，性能还是可以的，个人电脑上用 Ubuntu ，比如说我，那么 VPN 的客户端连接就是用的 Ubuntu。
 
-为什么是 Cent OS 7 呢？到目前 2016.10.14 为止最新的，虽然说新的容易出现新的问题,但是也意味着修复了很多旧的问题，所以用最新的，安全性有所保障。但是在 Cent OS 7 上有一个很坑的问题，Cent OS 7 的默认防火墙不是常用的 iptables ，而是 firewall ，我们需要先禁止 firewall ，然后安装使用 iptables。
+为什么是 Cent OS 7 呢？到目前 2016.10.14 为止最新的，虽然说新的容易出现新的问题,但是也意味着修复了很多旧的问题，所以用最新的，安全性有所保障。
+
+> 但是在 Cent OS 7 上有一个很坑的问题，Cent OS 7 的默认防火墙不是常用的 iptables ，而是 firewall ，本文尽量用给出两种防火的使用策略。
 
 为什么是 VPN？ss ( Shadowsocks ) 的安装教程在 Github 上的 Wiki 上写的清清楚楚明明白白，简单易懂一看就会，ss 在 Github 上 <del>被删除了</del>,相信你能找得到。
 
 ## 前言
 
-你可以使用 `cat /etc/redhat-release ` 查看你的 Cent OS 版本，使用 virt-what 查看你的 VPS 的虚拟化机制。
+你可以使用 `cat /etc/redhat-release ` 查看你的 Cent OS 版本，使用 `virt-what` 查看你的 VPS 的虚拟化机制 ，需要虚拟化机制为 Xen 或 KVM 的。
 
 VPN (Virtual Private Network) ，虚拟专用网络， 一般常见的有很多种不同的协议，分别有不同的软件来实现，比如说 PPTP，OpenVPN，L2TP/IPsec 等。
-
-禁用 firewall ，安装使用 iptables。
-
-> 在接下来的操作中都是默认使用 root 权限，如果不是，请加上 sudo
-
-```
-yum install iptables-services
-systemctl mask firewalld
-systemctl enable iptables
-systemctl enable ip6tables
-systemctl stop firewalld
-systemctl start iptables
-systemctl start ip6tables
-```
-
-iptables 常用命令
-
-```
-iptables -L -n                                    #查看iptables现有规则
-iptables --list                                   #查看 iptables 现有规则
-iptables -P INPUT ACCEPT            			  #先允许所有，不然有可能会杯具
-iptables -F                                       #清空所有默认规则
-iptables -X                                       #清空所有自定义规则
-iptables -Z                                       #所有计数器归0
-
-#允许来自于lo接口的数据包(本地访问)
-iptables -A INPUT -i lo -j ACCEPT
-iptables -A INPUT -p tcp --dport 22 -j ACCEPT        # 开放22端口
-iptables -A INPUT -p tcp --dport 21 -j ACCEPT        # 开放21端口(FTP)
-iptables -A INPUT -p tcp --dport 80 -j ACCEPT        # 开放80端口(HTTP)
-iptables -A INPUT -p tcp --dport 443 -j ACCEPT       # 开放443端口(HTTPS)
-iptables -A INPUT -p icmp --icmp-type 8 -j ACCEPT    # 允许ping
-#允许接受本机请求之后的返回数据 RELATED，是为FTP设置的
-iptables -A INPUT -m state --state  RELATED,ESTABLISHED -j ACCEPT
-
-iptables -P INPUT DROP            # 其他入站一律丢弃
-iptables -P OUTPUT ACCEPT         # 所有出站一律绿灯
-iptables -P FORWARD DROP          # 所有转发一律丢弃
-
-iptables -A INPUT -p tcp -s 45.96.174.68 -j ACCEPT    # 如果要添加内网ip信任（接受其所有TCP请求）
-iptables -P INPUT DROP                                # 过滤所有非以上规则的请求
-iptables -I INPUT -s ***.***.***.*** -j DROP        # 要封停一个IP，使用下面这条命令
-iptables -D INPUT -s ***.***.***.*** -j DROP        # 要解封一个IP，使用下面这条命令
-```
 
 ## PPTP
 
@@ -127,11 +85,46 @@ net.ipv4.ip_forward = 1
 sysctl -p
 ```
 
+### 配置防火墙
+
+#### iptables
+
 打开防火墙 1723 端口，设置 iptables 转发规则
 
 ```
 iptables -I INPUT -p tcp --dport 1723 -j ACCEPT
 iptables -t nat -A POSTROUTING -s 192.168.0.0/24 -o eth0 -j MASQUERADE
+iptables -I FORWARD -p tcp -m tcp --tcp-flags SYN,RST SYN -j TCPMSS --clamp-mss-to-pmtu
+```
+
+但是 iptables 的自带的配置在这里是有问题的，所以需要先清除之前的配置，提供一份完整版的 iptables 配置。
+
+```
+iptables -F
+iptables -X
+iptables -Z
+iptables -t nat -F
+iptables -t nat -X
+iptables -t nat -Z
+iptables -A INPUT -i lo -j ACCEPT
+iptables -A INPUT -p icmp -j ACCEPT
+iptables -A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
+iptables -A INPUT -p tcp --dport 22 -j ACCEPT
+iptables -A INPUT -p tcp --dport 80 -j ACCEPT
+iptables -A INPUT -p tcp --dport 1723 -j ACCEPT
+iptables -t nat -A POSTROUTING -s 192.168.0.0/24 -o eth0 -j MASQUERADE
+iptables -A FORWARD -p tcp -m tcp --tcp-flags SYN,RST SYN -j TCPMSS --clamp-mss-to-pmtu
+``` 
+
+#### firewalld 
+
+
+### 使用 PPTP
+
+开启 pptpd
+
+```
+service pptpd start
 ```
 
 重启 pptpd
@@ -140,11 +133,19 @@ iptables -t nat -A POSTROUTING -s 192.168.0.0/24 -o eth0 -j MASQUERADE
 service pptpd restart
 ```
 
-然后就可以通过 PPTP 连接 VPN 了。
+关闭 pptpd
+
+```
+service pptpd stop
+```
+
+查看状态 pptpd
+
+```
+service pptpd status
+```
 
 可以使用 `iptables-save > /etc/sysconfig/iptables` 保存转发规则，使用 `chkconfig pptpd on` 设置 VPN 开机启动。
-
-> 2016-11-13 最后防火墙规则不对，关闭防火墙可上，不关防火墙上不了。
 
 ## OpenVPN
 
@@ -219,7 +220,7 @@ export KEY_ORG="Windard"
 export KEY_EMAIL="windard@windard.com"
 export KEY_OU="Windard"
 
-export KEY_NAME="server"
+export KEY_NAME="openvpn"
 
 export KEY_CN="openvpn.windard.com"
 ```
@@ -349,3 +350,61 @@ sudo openvpn --config ~/path/to/client.ovpn
 ```
 
 就可以使用了。
+
+
+
+## L2TP
+
+这个是最安全的 VPN 解决方案，因为它是基于 IP 层的加密隧道，采用 IPsec 加密机制。
+
+同时它的限制也比较多，除了上面出现过的使用 openVZ 虚拟化的服务器必须支持 TUN 和 PPP 模块之外，还要求服务器必须有自己的固定公网 IP，而不能是弹性公网IP。
+
+### 前言
+
+1. 如何检测是否支持TUN模块？
+
+执行命令：
+
+```
+cat /dev/net/tun
+```
+如果返回信息为：`cat: /dev/net/tun: File descriptor in bad state` 说明正常
+
+2. 如何检测是否支持ppp模块？
+
+执行命令：
+```
+cat /dev/ppp
+```
+
+如果返回信息为：`cat: /dev/ppp: No such device or address` 说明正常
+
+3. 如何检查是否为固定公网 IP？
+
+执行命令
+
+```
+ifconfig
+```
+
+如果返回网卡信息中有 公网 IP，而说明正常，非常不幸，腾讯云使用的是弹性公网 IP，所以不能搭建 L2TP VPN 服务器。
+
+### 安装 openswan
+
+### 安装 ppp
+
+### 安装 xl2tpd
+
+### 配置 sysctl
+
+### 配置防火墙
+
+### 使用一键脚本
+
+需 root 权限
+
+```
+wget --no-check-certificate https://raw.githubusercontent.com/teddysun/across/master/l2tp.sh
+chmod +x l2tp.sh
+./l2tp.sh
+```

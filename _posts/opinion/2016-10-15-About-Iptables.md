@@ -9,6 +9,8 @@ category: opinion
 
 iptables 意味 ip 表，看起来和 路由表，ARP 表挺像的，都是在网络传输过程中做一些查找和转换。在 Linux 上一般默认的防火墙就是 iptables ，但是在 Cent OS 7 中，防火墙变为了 firewall ，还是比较习惯用 iptables，所以把 firewall 换回了 iptables。
 
+禁用 firewall ，安装使用 iptables。
+
 > 在接下来的操作中都是默认使用 root 权限，如果不是，请加上 sudo
 
 ```
@@ -19,6 +21,36 @@ systemctl enable ip6tables
 systemctl stop firewalld
 systemctl start iptables
 systemctl start ip6tables
+```
+
+iptables 常用命令
+
+```
+iptables -L -n                                    #查看iptables现有规则
+iptables --list                                   #查看 iptables 现有规则
+iptables -P INPUT ACCEPT            			  #先允许所有，不然有可能会杯具
+iptables -F                                       #清空所有默认规则
+iptables -X                                       #清空所有自定义规则
+iptables -Z                                       #所有计数器归0
+
+#允许来自于lo接口的数据包(本地访问)
+iptables -A INPUT -i lo -j ACCEPT
+iptables -A INPUT -p tcp --dport 22 -j ACCEPT        # 开放22端口
+iptables -A INPUT -p tcp --dport 21 -j ACCEPT        # 开放21端口(FTP)
+iptables -A INPUT -p tcp --dport 80 -j ACCEPT        # 开放80端口(HTTP)
+iptables -A INPUT -p tcp --dport 443 -j ACCEPT       # 开放443端口(HTTPS)
+iptables -A INPUT -p icmp --icmp-type 8 -j ACCEPT    # 允许ping
+#允许接受本机请求之后的返回数据 RELATED，是为FTP设置的
+iptables -A INPUT -m state --state  RELATED,ESTABLISHED -j ACCEPT
+
+iptables -P INPUT DROP            # 其他入站一律丢弃
+iptables -P OUTPUT ACCEPT         # 所有出站一律绿灯
+iptables -P FORWARD DROP          # 所有转发一律丢弃
+
+iptables -A INPUT -p tcp -s 45.96.174.68 -j ACCEPT    # 如果要添加内网ip信任（接受其所有TCP请求）
+iptables -P INPUT DROP                                # 过滤所有非以上规则的请求
+iptables -I INPUT -s ***.***.***.*** -j DROP        # 要封停一个IP，使用下面这条命令
+iptables -D INPUT -s ***.***.***.*** -j DROP        # 要解封一个IP，使用下面这条命令
 ```
 
 #### iptables 组成
@@ -51,7 +83,7 @@ iptables  [-t 表名 ]  命令 链名 匹配  -j 操作
 ##### 命令
 
 - `-A` （append）追加一条规则
-- `-I` （insert）插入一条规则
+- `-I` （insert）插入一条规则，因为 iptables 的规则是从前往后匹配，找到匹配即停止，所以 `drop` 或 `reject`操作一般是放在最后，那么如果在这里操作之后再用 `-A` 就不起作用，此时即使用 `-I`。
 - `-D` （delete）删除一条规则，例如 `iptables –D INPUT 3`，删除第三条规
 - `-F` （flush）清空规则
 - `-L` （list）列出规则，使用`-vnL来显示效果比较好，用 `--line-number` 显示规则序
@@ -235,6 +267,17 @@ iptables -A INPUT -p tcp -m tcp --dport 22 -j ACCEPT
 iptables -A INPUT -p tcp -m tcp --dport 80 -j ACCEPT
 iptables -A INPUT -j DROP
 iptables -A OUTPUT -j ACCEPT
+```
+
+cent OS 上 iptables 的默认配置
+
+```
+-A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
+-A INPUT -p icmp -j ACCEPT
+-A INPUT -i lo -j ACCEPT
+-A INPUT -p tcp -m state --state NEW -m tcp --dport 22 -j ACCEPT
+-A INPUT -j REJECT --reject-with icmp-host-prohibited
+-A FORWARD -j REJECT --reject-with icmp-host-prohibited
 ```
 
 参考链接
