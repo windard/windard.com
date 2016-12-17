@@ -2,10 +2,10 @@
 layout: post
 title: Flask 的部署
 category: project
-description: 主要是在腾讯云上部署 Flask 应用
+description: 主要是用各种方式在服务器上部署 Flask 应用
 ---
 
-## flask 自行运行
+## flask 自己运行
 
 让 Flask 程序运行起来的方法有很多，Flask 程序自己就能够运行。
 
@@ -58,7 +58,7 @@ C:\Users\dell\.ssh\Flasky\test (master)
  * Running on http://0.0.0.0:8090/ (Press CTRL+C to quit)
 ```
 
-flask 自己运行的时候，是单线程的，所以效率不是太高，不过可以通过添加一个 `threaded=True` 或 `--threaded` 的参数来实现多线程的 web 服务器。
+flask 自己运行的时候，是单线程的，所以效率不是太高，不过可以通过添加一个 `threaded=True` 或 `--threaded` 的参数来实现多线程的 web 服务器，用 `processes=True` 或 `--processes` 的参数来实现多进程的 web 服务器。
 
 ## WSGI
 
@@ -106,7 +106,7 @@ if __name__ == "__main__":
 
 ### Twisted
 
-也是一个有名的 python 基于事件驱动的网络框架，不仅仅是 web 服务器，支持几乎所有的 reactor ，`--reactor=(options: "win32", "gi", "kqueue", "poll", "iocp", "select", "epoll", "gtk2", "gtk3", "wx", "default", "cf", "glib2")`
+也是一个有名的 python 基于事件驱动的网络框架，不仅仅是 web 服务器。
 
 这样启动
 
@@ -120,7 +120,9 @@ twistd web --wsgi myproject.app
 twistd -n web --port 8080 --wsgi myproject.app
 ```
 
-虽然上面的这些使用 WSGI 程序一般也能监听外网，但是为了防止 DDOS 攻击或其他危害，都是监听内网，所以我们还需要一个反向代理来监听对外端口，一般采用 Nginx 或者 Apache。
+> 关于 Twist ，这是 Flask 官方提供的运行方式，然而我并没有将其运行起来。。。
+
+虽然上面的这些使用 WSGI 程序能监听外网，但是为了防止 DDOS 攻击或其他危害，一般都是监听内网，然后使用一个反向代理来监听对外端口，一般采用 Nginx 或者 Apache。
 
 Nginx 配置文件
 
@@ -193,22 +195,22 @@ uwsgi --socket 127.0.0.1:3031 --wsgi-file hello.py  --callable app --master --pr
 ```
 [uwsgi]
 
-socket = 127.0.0.1:8001     //启动程序时所使用的地址和端口，通常在本地运行flask项目，
-                            //地址和端口是127.0.0.1:5000,
-                            //不过在服务器上是通过uwsgi设置端口，通过uwsgi来启动项目，
-                            //也就是说启动了uwsgi，也就启动了项目。
-chdir = /home/www/     //项目目录
+socket = 127.0.0.1:3031     // 启动程序时所使用的地址和端口，通常在本地运行flask项目，
+                            // 地址和端口是127.0.0.1:5000,
+                            // 不过在服务器上是通过uwsgi设置端口，通过uwsgi来启动项目，
+                            // 也就是说启动了uwsgi，也就启动了项目。
+chdir = /home/www/          // 项目目录
 
-wsgi-file = manage.py      //flask程序的启动文件，通常在本地是通过运行  
-                           //      python manage.py runserver 来启动项目的
+wsgi-file = manage.py       // flask程序的启动文件，通常在本地是通过运行  
+                            // python manage.py runserver 来启动项目的
 
-callable = app      //程序内启用的application变量名
+callable = app              // 程序内启用的application变量名
 
-processes = 4     //处理器个数
+processes = 4               // 处理器个数
 
-threads = 2     //线程个数
+threads = 2                 // 线程个数
 
-stats = 127.0.0.1:9191      //获取uwsgi统计信息的服务地址
+stats = 127.0.0.1:9191      // 获取uwsgi统计信息的服务地址
 ```
 
 然后在 Nginx 配置
@@ -223,27 +225,219 @@ location / {
 除了配置本地端口通过 socket 之外，还能直接通过 sock 来传递请求。
 
 ```
-uwsgi -s /tmp/uwsgi.sock --chmod-sock=666 -H /home/victor/demo --module helloworld -callable app
+uwsgi -s /var/www/uwsgi.sock --chmod-sock=666 --wsgi-file hello.py --callable app
 ```
 
-配置文件是
+或者使用配置文件
 
 ```
 [uwsgi]
-socket = /run/uwsgi/flask/socket
-chdir = /root/test
+socket = /var/www/uwsgi.sock
+
+chmod-socket = 666
+
+chdir = /root/python
+
+wsgi-file = hello.py
+
 master = true
-file = test.py
-pidfile = /opt/flask/uwsgi.pid
-uid = www-data
-gid = www-data
+
+callable = app
+
+processes = 4
+
+threads = 2
+
 log-date = true
-logto = /var/log/uwsgi/uwsgi-emperor.log
+
+logto = /var/log/uwsgi.log
+
+stats = 127.0.0.1:9091
 ```
 
-## fastCGI
+Nginx 的配置文件也是一样的
 
-## CGI
+```
+location / {
+    include uwsgi_params;
+    uwsgi_pass unix:/var/www/uwsgi.sock;
 
-不过这些方法用的都不多，最常见的还是用 web 服务器装载 Flask 应用，如 Apache，Nginx 等。
+    proxy_set_header   Host                 $host;
+    proxy_set_header   X-Real-IP            $remote_addr;
+    proxy_set_header   X-Forwarded-For      $proxy_add_x_forwarded_for;
+    proxy_set_header   X-Forwarded-Proto    $scheme;
+}
+```
 
+## 其他
+
+`fastCGI`,`CGI` 不过这些方法用的都不多，最常见的还是上面写到的那些。
+
+那么接下来我们就来试一下上面的那些的性能吧。
+
+测试命令 `siege -c 1000 -r 100 -b http://127.0.0.1:8090` 
+
+### 纯原生
+
+```
+Transactions:                  25416 hits
+Availability:                  99.67 %
+Elapsed time:                  42.07 secs
+Data transferred:               0.29 MB
+Response time:                  0.29 secs
+Transaction rate:             604.14 trans/sec
+Throughput:                     0.01 MB/sec
+Concurrency:                  177.53
+Successful transactions:       25416
+Failed transactions:              84
+Longest transaction:           31.62
+Shortest transaction:           0.00
+```
+
+### 纯原生 + 多线程
+
+```
+Transactions:                  25428 hits
+Availability:                  99.72 %
+Elapsed time:                  38.42 secs
+Data transferred:               0.29 MB
+Response time:                  0.25 secs
+Transaction rate:             661.84 trans/sec
+Throughput:                     0.01 MB/sec
+Concurrency:                  162.77
+Successful transactions:       25428
+Failed transactions:              72
+Longest transaction:           31.14
+Shortest transaction:           0.03
+```
+
+### 纯原生 + 多进程
+
+```
+Transactions:                  25394 hits
+Availability:                  99.58 %
+Elapsed time:                  39.28 secs
+Data transferred:               0.29 MB
+Response time:                  0.25 secs
+Transaction rate:             646.49 trans/sec
+Throughput:                     0.01 MB/sec
+Concurrency:                  163.27
+Successful transactions:       25394
+Failed transactions:             106
+Longest transaction:           31.21
+Shortest transaction:           0.00
+```
+
+### gunicorn
+
+```
+Transactions:                  25500 hits
+Availability:                 100.00 %
+Elapsed time:                  38.94 secs
+Data transferred:               0.29 MB
+Response time:                  0.38 secs
+Transaction rate:             654.85 trans/sec
+Throughput:                     0.01 MB/sec
+Concurrency:                  249.79
+Successful transactions:       25500
+Failed transactions:               0
+Longest transaction:            1.61
+Shortest transaction:           0.01
+```
+
+### Gevent
+
+```
+Transactions:                  25500 hits
+Availability:                 100.00 %
+Elapsed time:                  25.33 secs
+Data transferred:               0.29 MB
+Response time:                  0.22 secs
+Transaction rate:            1006.71 trans/sec
+Throughput:                     0.01 MB/sec
+Concurrency:                  221.98
+Successful transactions:       25500
+Failed transactions:               0
+Longest transaction:           15.15
+Shortest transaction:           0.00
+```
+
+### uwsgi
+
+```
+Transactions:                  25500 hits
+Availability:                 100.00 %
+Elapsed time:                  49.84 secs
+Data transferred:               0.29 MB
+Response time:                  0.30 secs
+Transaction rate:             511.64 trans/sec
+Throughput:                     0.01 MB/sec
+Concurrency:                  154.09
+Successful transactions:       25500
+Failed transactions:               0
+Longest transaction:           46.09
+Shortest transaction:           0.00
+```
+
+### uwsgi + Nginx
+
+```
+Transactions:                  25475 hits
+Availability:                  99.90 %
+Elapsed time:                  19.71 secs
+Data transferred:               0.29 MB
+Response time:                  0.14 secs
+Transaction rate:            1292.49 trans/sec
+Throughput:                     0.01 MB/sec
+Concurrency:                  175.43
+Successful transactions:       25475
+Failed transactions:              25
+Longest transaction:           15.11
+Shortest transaction:           0.00
+```
+
+### Tornado
+
+类似的代码
+
+```
+# coding=utf-8
+
+import tornado.ioloop
+import tornado.web
+
+class MainHandler(tornado.web.RequestHandler):
+    def get(self):
+        self.write("Hello World!")
+
+def make_app():
+    return tornado.web.Application([
+        (r"/", MainHandler),
+    ])
+
+if __name__ == "__main__":
+    app = make_app()
+    app.listen(8090)
+    tornado.ioloop.IOLoop.current().start()
+```
+
+```
+Transactions:                  25429 hits
+Availability:                  99.72 %
+Elapsed time:                  35.99 secs
+Data transferred:               0.29 MB
+Response time:                  0.21 secs
+Transaction rate:             706.56 trans/sec
+Throughput:                     0.01 MB/sec
+Concurrency:                  151.04
+Successful transactions:       25429
+Failed transactions:              71
+Longest transaction:           31.05
+Shortest transaction:           0.00
+```
+
+虽然设定的是每次 1000 个，但是好像是限制并发数255。
+
+感觉是不是页面太简单了，好像并没有多大的差距。。。
+
+不过还是可以看到 uwsgi + Nginx 是最强组合。

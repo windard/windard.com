@@ -118,6 +118,7 @@ iptables -A FORWARD -p tcp -m tcp --tcp-flags SYN,RST SYN -j TCPMSS --clamp-mss-
 
 #### firewalld 
 
+暂无
 
 ### 使用 PPTP
 
@@ -323,7 +324,7 @@ systemctl status openvpn@server.service
 client
 dev tun
 proto udp
-remote 182.254.139.224 1194
+remote XXX.XXX.XXX.XXX 1194
 resolv-retry infinite
 nobind
 persist-key
@@ -350,7 +351,6 @@ sudo openvpn --config ~/path/to/client.ovpn
 ```
 
 就可以使用了。
-
 
 
 ## L2TP
@@ -387,17 +387,200 @@ cat /dev/ppp
 ifconfig
 ```
 
-如果返回网卡信息中有 公网 IP，而说明正常，非常不幸，腾讯云使用的是弹性公网 IP，所以不能搭建 L2TP VPN 服务器。
+如果返回网卡信息中有 公网 IP，而说明正常，非常不幸，腾讯云使用的是弹性公网 IP，所以不能搭建 L2TP VPN 服务器，阿里云学生服务器也不能。
 
-### 安装 openswan
+### 安装配置 openswan
 
-### 安装 ppp
+```
+yum install openswan
+```
 
-### 安装 xl2tpd
+然后配置 `/etc/ipsec.conf`
+
+```
+config setup
+    nat_traversal=yes
+    protostack=netkey
+    oe=off
+    interfaces="%defaultroute"
+    dumpdir=/var/run/pluto/
+virtual_private=%v4:10.0.0.0/8,%v4:192.168.0.0/16,%v4:172.16.0.0/12,%v4:25.0.0.0/8,%v4:100.64.0.0/10,%v6:fd00::/8,%v6:fe80::/10
+conn L2TP-PSK-NAT
+    rightsubnet=vhost:%priv
+    also=L2TP-PSK-noNAT
+conn L2TP-PSK-noNAT
+    authby=secret
+    pfs=no
+    auto=add
+    keyingtries=3
+    rekey=no
+    ikelifetime=8h
+    keylife=1h
+    type=transport
+    left=XXX.XXX.XXX.XXX
+    leftid=XXX.XXX.XXX.XXX
+    leftprotoport=17/1701
+    right=%any
+    rightprotoport=17/%any
+    dpddelay=40
+    dpdtimeout=130
+    dpdaction=clear
+```
+
+在上面的 `left` 和 `leftid` 两项填入你自己的 IP 地址
+
+配置 L2TP 的 PSK password, 编辑文件 `/etc/ipsec.secrets`
+
+```
+XXX.XXX.XXX.XXX %any: PSK "YourPsk"
+```
+
+### 安装配置 ppp
+
+```
+yum install ppp
+```
+
+编辑 PPP 的密码文件 `/etc/ppp/chap-secrets`
+
+```
+# client       server  	 	 secret                  IP addresses
+username 	   l2tpd		 password 					*
+```
+
+### 安装配置 xl2tpd
+
+```
+yum install xl2tpd
+```
+
+编辑配置文件 `/etc/xl2tpd/xl2tpd.conf`
+
+```
+[global]
+listen-addr = XXX.XXX.XXX.XXX
+[lns default]
+ip range = 192.168.18.2-192.168.18.254
+local ip = 192.168.18.1
+require chap = yes
+refuse pap = yes
+require authentication = yes
+name = LinuxVPNserver
+ppp debug = yes
+pppoptfile = /etc/ppp/options.xl2tpd
+length bit = yes
+```
+
+同样的，在 `listen-addr` 中填入你的 IP 地址
+
+编辑配置文件 `/etc/ppp/options.xl2tpd`
+
+```
+ipcp-accept-local
+ipcp-accept-remote
+require-mschap-v2
+ms-dns  8.8.8.8
+ms-dns  8.8.4.4
+noccp
+auth
+crtscts
+idle 1800
+mtu 1410
+mru 1410
+nodefaultroute
+name l2tpd
+debug
+lock
+proxyarp
+connect-delay 5000
+```
 
 ### 配置 sysctl
 
+```
+echo "# Added by L2TP VPN" >> /etc/sysctl.conf
+echo "net.ipv4.ip_forward=1" >> /etc/sysctl.conf
+echo "net.ipv4.tcp_syncookies=1" >> /etc/sysctl.conf
+echo "net.ipv4.icmp_echo_ignore_broadcasts=1" >> /etc/sysctl.conf
+echo "net.ipv4.icmp_ignore_bogus_error_responses=1" >> /etc/sysctl.conf
+
+for each in `ls /proc/sys/net/ipv4/conf/`
+do
+    echo "net.ipv4.conf.${each}.accept_source_route=0" >> /etc/sysctl.conf
+    echo "net.ipv4.conf.${each}.accept_redirects=0" >> /etc/sysctl.conf
+    echo "net.ipv4.conf.${each}.send_redirects=0" >> /etc/sysctl.conf
+    echo "net.ipv4.conf.${each}.rp_filter=0" >> /etc/sysctl.conf
+done
+sysctl -p
+```
 ### 配置防火墙
+
+#### iptables
+
+```
+iptables -A INPUT -p udp --dport 4500 -j ACCEPT
+iptables -A INPUT -p udp --dport 1701 -j ACCEPT
+iptables -A INPUT -p udp --dport 500 -j ACCEPT
+iptables -t nat -A POSTROUTING -s 192.168.18.0/24 -o eth0 -j MASQUERADE
+iptables -A FORWARD -m state --state RELATED,ESTABLISHED -j ACCEPT
+```
+
+#### firewalld
+
+```
+firewall-cmd --permanent --add-port=4500/udp
+firewall-cmd --permanent --add-port=1701/udp
+firewall-cmd --permanent --add-service=ipsec
+firewall-cmd --permanent --add-service=xl2tpd
+firewall-cmd --permanent --add-masquerade
+```
+
+### 测试使用
+
+开启
+
+```
+ipsec start
+```
+
+重启
+
+```
+service xl2tpd restart
+ipsec restart
+```
+
+测试
+
+```
+ipsec verify
+```
+
+测试结果如下即可用使用
+
+```
+Verifying installed system and configuration files
+
+Version check and ipsec on-path                       	 	   [OK]
+Libreswan 3.15 (netkey) on 3.10.0-327.36.2.el7.x86_64
+Checking for IPsec support in kernel               		       [OK]
+ NETKEY: Testing XFRM related proc values
+         ICMP default/send_redirects                      	   [OK]
+         ICMP default/accept_redirects                         [OK]
+         XFRM larval drop                                      [OK]
+Pluto ipsec.conf syntax                                        [OK]
+Hardware random device                                         [N/A]
+Two or more interfaces found, checking IP forwarding           [OK]
+Checking rp_filter                                             [OK]
+Checking that pluto is running                                 [OK]
+ Pluto listening for IKE on udp 500                		       [OK]
+ Pluto listening for IKE/NAT-T on udp 4500             	       [OK]
+ Pluto ipsec.secret syntax                         	           [OK]
+Checking 'ip' command                                   	   [OK]
+Checking 'iptables' command                             	   [OK]
+Checking 'prelink' command does not interfere with FIPSChecking for obsolete ipsec.conf options                 [OK]
+Opportunistic Encryption                                       [DISABLED]
+```
 
 ### 使用一键脚本
 
