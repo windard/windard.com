@@ -27,6 +27,22 @@ python -m pyftpdlib
 
 允许 anonymous 匿名登录，密码随意。
 
+#### 查看 Python 在线文档
+
+Windows
+
+```
+python -m pydoc -p 8000
+```
+
+在本机 8000 端口建立一个 HTTP 服务器，可以查看本机的 Python 文档
+
+Linux
+
+```
+pydoc -p 8000
+```
+
 #### 画一个心形
 
 ```

@@ -51,38 +51,22 @@ C:\Users\dell\Desktop\theme>
 方可显示utf-8格式编码中文,输入`chcp 936`,仍然显示GBK的中文
 >如果cmd中仍然无法显示utf-8的中文，选择属性，改变字体为`Lucida Console`点阵字体。
 
-6. 有时候不得不需要下载一些百度文库里的东西，一般我是拒绝这样做的。因为我有大量的百度云搜索。
-
-    > [http://www.kanbuchuan.com/so/](http://www.kanbuchuan.com/so/)        
-
-    > [http://kaopu.so/](http://kaopu.so/)              
-    
-    > [http://www.iwapan.com/](http://www.iwapan.com/)                  
-    
-    > [http://www.panzz.com/](http://www.panzz.com/)              
-    
-    > [http://www.bdyunso.com/](http://www.bdyunso.com/)              
-    
-    > [http://www.pansou.com/](http://www.pansou.com/)             
-    
-    > [http://www.wangpansou.cn/](http://www.wangpansou.cn/)              
-    
-    > [http://pan.java1234.com/](http://pan.java1234.com/)              
-    
-    > [http://www.kanbuchuan.com/so/](http://www.kanbuchuan.com/so/)              
-    
-    > [http://www.daysou.com/](http://www.daysou.com/)               
-    
-    > [http://www.panc.cc/](http://www.panc.cc/)                
-    
-    > [http://www.baidu10.net/](http://www.baidu10.net/)               
-    
-    > [http://www.yiso.me/](http://www.yiso.me/)           
-    
-    > [http://so.xpan.me/index.html](http://so.xpan.me/index.html)               
-    
-    > [http://www.soupan.info/](http://www.soupan.info/)                   
-    
+6. 有时候不得不需要下载一些百度文库里的东西，一般我是拒绝这样做的。因为我有大量的百度云搜索<br>
+    > [http://www.kanbuchuan.com/so/](http://www.kanbuchuan.com/so/)       <br>
+    > [http://kaopu.so/](http://kaopu.so/)              <br>
+    > [http://www.iwapan.com/](http://www.iwapan.com/)                  <br>
+    > [http://www.panzz.com/](http://www.panzz.com/)              <br>
+    > [http://www.bdyunso.com/](http://www.bdyunso.com/)              <br>
+    > [http://www.pansou.com/](http://www.pansou.com/)             <br>
+    > [http://www.wangpansou.cn/](http://www.wangpansou.cn/)              <br>
+    > [http://pan.java1234.com/](http://pan.java1234.com/)              <br>
+    > [http://www.kanbuchuan.com/so/](http://www.kanbuchuan.com/so/)              <br>
+    > [http://www.daysou.com/](http://www.daysou.com/)               <br>
+    > [http://www.panc.cc/](http://www.panc.cc/)                <br>
+    > [http://www.baidu10.net/](http://www.baidu10.net/)               <br>
+    > [http://www.yiso.me/](http://www.yiso.me/)           <br>
+    > [http://so.xpan.me/index.html](http://so.xpan.me/index.html)               <br>
+    > [http://www.soupan.info/](http://www.soupan.info/)                   <br>
     > 好吧，就这些，一般都能够找到想要的资料，但是如果实在是没有找到而且在百度文库里发现了想要下载的却提示需要积分的时候，内心是崩溃的。这个时候，我们就需要这个了，[冰点文库](/software/iDocDown.rar)，输入百度文库的网址即可下载，自动下载转化为TXT和PDF格式，还是非常好用的。我的这个是免安装无广告版，之前我也在网上找到一个，又有广告又需要安装。。。。
 
 7. 在Windows命令行上执行Linux命令，或许你需要--GetGnuWin32。
@@ -166,9 +150,9 @@ C:\Users\dell\Desktop\theme>
     3. netsh wlan set hostednetwork ssid=wifiname key=wifipassword
     4. netsh wlan start hostednetwork
     5. 进入[网络连接]->[更改适配器设置] 选择一个网络将其共享到Microsoft Virtual wlan Miniport Adapter
-    7. 可以用WiFi了。
-    >查看WiFi连接状况：netsh wlan show hostednetwork
-    >停止使用WiFi : netsh wlan stop hostednetwork
+    7. 可以用WiFi了。<br>
+    > 查看WiFi连接状况：netsh wlan show hostednetwork <br> 
+    > 停止使用WiFi : netsh wlan stop hostednetwork <br>
 
 
 38. 最简单的 翻墙 方式，更改 DNS

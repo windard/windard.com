@@ -27,7 +27,7 @@ layout: home
         <div class="head" style="margin-top:15%">
         <img src="/images/headlogo.jpg" alt="headlogo" style="width:50%;margin-top:15%;margin-bottom:10%">
         <p>但行好事，莫问前程</p>
-        <p>愿你我安好，一世太平</p>
+        <p>愿你我安好，世界和平</p>
         </div>
     <div class="contact" style="margin-top:35%">
         <p>You can find me on <a href="http://www.github.com/windard">Github</a></p>

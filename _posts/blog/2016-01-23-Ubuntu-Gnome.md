@@ -436,6 +436,24 @@ ss-server -c config.json -f /var/run/shadowsocks.pid
 }
 ```
 
+
+## 使用 锐速加速 ss
+
+```
+wget -N --no-check-certificate https://raw.githubusercontent.com/91yun/serverspeeder/master/serverspeeder-all.sh && bash serverspeeder-all.sh
+vi /serverspeeder/etc/config
+service serverSpeeder restart
+```
+
+将配置文件部分修改一下
+
+```
+rsc="1"
+gso="1"
+maxmode="1"
+advinacc="1"
+```
+
 ## 安装问题
 安装ubuntu的时候有时候会卡在 `正在完成文件复制` 的地方，一般是因为电脑已经联网，在网上下载安装文件，建议断开网络安装会比较快一点，安装好了之后再进入系统更新。
 
