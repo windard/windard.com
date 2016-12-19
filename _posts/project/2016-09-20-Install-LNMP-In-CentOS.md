@@ -210,13 +210,6 @@ sudo systemctl start php-fpm
 sudo systemctl enable php-fpm
 ```
 
-PHP 安装完成后，需要设置一下 PHP Session 的目录
-
-```
-sudo mkdir /var/lib/php/session/
-sudo chown -R apache:apache /var/lib/php/session/
-```
-
 现在 PHP 已经安装好了，然后再配置一下 Nginx,在 `/etc/nginx` 中，将 `nginx.conf` 重名为为 `nginx.conf.bak` ，并把 `nginx.conf.default` 重命名为 `nginx.conf`，然后打开 `nginx.conf`
 
 ```
@@ -248,7 +241,6 @@ server {
         root           /usr/share/nginx/html;
         fastcgi_pass   127.0.0.1:9000;
         fastcgi_index  index.php;
-        #fastcgi_param  SCRIPT_FILENAME  /scripts$fastcgi_script_name;
         fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name;
         include        fastcgi_params;
     }
@@ -256,13 +248,13 @@ server {
 }
 ```
 
+可以使用 `nginx -t` 检查配置文件是否书写正确。
+
 然后重启 Nginx 服务
 
 ```
 service nginx restart
 ```
-
-或者是可以使用 `nginx -t` 检查配置文件是否书写正确。
 
 此时如果在根目录 `/usr/share/nginx/html` 下创建一个名为 `info.php` 的文件，写入
 
@@ -274,6 +266,42 @@ service nginx restart
 
 即可在网站看到站点的基本配置信息。
 
+这样的话 PHP 是通过 127.0.0.1:9000 端口进行传递的，显得不太好，一般通用的办法是用 Unix 的管道 sock。
+
+安装 PHP
+
+```
+yum instaall php
+```
+
+配置 `/etc/php.ini`
+
+```
+cgi.fix_pathinfo=0
+```
+
+配置 `/etc/php-fpm.d/www.conf`
+
+```
+user = nginx
+group = nginx
+listen = /var/run/php-fpm/php-fpm.sock
+```
+
+配置 `/etc/nginx/nginx.conf`
+
+```
+    location ~ \.php$ {
+        root           /usr/share/nginx/html;
+        fastcgi_pass   unix:/var/run/php-fpm/php-fpm.sock;
+        fastcgi_index  index.php;
+        fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name;
+        include        fastcgi_params;
+    }
+```
+
 参考链接
 
 [在CentOS 7上搭建LNMP环境](https://mos.meituan.com/library/18/how-to-install-lnmp-on-centos7/)
+
+[How To Install Linux, Nginx, MySQL, PHP (LEMP) stack On CentOS 7](https://www.digitalocean.com/community/tutorials/how-to-install-linux-nginx-mysql-php-lemp-stack-on-centos-7)

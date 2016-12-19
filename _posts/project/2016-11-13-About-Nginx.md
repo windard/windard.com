@@ -535,6 +535,123 @@ server {
 }
 ```
 
+## HTTP Basic Auth
+
+HTTP Basic Auth 常见于网络认证，不像一般的登陆框在页面中，登陆选项也是在页面里的，HTTP Basic Auth 是 在 HTTP 层的认证协议，这种认证方式也用于 FTP 服务，效果类似于这样。
+
+![http_basic_auth](/images/http_basic_auth.png)
+
+```
+        location / {
+                auth_basic "Nginx auth";
+                auth_basic_user_file /etc/nginx/httpass;
+                autoindex on;
+        }
+```
+
+密码文件 `/etc/nginx/httpass` 可以使用 OpenSSL 生成，也可以由 htpasswd 生成，且支持不同的密码加密方式。
+
+```
+[root@iZ2ze83hhomw2zcf15c3qcZ nginx]# htpasswd -c /etc/nginx/httpass admin
+New password:
+Re-type new password:
+Adding password for user admin
+[root@iZ2ze83hhomw2zcf15c3qcZ nginx]# printf "windard:$(openssl passwd -crypt 123456)\n">>/etc/nginx/httpass
+[root@iZ2ze83hhomw2zcf15c3qcZ nginx]# cat httpass
+admin:$apr1$Aik16iPT$TnwHj6RqjICV9QRi0FO9S1
+windard:CT9Et3q0m2L/Q
+```
+
+除了可以在 Nginx 等 web 服务器上配置 HTTP Basic Auth 服务之外，还能够直接利用服务器端代码实现，如 Python flask。
+
+```
+from functools import wraps
+from flask import request, Response
+
+def check_auth(username, password):
+    """This function is called to check if a username /
+    password combination is valid.
+    """
+    return username == 'admin' and password == 'secret'
+
+def authenticate():
+    """Sends a 401 response that enables basic auth"""
+    return Response(
+    'Could not verify your access level for that URL.\n'
+    'You have to login with proper credentials', 401,
+    {'WWW-Authenticate': 'Basic realm="Python Auth"'})   
+
+def requires_auth(f):
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        auth = request.authorization
+        if not auth or not check_auth(auth.username, auth.password):
+            return authenticate()
+        return f(*args, **kwargs)
+    return decorated
+
+from flask import Flask
+app = Flask(__name__)
+
+@app.route('/')
+def hello_world():
+    return 'Hello World!'
+
+@app.route('/secret-page')
+@requires_auth
+def secret_page():
+    return "Auth Successful ~"
+
+if __name__ == '__main__':
+    app.run()
+```
+
+或者是使用 flask_httpauth
+
+```
+from flask import Flask
+from flask_httpauth import HTTPBasicAuth
+
+app = Flask(__name__)
+auth = HTTPBasicAuth()
+
+users = {
+    "windard": "123456",
+    "admin": "password"
+}
+
+@auth.get_password
+def get_pw(username):
+    if username in users:
+        return users.get(username)
+    return None
+
+@app.route('/')
+@auth.login_required
+def index():
+    return "Hello, %s!" % auth.username()
+
+if __name__ == '__main__':
+    app.run()
+```
+
+或者是 PHP
+
+```
+<?php
+  if (!isset($_SERVER['PHP_AUTH_USER'])) {
+    header('WWW-Authenticate: Basic realm="PHP Auth"');
+    header('HTTP/1.0 401 Unauthorized');
+    echo 'Login Failed';
+    exit;
+  } else {
+    if($_SERVER['PHP_AUTH_USER'] == "admin" && $_SERVER['PHP_AUTH_PW'] == 'password'){
+        echo "Login Successful !";
+    }
+  }
+?>
+```
+
 ## 参考链接
 
 [nginx的配置、虚拟主机、负载均衡和反向代理 (一)](https://www.zybuluo.com/phper/note/89391)

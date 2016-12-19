@@ -441,3 +441,20 @@ Shortest transaction:           0.00
 感觉是不是页面太简单了，好像并没有多大的差距。。。
 
 不过还是可以看到 uwsgi + Nginx 是最强组合。
+
+使用 Nginx + PHP 
+
+```
+Transactions:                  25478 hits
+Availability:                  99.91 %
+Elapsed time:                  16.54 secs
+Data transferred:               0.29 MB
+Response time:                  0.09 secs
+Transaction rate:            1540.39 trans/sec
+Throughput:                     0.02 MB/sec
+Concurrency:                  141.94
+Successful transactions:       25478
+Failed transactions:              22
+Longest transaction:           15.02
+Shortest transaction:           0.00
+```
