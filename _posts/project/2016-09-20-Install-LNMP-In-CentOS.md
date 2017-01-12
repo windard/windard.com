@@ -9,6 +9,9 @@ LNMP 是 Linux、Nginx、MySQL(MariaDB) 和 PHP 的缩写，这个组合是最�
 
 ## Nginx
 
+> 好像 Cent OS 的官方源里是没有 Nginx 的，需要先自行安装一个扩展包 <br>
+> `sudo yum install epel-release`
+
 ```
 sudo yum install nginx
 ```
@@ -92,6 +95,14 @@ sudo service firewalld stop
 
 ```
 sudo chkconfig --level 123456 firewalld off
+```
+
+只是打开相关的端口就好了嘛，永久打开 firewalld http 和 HTTPS 相关端口
+
+```
+sudo firewall-cmd --permanent --zone=public --add-service=http 
+sudo firewall-cmd --permanent --zone=public --add-service=https
+sudo firewall-cmd --reload
 ```
 
 设置 Nginx 开机启动
