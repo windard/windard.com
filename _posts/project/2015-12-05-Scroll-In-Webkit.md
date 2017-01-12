@@ -164,6 +164,20 @@ IE的滚动条分别有以下属性，这次不再是伪类了，而是实实在
 
 ![beautiful_scroll_ie.jpg](/images/beautiful_scroll_ie.jpg)
 
+本人现在的博客的导航条效果是这样的
+
+```
+html::-webkit-scrollbar{
+    width:8px;
+    background-color:#ddd;
+    transition: all ease-in-out 0.5s;
+}
+html::-webkit-scrollbar-thumb{
+    background-color:#aaa;
+    border-radius:3px;
+}
+```
+
 还有其他的浏览器呢？？？                        
 只能怪他们不争气了，没有css属性，那就只用用js插件了，有一个插件还不错的样子，[malihu-custom-scrollbar-plugin](https://github.com/malihu/malihu-custom-scrollbar-plugin)        
 

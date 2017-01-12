@@ -146,13 +146,14 @@ C:\Users\dell\Desktop\theme>
 
 37. windows 创建WiFi热点
     1. 打开cmd
-    2. netsh wlan set hostednetwork mode=allow
-    3. netsh wlan set hostednetwork ssid=wifiname key=wifipassword
-    4. netsh wlan start hostednetwork
+    2. `netsh wlan show drivers` 查看是否有 `支持的承载网络:    是`
+    2. `netsh wlan set hostednetwork mode=allow`
+    3. `netsh wlan set hostednetwork ssid=wifiname key=wifipassword`
+    4. `netsh wlan start hostednetwork`
     5. 进入[网络连接]->[更改适配器设置] 选择一个网络将其共享到Microsoft Virtual wlan Miniport Adapter
     7. 可以用WiFi了。<br>
-    > 查看WiFi连接状况：netsh wlan show hostednetwork <br> 
-    > 停止使用WiFi : netsh wlan stop hostednetwork <br>
+    > 查看WiFi连接状况：`netsh wlan show hostednetwork` <br> 
+    > 停止使用WiFi : `netsh wlan stop hostednetwork` <br>
 
 
 38. 最简单的 翻墙 方式，更改 DNS
@@ -185,3 +186,5 @@ netsh interface ipv6 set dns 本地连接 dhcp
 ```
 ipconfig /flushdns
 ```
+
+39. PPT 的后缀名由 pptx 改为 ppsx 即可双击打开即播放，就像 Python 代码后缀名 由 py 改为 pyw 一样，双击打开即运行。
