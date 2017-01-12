@@ -1,7 +1,7 @@
 ---
 layout: post
 title: 一行 Python 能实现什么丧心病狂的功能？
-description: 摘抄自 [知乎](https://www.zhihu.com/question/37046157) 
+description: 摘抄自 [知乎](https://www.zhihu.com/question/37046157)
 category: blog
 ---
 
@@ -58,11 +58,11 @@ print'\n'.join([''.join([('LOVE'[(x-y)%4]if((x*0.05)**2+(y*0.1)**2-1)**3-(x*0.05
 
 x²z³+9y²z³/80=(x²+9y²/4+z²-1)³      心形三维曲面
 
-x²+y² = (2x²+2y²-x)²          		心形线 
+x²+y² = (2x²+2y²-x)²          		心形线
 
 参数方程
-x=a(2cost-cos2t) 
-y=a(2sint-sin2t)        
+x=a(2cost-cos2t)
+y=a(2sint-sin2t)
 
 极坐标方程
 水平方向 r=a(1-cosθ) 或 r=a(1+cosθ) (a>0) 或 r=sin(θ/2)
@@ -70,7 +70,7 @@ y=a(2sint-sin2t)
 
 直角坐标方程
 x²+y²+ax=a√(x²+y²)
-x²+y²-ax=a√(x²+y²) 
+x²+y²-ax=a√(x²+y²)
 
 ```
 
@@ -237,7 +237,7 @@ Namespaces are one honking great idea -- let's do more of those!
 
 ### 参考链接
 
-[一行 Python 能实现什么丧心病狂的功能](https://www.zhihu.com/question/37046157)
-[以撸代码的形式学习Python](https://github.com/xianhu/LearnPython/blob/master/python_oneline.py)
-[Python One-liner Games](http://arunrocks.com/python-one-liner-games/)
-[ 一行python代码](http://blog.csdn.net/wireless_com/article/details/52713868)
+[一行 Python 能实现什么丧心病狂的功能](https://www.zhihu.com/question/37046157) <br>
+[以撸代码的形式学习Python](https://github.com/xianhu/LearnPython/blob/master/python_oneline.py) <br>
+[Python One-liner Games](http://arunrocks.com/python-one-liner-games/) <br>
+[ 一行python代码](http://blog.csdn.net/wireless_com/article/details/52713868) <br>
