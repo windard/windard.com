@@ -116,3 +116,30 @@ If this is unexpected, please log in with password and setup Gogs under another 
 ```
 
 即都加入成功
+
+## 使用密钥对登陆服务器
+
+以 Cent OS 7 为例，使用密钥对登陆且禁止口令登陆。
+
+```
+[root@localhost ~]# ssh -V
+OpenSSH_6.6.1p1, OpenSSL 1.0.1e-fips 11 Feb 2013
+```
+
+修改 sshd 的配置文件 `/etc/ssh/sshd_config`
+
+```
+PubkeyAuthentication yes  	# 启用基于密匙的安全验证
+PasswordAuthentication yes  # 启用基于口令的安全验证
+PermitRootLogin no  		# 禁止 root 登录 ssh
+```
+
+如果你还是想用 root 登陆的话，不用禁止 root 登陆。
+
+然后本地使用 `ssh-keygen -t rsa -f ./centos` 生成密钥对，如果你有多个密钥的话，还需要在 `.ssh/config` 中配置一下。
+
+如果你的密钥以 root 权限登陆，创建 `/root/.ssh/authorized_keys` ，以用户 windard 权限登陆的话，则创建 `/home/windard/.ssh/authorized_keys` 
+
+在文件中写入在本地生成的公钥，即 `centos.pub` 中的内容，一行一个公钥。
+
+最后重启服务 `service sshd restart` 。

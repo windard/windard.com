@@ -1,45 +1,210 @@
 ---
 layout: post
-title: 在ubuntu中使用vsftpd上传下载文件 
+title: vsftpd 的配置和使用
 category: project
-description: 我的ubuntu是在虚拟机中的，所以有时候与宿主机的文件需要相关的转移，ubuntu的vsftpd与其他的linux发行版本似乎还是有一点点的不一样的
+description: 在服务器与客户端之间的文件传输一般都是采用 FTP 来上传下载， vsftpd 是非常好用的安全的 FTP 服务器软件。
 ---
 
-## 在ubuntu上装vsftpd            
+## 安装 vsftpd            
 
-vsftpd即very security ftp，好吧，这样听起来还是似乎挺不错的样子。其实在ubuntu上是自带了一个ftp的客户端的，所以我们只需要一个ftp服务器段就可以了。                                
-```sudo apt-get install vsftpd```          
+FTP (File Transfer Protocol) 文件传输协议是互联网中非常重要的一个协议，在服务器与客户端之间进行文件操作。
 
-这样就装好了我们的vsftpd，用`dpkg`来看一下。      
+`vsftpd` 即 `very security ftp`，这是一个主打安全的 FTP 服务器，各大 Linux 的发行版本都可以使用。
+
+Ubuntu
+
+```
+sudo apt-get install vsftpd
+```          
+
+Cent OS
+
+```
+sudo yum install vsftpd
+```
+
+Ubuntu 下可以用 `dpkg -l|grep ftp` 来看一下。      
 
 ![vsftpd.jpg](/images/vsftpd.jpg)      
 
+Cent OS 下可以使用 `rpm -qa |grep ftp` 来看一下。
+
+![vsftpd_exists_centos.png](/images/vsftpd_exists_centos.png)
 
 ## 启动与关闭
 
-```service vsftpd start```         
+启动
 
-毫无疑问，这就是启动了。           
+```
+sudo service vsftpd start
+```         
 
-```service vsftpd stop ```         
+关闭
 
-关闭vsftpd服务器。             
-还有两个命令就是`status`和`restart`分别用来查看vsftpd的状态和重启ftp服务器。    
+```
+sudo service vsftpd stop
+```         
 
-## 使用配置
-```ftp localhost``` 进入命令行模式的ftp，可以使用匿名登录，也可以使用帐号登录。                                  
-一般使用vsftpd用的不是命令ftp,而是sftp 命令`sftp root@XX.XX.XX.XX`。                   
-如果是匿名登录的话，帐号就是`anonymus`密码随意写就可以了，匿名用户登录之后的根目录在`/src/ftp`。                                     
-帐号登录的话就是使用本机的帐号和密码登录,帐号密码登录的根目录就在`/home/账户名`。                              
-还有一种登录方式就是使用虚拟账户登录，就是说为ftp设置一个专门用来登录的账户，并指定其根目录。        
+查看 FTP 服务器状态和重启 FTP 服务器
 
-> 使用虚拟账户登录就需要先创建一个虚拟账户，这个账户没有登录操作系统的权限，但是可以登录vsftpd             
-    
-> `useradd vsftpd -s /sbin/nologin -m username`，此处的-s是指定shell，但是`/sbin/nologin`是一个无效的shell，创建了一个无法登录操作系统的用户，-m 指定根目录，所以该用户的根目录在`/home/username`                                                    
+```
+sudo service vsftpd status
+sudo service vsftpd restart
+```
 
-vsftpd主配置文件`/etc/vsftpd.conf`,主程序`/usr/sbin/vsftpd`,禁止使用vsftpd的用户列表`/etx/ftpusers`,允许使用vsftpd的用户列表`/etc/user_list`,匿名用户根目录`/src/ftp`,日志存储地址`/var/log/vsftpd.log`
+## 服务器端使用
 
-vsftpd的主要配置文件在`/etc/vsftpd.conf`,接下来让我们看一下这个配置文件,英文注解都已略去。
+vsftpd 的默认配置可以使用匿名用户登陆，没有其他用户账号，无法上传文件，所以需要做一下简单的配置，注释与NO的作用效果相同。
+
+配置效果
+1. 允许匿名用户登录，登录目录为 `/ftp/pub`，只能下载，不能上传，不能创建目录，不能超出登录目录。
+2. 允许本地用户登录，如 windard 和 root ，登录目录分别是其根目录 `/home/windard` 和 `/root` ，可上传可下载可创建目录，甚至可以到达其根目录的上级目录。 
+3. 允许虚拟用户登录，如 ftpuser，虚拟用户只能在 FTP 服务器中使用，不能登录服务器，登录目录为 `/ftp/ftpuser`，只能上传下载创建目录，不能超出登录目录。
+
+### 关于匿名用户
+
+```
+# 是否允许匿名用户访问
+anonymous_enable=YES
+# 匿名用户登录目录
+anon_root=/ftp/pub
+# 是否允许匿名用户上传文件
+anon_upload_enable=NO
+# 是否允许匿名用户创建文件夹
+anon_mkdir_write_enable=NO
+```
+
+### 关于本地用户
+
+```
+# 是否能够使用本地用户
+local_enable=YES
+# 是否用户用户上传文件
+write_enable=YES
+# 能否上传 ASCII 类型文件
+ascii_upload_enable=YES
+ascii_download_enable=YES
+# 文件上传之后的文件状态
+local_umask=022
+# 需要加上这一句
+# 不然就会 500 OOPS: vsftpd: refusing to run with writable root inside chroot()
+allow_writeable_chroot=YES
+# 是否能够切换到根目录之外
+chroot_local_user=YES
+# 只有目录中的账户才能切换
+chroot_list_enable=YES
+chroot_list_file=/etc/vsftpd/chroot_list
+```
+
+将 root 和 windard 加入 `/etc/vsftpd/chroot_list` 文件中，一行一个，若无则创建该文件。
+
+root 用户是默认不能使用 FTP 登陆的，需要将 `/etc/vsftpd/user_list` 和 `/etc/vsftpd/ftpusers` 中的 root 注释掉。
+
+> user_list 此文件中包含可能会被禁止的用户名，取决于配置文件中的 `userlist_enable=YES` <br>
+> ftpusers 此文件中包含被禁止登陆的用户名。 
+
+在 Cent OS 7 中，因为有安全内核 selinux 不允许使用 root 登陆 FTP，所以需要还需要配置安全内核开放权限。
+
+```
+setsebool -P ftpd_full_access 1
+```
+
+可以通过 `service vsftpd status -l` 查看完整 vsftpd 运行状态。
+
+在 cent OS 7 中使用 `firewall-cmd` 将其加入永久防火墙规则。
+
+```
+firewall-cmd  --permanent --add-service=ftp
+```
+
+如果是 iptables 的话则是
+
+```
+iptables -A INPUT -m state --state NEW -m tcp -p tcp --dport 21 -j ACCEPT
+```
+
+在 Cent OS 7 中使用 `systemctl` 将其加入开机启动
+
+```
+systemctl enable vsftpd
+```
+
+### 关于虚拟用户
+
+首先我们需要创建虚拟用户 `ftpuser` 并设定密码，其实这个也还是普通用户，只不过不能用来登陆，在 vsftpd 的教程中还有一种虚拟账户，需要使用数据库保存 FTP 专用账户，感觉比较复杂，暂时也没有什么用，就不做介绍。 
+
+```
+[root@localhost ~]# useradd -s /sbin/nologin -d /ftp/ftpuser ftpuser
+[root@localhost ~]# passwd ftpuser
+更改用户 ftpuser 的密码 。
+新的 密码：
+重新输入新的 密码：
+passwd：所有的身份验证令牌已经成功更新。
+```
+
+### 其他
+
+```
+# 打开上传下载日志
+xferlog_enable=YES
+# 使用标志日志格式记录
+xferlog_std_format=YES
+# 日志保存位置
+xferlog_file=/var/log/xferlog
+# 用户登录时的欢迎信息
+ftpd_banner=Welcome to blah FTP service.
+
+```
+
+还有其他的一些配置，基本可以不做修改，就不再介绍。
+
+## 使用指南
+
+`ftp XX.XX.XX.XX` 进入命令行模式的ftp，可以使用匿名登录，也可以使用帐号登录。                                  
+
+如果是匿名登录的话，帐号就是 `anonymous` 密码随意写就可以了，匿名用户登录之后的根目录在 `/src/ftp`(Ubuntu) 或 `/var/ftp`(Cent OS) 。
+
+一般登陆 vsftpd 用的不是 ftp, 而是 sftp 命令 `sftp root@XX.XX.XX.XX`, sftp = ssh + ftp。                   
+
+在 Windows 下命令行中使用 FTP 连接上之后无法正常使用，使用 sftp 连接之后可以正常使用。
+
+在 Windows 下使用 FTP 软件可以正常连接使用。
+
+在 Windows 下使用资源管理器可以登陆 FTP ，默认使用匿名账户直接登陆，可以使用 ftp://username:password@XX.XX.XX.XX 来使用账户密码登陆，这样的登陆方式也可以在浏览器上使用。
+
+在使用 FTP 登陆时有可能会遇到需要使用被动模式，在 Windows 下使用 `quote PASV` ，在 Linux 下使用 `passive` 来进行切换。
+
+### 关于 主动模式和被动模式
+
+FTP 默认采用 20,21 端口与客户端进行通信，20 端口进行建立控制和发送命令，21 端口进行数据传输。
+
+主动（PORT）模式：首先由客户端向服务器的 21 端口建立 FTP 控制连接，当需要传输数据时，客户端以 PORT 命令告诉服务器本机开放一个较大的非特权端口，等待服务器从 20 端口到本机的指定端口进行数据连接。主动模式即服务器主动向客户端建立数据连接。
+
+![FTP_PORT.png](/images/FTP_PORT.png)
+
+被动（PASV）模式：首先由客户端想服务器的 21 端口建立 FTP 控制连接，当需要传输数据是，客户端提交 PASV 指令，服务器则开启一个较大的非特权端口，并将端口号发送给客户端，等待客户端连接数据连接。被动模式即服务器被动的等待客户端进行数据连接。
+
+![FTP_PASV.png](images/FTP_PASV.png)
+
+两种不同的工作模式是为了满足不同网络环境的需求，如果客户端的防火墙没有开放端口，则采用被动模式，如果服务器为了安全只开了 20,21 端口，则采用主动模式。一般 FTP 服务器是两种模式都支持，具体的使用那一种模式取决于客户端请求。
+
+网上如果需要开启 FTP 被动模式，需要在配置文件中加入 
+
+```
+pasv_enable=YES
+pasv_min_port=6000
+pasv_max_port=7000
+```
+
+然后修改相关的防火墙配置。
+
+```
+iptables -A INPUT -m state --state NEW -m tcp -p tcp --dport 6000:7000 -j ACCEPT
+```
+
+然而我的 FTP 服务器并没有遇到这些问题，而且 被动模式 默认就是开启的。
+
+这是在 Ubuntu 下 vsftpd 配置，基本与 Cent OS 一致。
 
 ```
 listen=<YES/NO> :设置为YES时vsftpd以独立运行方式启动，设置为NO时以xinetd方式启动（xinetd是管理守护进程的，将服务集中管理，可以减少大量服务的资源消耗）                                                                        
@@ -73,12 +238,11 @@ anon_max_rate=<n> :设置匿名用户的最大传输速率，单位为B/s，值�
 anon_world_readable_only=<YES/NO> 是否开放匿名用户的浏览权限                                   
 anon_upload_enable=<YES/NO> 设置是否允许匿名用户上传                                   
 anon_mkdir_write_enable=<YES/NO> :设置是否允许匿名用户创建目录                               
-anon_other_write_enable=<YES/NO> :设置是否允许匿名用户其他的写权限（注意，这个在安全上比较重要，一般不建议开，不过关闭会不支持续传）      
+anon_other_write_enable=<YES/NO> :设置是否允许匿名用户其他的写权限,即删除重命名权限。    
 anon_umask=<nnn> :设置匿名用户上传的文件的生成掩码，默认为077                                    
 ```
 
-
-ftp数字码代表的意思：
+ftp 传输过程中状态码代表的意思：
 
 ```
 110 重新启动标记应答。                                  
@@ -122,8 +286,7 @@ ftp数字码代表的意思：
 553 未执行请求的的命令，名称不正确。                                           
 ```          
 
-
-ftp命令：
+ftp 常用命令：
 
 ```
 ftp XX.XX.XX.XX        #连接目标主机
