@@ -2,13 +2,13 @@
 layout: post
 title: Nginx 的配置和使用
 category: project
-description: Nginx 的配置详解，虚拟主机和反向代理，其实还有一个负载均衡。。。只不过我不会。
+description: Nginx 的配置详解，虚拟主机，反向代理，基本认证和负载均衡。
 ---
 
 
 ## Nginx
 
-Nginx 作为 web 服务器消耗是极少的，树莓派上都可以跑，性能是强悍的，比 Apache 不知道高到哪里去了，配置是简单的，快速上手，功能强大。现在越来越多的 web 服务器选择了 Nginx ，相信选它是没错的。
+Nginx 作为 web 服务器消耗是极少的，树莓派上都可以跑，性能是强悍的，比 Apache 不知道高到哪里去了，配置简单，快速上手，功能强大。现在越来越多的 web 服务器选择了 Nginx ，相信它还是可以的。
 
 ## 安装使用
 
@@ -189,7 +189,7 @@ events {
 }
 ```
 
-`use` 指定 Nginx 的工作模式，Nginx 支持的工作模式有 `select` `poll` `kqueue` `epoll` `rtsig` 和 `/dev/poll` ，后两种使用的不多，`select` 和 `poll` 是传统的标准工作模式，`queueu` 是高效的工作模式，不同的是 `epoll` 只支持 Linux 平台上，`kqueue` 只支持 BSD 平台，对于 Cent OS 系统，在这里我么可以加上 `use epoll` 来提高工作效率。
+`use` 指定 Nginx 的工作模式，Nginx 支持的工作模式有 `select` `poll` `kqueue` `epoll` `rtsig` 和 `/dev/poll` ，后两种使用的不多，`select` 和 `poll` 是传统的标准工作模式，`queueu` 是高效的工作模式，不同的是 `epoll` 只支持 Linux 平台上，`kqueue` 只支持 BSD 平台，对于 Cent OS 系统，在这里可以加上 `use epoll` 来提高工作效率。
 
 `worker_connections` 最大连接数，最大连接客户数由 `worker_processes` 和 `worker_connections` 共同决定 `Max_clients = worker_processes * worker_connections`
 
@@ -308,15 +308,23 @@ server 用来定义一个虚拟主机，最少只需要三条配置即可，`lis
 
 `location` 使用正则匹配来选择所有以 `.php` 结尾的 URL ，来解析 PHP 文件 。
 
-`fastcgi_pass` 链接到 PHP-fpm 的解析地址，还有下面的几个参数都是解析 PHP 用。
+`fastcgi_pass` 链接到 PHP-fpm 的解析地址，可以像这样使用端口转发解析，也还可以使用 Unix sock 发送给 PHP 解析，下面的几个参数都是解析 PHP 用。
 
 在下面还有一个被注释掉的 server ，可以查看注释知道其是为了 HTTPS 搭建的一个虚拟主机，暂先不表。
 
 ### upstram 模块
 
-在这里并没有出现这个模块，是为了负载均衡使用的，具体可以查看参考链接。
+负载均衡即对外一个网站，对内多台服务器，多台服务器提供统一服务，对用户透明，实现一对多的映射。在网站逐步扩大，用户量递增的时候，仅靠一台服务器已不足够承受巨大的访问量时，我们就需要多台服务器构成集群，统一对外提供相同的服务，这些服务器之间的调度，网络资源的分配就是负载均衡。
 
-Nginx 的负载均衡支持四种调度算法
+一般常用的负载均衡的办法
+
+1. DNS 轮询，即同一个域名有一个不同的IP，在不同的时间或者地点被分配到不同的服务器上。
+
+2. CDN (Content Delivery Network) ，内容分发网络，对于一些不太重要的静态资源，如 css，js，图片等，可以使用 CDN 。
+
+3. IP 负载均衡，如使用 NAT，在内网分发流量，或者使用硬件实现，如 F5。
+
+Nginx 也提供了强大而又简单的负载均衡功能，Nginx 的主要四种调度算法
 
 - weight 轮询（默认），每个请求按时间顺序逐一分配到不同的后端服务器，如果某一台后端服务器宕机，故障系统被自动剔除，使用户访问不受影响。weight ，指定轮询权重，weight 越大，分配到的访问几率越高，主要用于后端服务器性能不均的情况下。
 
