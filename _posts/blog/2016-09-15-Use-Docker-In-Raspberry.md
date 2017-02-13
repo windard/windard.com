@@ -7,7 +7,7 @@ category: blog
 
 ## 安装 Docker
 
-Dell Inspiron 14 + Windows10 | 树莓派一代B+ + raspbian 4.10
+Dell Inspiron 14 + Windows10 && 树莓派一代B+ + raspbian 4.10
 
 在树莓派的比较新的版本里官方源中 `Docker` ， 可以通过 `sudo apt-get install docker.io `下载，对的，它在源里并不叫 `docker` ，因为已经有一个文件系统应用叫 `docker`,但是我的 `树莓派二代B` 的源里并没有 `Docker` ，不知道为什么，可以通过 `sudo apt-cache search docker` 来查看自己的源里有没有 `Docker`
 
@@ -39,43 +39,46 @@ pass: hypriot
 
 ## 一些 Docker 指令
 
-- docker version 查看 Docker 版本号
-- docker info 查看 Docker 信息
-- docker images 查看 Docker 镜像，在 Windows 上使用 Docker 会自带一个 `default` 的镜像，但是树莓派上不自带镜像
-- uname -a 查看操作系统版本
-- docker ps 查看所有在运行的 Docker 容器
-- docker ps -a 查看所有的 Docker 容器
-- docker search ubuntu 在 Docker 官方镜像源 `https://hub.docker.com/` 中寻找镜像
-- docker pull ubuntu 在 Docker 官方镜像源中下载 Ubuntu 镜像，一般是 `作者名/镜像名` 的格式，但是像 Ubuntu 这种大众的不指定作者就用官方源
-- docker run -d -p 80:80 hypriot/rpi-busybox-httpd 在本地镜像中寻找 hypriot/rpi-busybox-httpd 或者在远程官方镜像中寻找并下载，然后运行，同时将容器的 80 端口映射到本地的 80 端口
-- cat ubuntu-14.04-x86_64-minimal.tar.gz  |docker import - ubuntu:14.04 官方推荐是从网上 pull 下来镜像，但是有时候太慢了，也可以自己先下载下来，然后再这样 import 进去
+- `docker version` 查看 Docker 版本号
+- `docker info` 查看 Docker 信息
+- `docker images` 查看 Docker 镜像，在 Windows 上使用 Docker 会自带一个 `default` 的镜像，但是树莓派上不自带镜像
+- `uname -a` 查看操作系统版本
+- `docker ps` 查看所有在运行的 Docker 容器
+- `docker ps -a` 查看所有的 Docker 容器
+- `docker search ubuntu` 在 Docker 官方镜像源 `https://hub.docker.com/` 中寻找镜像
+- `docker pull ubuntu` 在 Docker 官方镜像源中下载 Ubuntu 镜像，一般是 `作者名/镜像名` 的格式，但是像 Ubuntu 这种大众的不指定作者就用官方源
+- `docker run -d -p 80:80 hypriot/rpi-busybox-httpd` 在本地镜像中寻找 hypriot/rpi-busybox-httpd 或者在远程官方镜像中寻找并下载，然后运行，同时将容器的 80 端口映射到本地的 80 端口
+- `cat ubuntu-14.04-x86_64-minimal.tar.gz  |docker import - ubuntu:14.04` 官方推荐是从网上 pull 下来镜像，但是有时候太慢了，也可以自己先下载下来，然后再这样 import 进去
 
-- docker rm 8c342c0c275c 删除 容器ID 为 8c342c0c275c 的容器
-- docker start 256d7bdde650 开启已经停止的容器
-- docker stop 256d7bdde650 关闭容器
-- docker attach 256d7bdde650 连接到一个已经存在的容器
-- docker rm `docker ps -a -q` 删除所有的容器
-- docker rmi sdhibit/rpi-raspbian 删除容器 
-- docker logs 256d7bdde650 查看容器的日志
-- docker inspect 256d7bdde650 查看日志的实例属性
-- docker top 256d7bdde650 显示容器的进程信息
-- docker port 256d7bdde650 查看容器的端口映射情况
-- docker diff 256d7bdde650 显示容器文件系统的前后变化
-- docker pause 256d7bdde650 停止一个容器
-- docker unpause 256d7bdde650 启动一个容器
+- `docker rm 8c342c0c275c` 删除 容器ID 为 8c342c0c275c 的容器
+- `docker start 256d7bdde650` 开启已经停止的容器
+- `docker stop 256d7bdde650` 关闭容器
+- `docker attach 256d7bdde650` 连接到一个已经存在的容器
+- `docker rm 'docker ps -a -q'` 删除所有的容器
+- `docker rm 256d7bdde650` 删除容器
+- `docker rmi sdhibit/rpi-raspbian` 删除镜像 
+- `docker logs 256d7bdde650` 查看容器的日志
+- `docker inspect 256d7bdde650` 查看日志的实例属性
+- `docker top 256d7bdde650` 显示容器的进程信息
+- `docker port 256d7bdde650` 查看容器的端口映射情况
+- `docker diff 256d7bdde650` 显示容器文件系统的前后变化
+- `docker pause 256d7bdde650` 停止一个容器
+- `docker unpause 256d7bdde650` 启动一个容器
 
-- docker login 登陆 Docker 官方镜像源，需要先在 `https://hub.docker.com/` 注册
-- docker push learn/ping 发布自己的镜像
-- docker export XXX.tar 将容器整个文件系统导出为一个tar包，不带layers、tag等信息
-- docker build Dockerfile 通过 Dockerfile 定制镜像
-- docker cp file1 file2 将容器中的 file2 拷贝到本地并保存为 file1
-- docker create 创建一个新的容器，同 run，但不启动容器
-- docker exec 在已存在的容器上运行命令
-- docker kill 256d7bdde650 杀死指定 docker 容器
-- docker load 从一个 tar 包中加载一个镜像[对应 save]
-- docker restart 重启运行的容器
-- docker save 保存一个镜像为一个 tar 包[对应 load]
-- docker tag 给源中镜像打标签
+- `docker login` 登陆 Docker 官方镜像源，需要先在 `https://hub.docker.com/` 注册
+- `docker push learn/ping` 发布自己的镜像
+- `docker export XXX.tar` 将容器整个文件系统导出为一个tar包，不带layers、tag等信息
+- `docker build .` 在当前目录下通过 Dockerfile 定制镜像
+- `docker cp file1 file2` 将容器中的 file2 拷贝到本地并保存为 file1
+- `docker create <imageid>` 创建一个新的容器，同 run，但不启动容器
+- `docker exec <containerid> ls -al` 在已存在的容器上运行命令
+- `docker kill 256d7bdde650` 杀死指定 docker 容器
+- `docker load` 从一个 tar 包中加载一个镜像[对应 save]
+- `docker restart` 重启运行的容器
+- `docker save` 保存一个镜像为一个 tar 包[对应 load]
+- `docker tag` 给源中镜像打标签
+
+- `docker run -e MYSQL_ROOT_PASSWORD=123 -p 3306:3306 -t -i mysql` 创建并进入一个 MySQL 的容器
 
 在进入容器之后，`exit` 可以退出容器，或者是 `Ctrl + P` 和 `Ctrl + Q`
 
@@ -142,12 +145,19 @@ torusware/speedus-ubuntu          Always updated official Ubuntu docker imag...
 
 ## docker run 的参数 
 
-- -p 80:80 前一个为本地端口号，后一个为容器内端口号
-- -P 自动映射端口，映射的端口将会从没有使用的端口池中 (49000..49900) 自动选择
-- -t 分配一个（伪）tty (link is external)
-- -i 交互模式 (so we can interact with it)
-- -d 后台运行
-- --name 给容器设定别名
+```
+docker run [OPTIONS] IMAGE[:TAG] [COMMAND] [ARG...]
+```
 
-## Dockerfile 
+### OPTIONS
 
+- `-p 80:80` 前一个为本地端口号，后一个为容器内端口号
+- `-P` 自动映射端口，映射的端口将会从没有使用的端口池中 (49000..49900) 自动选择
+- `-t` 分配一个（伪）tty (link is external)
+- `-i` 交互模式 (so we can interact with it)
+- `-d` 后台运行
+- `--name` 给容器设定别名
+- `--link <imagesid>:<imagename>` 连接另一个容器并设置别名
+- `-e` 设定环境变量
+- `-w` 设定工作目录
+- `-v` 设定磁盘挂载，需为绝对路径
