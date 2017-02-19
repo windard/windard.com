@@ -314,25 +314,7 @@ server 用来定义一个虚拟主机，最少只需要三条配置即可，`lis
 
 ### upstram 模块
 
-负载均衡即对外一个网站，对内多台服务器，多台服务器提供统一服务，对用户透明，实现一对多的映射。在网站逐步扩大，用户量递增的时候，仅靠一台服务器已不足够承受巨大的访问量时，我们就需要多台服务器构成集群，统一对外提供相同的服务，这些服务器之间的调度，网络资源的分配就是负载均衡。
-
-一般常用的负载均衡的办法
-
-1. DNS 轮询，即同一个域名有一个不同的IP，在不同的时间或者地点被分配到不同的服务器上。
-
-2. CDN (Content Delivery Network) ，内容分发网络，对于一些不太重要的静态资源，如 css，js，图片等，可以使用 CDN 。
-
-3. IP 负载均衡，如使用 NAT，在内网分发流量，或者使用硬件实现，如 F5。
-
-Nginx 也提供了强大而又简单的负载均衡功能，Nginx 的主要四种调度算法
-
-- weight 轮询（默认），每个请求按时间顺序逐一分配到不同的后端服务器，如果某一台后端服务器宕机，故障系统被自动剔除，使用户访问不受影响。weight ，指定轮询权重，weight 越大，分配到的访问几率越高，主要用于后端服务器性能不均的情况下。
-
-- ip_hash ，每个请求按访问 IP 的hash 结果分配，这样来自同一个 IP 的访客固定访问一个后端服务器，可以有效解决动态网页的 session 存储问题。
-
-- fair ，比上面两个更智能的负载均衡调度算法。这种算法可以根据页面大小和加载时间的长短来智能的进行负载均衡，也就是根据不同的后端服务器对不同的访问请求的响应时间来分配，以确保每一个访问都是使用最短的加载时间的服务器。Nginx 本身是不支持这种调度算法，需要加载 Nginx 的 upstream_fair 来使用这种调度算法。
-
-- url_hash 按照 URL 的 hash 结果来分配请求，每一个 URL 对应一个后端服务器，可以有效利用后端缓存服务器。Nginx 本身是不支持这种调度算法，需要加载 Nginx 的  upstream_hash 来使用这种调度算法。
+这个模块主要负载均衡，负载均衡即对外一个网站，对内多台服务器，多台服务器提供统一服务，对用户透明，实现一对多的映射。在网站逐步扩大，用户量递增的时候，仅靠一台服务器已不足够承受巨大的访问量时，我们就需要多台服务器构成集群，统一对外提供相同的服务，这些服务器之间的调度，网络资源的分配就是负载均衡。
 
 ## Nginx 的虚拟主机
 
@@ -515,6 +497,245 @@ server {
 ```
 iptables -t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to-ports 8000
 ```
+
+## 负载均衡
+
+一般常用的负载均衡的办法
+
+1. DNS 轮询，即同一个域名有一个不同的IP，在不同的时间或者地点被分配到不同的服务器上。
+
+2. CDN (Content Delivery Network) ，内容分发网络，对于一些不太重要的静态资源，如 css，js，图片等，可以使用 CDN 。
+
+3. IP 负载均衡，如使用 NAT，在内网分发流量，或者使用硬件实现，如 F5。
+
+Nginx 也提供了强大而又简单的负载均衡功能，Nginx 的主要四种调度算法
+
+- weight 轮询（默认），每个请求按时间顺序逐一分配到不同的后端服务器，如果某一台后端服务器宕机，故障系统被自动剔除，使用户访问不受影响。weight ，指定轮询权重，weight 越大，分配到的访问几率越高，主要用于后端服务器性能不均的情况下。
+
+- ip_hash ，每个请求按访问 IP 的hash 结果分配，这样来自同一个 IP 的访客固定访问一个后端服务器，可以有效解决动态网页的 session 存储问题。
+
+- fair ，比上面两个更智能的负载均衡调度算法。这种算法可以根据页面大小和加载时间的长短来智能的进行负载均衡，也就是根据不同的后端服务器对不同的访问请求的响应时间来分配，以确保每一个访问都是使用最短的加载时间的服务器。Nginx 本身是不支持这种调度算法，需要加载 Nginx 的 upstream_fair 来使用这种调度算法。
+
+- url_hash 按照 URL 的 hash 结果来分配请求，每一个 URL 对应一个后端服务器，可以有效利用后端缓存服务器。Nginx 本身是不支持这种调度算法，需要加载 Nginx 的  upstream_hash 来使用这种调度算法。
+
+### 环境配置 
+
+在 Cent OS 7 中装好 Docker ，使用 Docker-compose 构建 3 个 Nginx 容器，容器与主机采用网桥连接，自动分配 IP，在 Cent OS 中使用 Docker 的话需要注意 SELinux 。
+
+docker-compose.yml
+
+```
+version: '2'
+services:
+    web1:
+        image: nginx
+        working_dir: /usr/share/nginx/html
+        volumes: 
+            - ./web1/html:/usr/share/nginx/html
+    web2:
+        image: nginx
+        working_dir: /usr/share/nginx/html
+        volumes: 
+            - ./web2/html:/usr/share/nginx/html
+    web3:
+        image: nginx
+        working_dir: /usr/share/nginx/html
+        volumes: 
+            - ./web3/html:/usr/share/nginx/html
+```
+
+启动容器
+
+```
+docker-compose up -d
+```
+
+分别查看容器的 IP 地址
+
+```
+docker-compose exec web1 ip addr
+docker-compose exec web2 ip addr
+docker-compose exec web3 ip addr
+```
+
+主机的 IP 为 `172.20.0.1` 三个容器的 IP 地址分别为 `172.20.0.2~4`
+
+```
+[root@localhost nginx]# curl http://172.20.0.2
+This is web 2
+[root@localhost nginx]# curl http://172.20.0.3
+This is web 3
+[root@localhost nginx]# curl http://172.20.0.4
+This is web 1
+```
+
+### 基于权重的 负载均衡
+
+upstream 配置
+
+```
+upstream webservers{
+    server 172.20.0.2 weight=10;
+    server 172.20.0.3 weight=10;
+    server 172.20.0.4 weight=10;
+}
+server {
+    listen 80;
+    server_name 172.20.0.1;
+    access_log /var/log/nginx/upstream.access.log main;
+    error_log /var/log/nginx/upstream.error.log error;
+    location / {
+        proxy_pass http://webservers;
+        proxy_set_header  X-Real-IP  $remote_addr;
+    }
+}
+```
+
+查看效果
+
+```
+[root@localhost nginx]# curl 172.20.0.1
+This is web 2
+[root@localhost nginx]# curl 172.20.0.1
+This is web 3
+[root@localhost nginx]# curl 172.20.0.1
+This is web 1
+```
+
+因为权重相同，所以三个服务器出现的频率是相同的。然后查看日志
+
+```
+[root@localhost nginx]# cat /var/log/nginx/upstream.access.log
+192.168.137.129 - - [18/Feb/2017:23:34:20 +0800] "GET / HTTP/1.1" 200 14 "-" "curl/7.29.0" "-"
+192.168.137.129 - - [18/Feb/2017:23:34:21 +0800] "GET / HTTP/1.1" 200 14 "-" "curl/7.29.0" "-"
+192.168.137.129 - - [18/Feb/2017:23:34:22 +0800] "GET / HTTP/1.1" 200 14 "-" "curl/7.29.0" "-"
+```
+
+其他参数
+
+- `max_fails ` 允许请求失败的次数，默认为 1，即在一次请求失败之后暂停使用这个后台服务器
+- `fail_timeout ` 在经历了 max_fails 次请求失败之后，暂停服务的时间，默认为永久
+
+- `down` 停止使用这个后台服务器，相当于未加入负载均衡中
+- `backup` 备用后台服务器，在其他服务器都不能使用时，才开始工作
+
+在负载均衡的过程中，若是我们暂停一台后台服务器，Nginx 会自动切换，该机器不再继续提供服务。
+
+我们停掉 web2 的后台服务器
+
+```
+[root@localhost nginx]# docker-compose stop web2
+Stopping nginx_web2_1 ... done
+[root@localhost nginx]# curl 172.20.0.1
+This is web 3
+[root@localhost nginx]# curl 172.20.0.1
+This is web 1
+[root@localhost nginx]# curl 172.20.0.1
+This is web 3
+[root@localhost nginx]# curl 172.20.0.1
+This is web 1
+[root@localhost nginx]# curl 172.20.0.1
+This is web 3
+```
+
+在超过 Nginx 中设置的超时时间没有返回数据之后就会进行自动切换，设置的超时时间为 65 秒，在后面的请求中也将不再使用请求失败的服务器。
+
+查看日志
+
+```
+[root@localhost nginx]# cat /var/log/nginx/upstream.error.log
+2017/02/18 23:54:53 [error] 20547#0: *13 connect() failed (113: No route to host) while connecting to upstream, client: 192.168.137.129, server: 172.20.0.1, request: "GET / HTTP/1.1", upstream: "http://172.20.0.2:80/", host: "172.20.0.1"
+```
+
+现在测试一下 备用服务器，一台停用，一台启用，一台备用。
+
+```
+upstream webservers{
+    server 172.20.0.2 down;
+    server 172.20.0.3 ;
+    server 172.20.0.4 backup;
+}
+```
+
+重启 Nginx ，访问 172.20.0.1 ，只有 web3 提供服务。
+
+```
+[root@localhost nginx]# service nginx restart
+Redirecting to /bin/systemctl restart  nginx.service
+[root@localhost nginx]# curl 172.20.0.1
+This is web 3
+[root@localhost nginx]# curl 172.20.0.1
+This is web 3
+[root@localhost nginx]# curl 172.20.0.1
+This is web 3
+```
+
+停用 web3 再次访问
+
+在 65 秒的超时时间后，判断出当前服务器已经无法提供服务且无其他服务器工作，即启用备用服务器。
+
+```
+[root@localhost nginx]# docker-compose stop web3
+Stopping nginx_web3_1 ... done
+[root@localhost nginx]# curl 172.20.0.1
+This is web 1
+[root@localhost nginx]# curl 172.20.0.1
+This is web 1
+[root@localhost nginx]# curl 172.20.0.1
+This is web 1
+```
+
+### 基于 ip_hash 的负载均衡
+
+upstream 配置
+
+```
+upstream webservers{
+    ip_hash;
+    server 172.20.0.2 weight=10;
+    server 172.20.0.3 weight=10;
+    server 172.20.0.4 down;
+}
+```
+
+重启服务器，查看访问效果
+
+```
+[root@localhost nginx]# service nginx restart
+Redirecting to /bin/systemctl restart  nginx.service
+[root@localhost nginx]# curl 172.20.0.1
+This is web 2
+[root@localhost nginx]# curl 172.20.0.1
+This is web 2
+[root@localhost nginx]# curl 172.20.0.1
+This is web 2
+```
+
+同一个 ip 访问总是得到同一个服务器的返回，接下来我们调整一下不同服务器的权重。
+
+```
+upstream webservers{
+    ip_hash;
+    server 172.20.0.2 weight=10;
+    server 172.20.0.3 weight=20;
+    server 172.20.0.4 down;
+}
+```
+
+重启服务器，查看访问效果
+
+```
+[root@localhost nginx]# service nginx restart
+Redirecting to /bin/systemctl restart  nginx.service
+[root@localhost nginx]# curl 172.20.0.1
+This is web 2
+[root@localhost nginx]# curl 172.20.0.1
+This is web 2
+[root@localhost nginx]# curl 172.20.0.1
+This is web 2
+```
+
+好吧，仍然是 web2。
 
 ## HTTPS 
 

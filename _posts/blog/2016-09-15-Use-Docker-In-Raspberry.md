@@ -64,12 +64,13 @@ pass: hypriot
 - `docker diff 256d7bdde650` 显示容器文件系统的前后变化
 - `docker pause 256d7bdde650` 停止一个容器
 - `docker unpause 256d7bdde650` 启动一个容器
+- `docker exec <containerid> ip addr ` 查看容器IP地址，默认采用网桥连接方式
 
 - `docker login` 登陆 Docker 官方镜像源，需要先在 `https://hub.docker.com/` 注册
 - `docker push learn/ping` 发布自己的镜像
 - `docker export XXX.tar` 将容器整个文件系统导出为一个tar包，不带layers、tag等信息
 - `docker build .` 在当前目录下通过 Dockerfile 定制镜像
-- `docker cp file1 file2` 将容器中的 file2 拷贝到本地并保存为 file1
+- `docker cp <containerId>:/file/path/within/container /host/path/target` 将容器中的文件拷贝到本地
 - `docker create <imageid>` 创建一个新的容器，同 run，但不启动容器
 - `docker exec <containerid> ls -al` 在已存在的容器上运行命令
 - `docker kill 256d7bdde650` 杀死指定 docker 容器

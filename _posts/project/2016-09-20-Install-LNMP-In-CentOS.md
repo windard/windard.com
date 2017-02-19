@@ -282,7 +282,7 @@ service nginx restart
 安装 PHP
 
 ```
-yum instaall php
+yum install php
 ```
 
 配置 `/etc/php.ini`
@@ -309,6 +309,71 @@ listen = /var/run/php-fpm/php-fpm.sock
         fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name;
         include        fastcgi_params;
     }
+```
+
+最后提供一个参考的 `nginx.conf`
+
+```
+user nginx;
+worker_processes auto;
+
+error_log /var/log/nginx/error.log;
+pid       /var/run/nginx.pid;
+
+include /etc/nginx/conf.d/*.conf;
+
+events {
+    worker_connections 1024;
+}
+
+http {
+    gzip  on;
+    gzip_disable "MSIE [1-6].(?!.*SV1)";
+
+    log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
+                      '$status $body_bytes_sent "$http_referer" '
+                      '"$http_user_agent" "$http_x_forwarded_for"';
+
+    access_log  /var/log/nginx/access.log  main;
+
+    sendfile            on;
+    tcp_nopush          on;
+    tcp_nodelay         on;
+    keepalive_timeout   65;
+    types_hash_max_size 2048;
+
+    include             /etc/nginx/mime.types;
+    default_type        application/octet-stream;
+
+    server {
+        listen       80 default_server;
+        listen       [::]:80 default_server;
+        server_name  _;
+        root   /usr/share/nginx/html;
+
+        location / {
+            index  index.html index.htm index.php;
+        }
+
+        location ~ \.php$ {
+            fastcgi_pass   127.0.0.1:9000;
+            fastcgi_index  index.php;
+            fastcgi_param  SCRIPT_FILENAME  /usr/share/nginx/html$fastcgi_script_name;
+            include        fastcgi_params;
+        }
+
+        error_page 404 /404.html;
+
+        error_page 400 401 403 405 /40x.html;
+            location = /40x.html {
+        }
+
+        error_page 500 502 503 504 /50x.html;
+            location = /50x.html {
+        }
+    }
+}
+
 ```
 
 参考链接

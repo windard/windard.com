@@ -18,7 +18,7 @@ Docker，Vagrant，VirtualBox，VMware 都曾在我的低端笔记本的垃圾 W
 临时关闭 SELinux `setenforce 0` ，或者使用特权模式运行 Docker `--privileged=true`，或者使用 `chcon `更改文件安全语境。
 
 ```
-chcon -Rt svirt_sandbox_file_t /data/share/master
+chcon -Rt svirt_sandbox_file_t /data/share/master #绝对路径 
 ```
 
 在国内使用默认的 Docker 源下载镜像比较慢，可以使用 DaoCloud, 阿里云等进行加速。 
@@ -248,4 +248,12 @@ redis:
 ```
 
 这样就是在当前目录下创建镜像并启动容器。
+
+- `docker-compose up -d` 后台运行当前目录下 `docker-compose.yml` 中的所有容器
+- `docker-compose stop`  停止运行当前目录下 `docker-compose.yml` 中的所有容器
+- `docker-compose build` 重新创建当前目录下 `docker-compose.yml` 中的镜像
+- `docker-compose logs ` 查看容器日志，也可以指定容器名查看日志
+- `docker-compose ps`    查看容器运行状态
+- `docker-compose restart nginx` 仅重启 Nginx 容器 
+
 
