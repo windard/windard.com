@@ -168,6 +168,9 @@ docker pull registry.cn-hangzhou.aliyuncs.com/windard/firsttry
 
 现在创建好了镜像，我们来开始使用这个镜像创建应用。
 
+> 以上的步骤是创建并上传容器到云端，如果仅制作镜像，对镜像命名无需如此冗长 <br>
+> 也可以直接使用已经运行的容器制作镜像 `docker commit –m 'add game 2048' 4807f56bb576 2048game` 镜像名即为 2048game
+
 因为我们的容器中需要用到 redis ，所以先下载 redis 镜像，运行 redis 应用并命名为 redis_db。
 
 ```

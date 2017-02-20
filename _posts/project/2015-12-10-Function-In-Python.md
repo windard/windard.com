@@ -1509,6 +1509,26 @@ find . -name "*.txt" -ls | sort -n -k7 | tail -n 1
 ['I', 'w', 'a', 'n', 't', 'y', 'o', 'u']
 ```
 
+##### partition
+
+这是在 Python 2.5 中新加入的函数，其功能如下
+
+```
+>>> 'csdsdvdsds'.partition('ds')
+('cs', 'ds', 'dvdsds')
+```
+
+相当于
+
+```
+>>> 'csdsdvdsds'[:'csdsdvdsds'.index('ds')]
+'cs'
+>>> 'csdsdvdsds'['csdsdvdsds'.index('ds')+len('ds'):]
+'dvdsds'
+```
+
+还有从后往前查找函数 `rpartition`
+
 ## 对象内置函数
 
 包括`__name__` `__call__` `__init__` `__main__` `__file__` `__exit__` `__enter__` `__getattr__` `__setattr__`  `__str__` `__new__` `__del__` `__repr__` `__all__`

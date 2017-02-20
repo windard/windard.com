@@ -64,6 +64,7 @@ pass: hypriot
 - `docker diff 256d7bdde650` 显示容器文件系统的前后变化
 - `docker pause 256d7bdde650` 停止一个容器
 - `docker unpause 256d7bdde650` 启动一个容器
+- `docker commit –m 'add game 2048' 4807f56bb576 2048game` 将容器打包为镜像
 - `docker exec <containerid> ip addr ` 查看容器IP地址，默认采用网桥连接方式
 
 - `docker login` 登陆 Docker 官方镜像源，需要先在 `https://hub.docker.com/` 注册
