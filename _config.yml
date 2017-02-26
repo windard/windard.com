@@ -16,7 +16,7 @@
 title: Simple and Interesting
 email: 1106911190@qq.com
 moto: 但行好事，莫问前程
-description: 这是我的个人网站，平常也写一点东西在这里
+description: Windard's simple Blog web
 baseurl: "" # the subpath of your site, e.g. /blog
 url: https://windard.com # the base hostname & protocol for your site
 enforce_ssl: windard.com
