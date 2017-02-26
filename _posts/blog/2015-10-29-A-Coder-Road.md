@@ -9,7 +9,7 @@ category: blog
 
 搜索问题：
 
-[百度](www.baidu.com) => [谷歌](http://www.google.com)
+[百度](https://www.baidu.com) => [谷歌](https://www.google.com)
 >虽然翻墙复杂繁琐或者价格不菲，但是为什么还是有这么多人迫切的需要呢？
 
 >以前我还不能够理解，但是用惯了谷歌之后我发现，就仅仅一个谷歌就值得这一切

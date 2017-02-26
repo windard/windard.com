@@ -17,7 +17,8 @@ abbr,acronym{border:0;font-variant:normal;}
 del{text-decoration:line-through;}
 address,caption,cite,code,dfn,em,th,var {font-style:normal;font-weight:500;}
 ol,ul {list-style:none;}
-caption,th{text-align:left;}
+/*caption,th{text-align:left;}*/
+th{border-bottom: 1px solid #ccc;padding: .2em 1em;}
 h1,h2,h3,h4,h5,h6{font-size:100%;font-weight:500;}
 q:before,q:after {content:'';}
 sup{vertical-align:text-top;}
@@ -39,6 +40,7 @@ a:hover {text-decoration:underline}
 .entry-title a:hover {text-decoration:none;}
 .entry-date {text-align:center;color:#999;margin-bottom:60px;font-size:14px;}
 
+h1 {font-size:26px;font-weight:bold;margin-bottom:25px;}
 h2 {font-size:22px;font-weight:bold;margin-bottom:25px;}
 h3 {font-size:18px;font-weight:bold;margin-bottom:25px;}
 h4,h5,h6 {font-weight:bold;margin-bottom:15px;line-height: 2.8em;}
@@ -223,7 +225,7 @@ table{
     margin: 20px 0;
     border: 1px solid #ccc;
 }
-table tbody{
+table{
     margin: 10px;
     display: block;
 }
@@ -231,5 +233,6 @@ table tr{
     border-bottom: 1px solid #ccc;
 }
 table td{
-    padding: 5px; 
+    /*padding: 5px; */
+    padding:0.2em 1em;
 }
