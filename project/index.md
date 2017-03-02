@@ -30,11 +30,10 @@ layout: home
         <p>愿你我安好，世界和平</p>
         </div>
     <div class="contact" style="margin-top:35%">
-        <p>You can find me on <a href="http://www.github.com/windard">Github</a></p>
+        <p style="font-family:arial;">Best wishes  for you and the world</p>
     </div>
-    <div class="copyright" style="margin-top:-5%">
-        <p><p style="font-family:arial;">Design With Love By <a href="http://windard.com">Windard</a></p>
-        </p>
+    <div class="copyright" style="margin-button:5%">
+        <p>You can find me on <a href="http://www.github.com/windard">Github</a></p>
     </div>
 
     </div>
