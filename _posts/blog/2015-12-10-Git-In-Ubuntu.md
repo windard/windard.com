@@ -89,12 +89,10 @@ C:\Users\dell\.ssh
 
 ```
 Host github.com
-  hostname github.com
+  HostName github.com
   User windard
-  #port 22
   IdentityFile C:\Users\dell\.ssh\id_rsa
   
-
 Host 192.168.0.103
   HostName 192.168.0.103
   User windard

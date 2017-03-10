@@ -175,6 +175,31 @@ for x in xrange(10):
 print Student.num
 ```
 
+在实例属性的操作时，除了可以用 `self` 来指引实例属性之外，还可以使用 `hasattr` 来判断是否有这个实例属性，使用 `setattr` 来生成实例属性，使用 `getattr` 来获得实例属性，使用 `delattr` 来删除实例属性。
+
+```
+# coding=utf-8
+
+class Student(object):
+
+	def __init__(self, name):
+		self.name = name
+
+Mary = Student("Mary")
+
+if not hasattr(Mary, "age"):
+	setattr(Mary, "age", 21)
+
+if hasattr(Mary, "age"):
+	print getattr(Mary, "age")
+
+if hasattr(Mary, "age"):
+	delattr(Mary, "age")
+
+if not hasattr(Mary, "age"):
+	print "End"
+```
+
 #### 一些特殊类属性
 
 - `__dict__`  : 类的类属性（包含一个字典，由类的数据属性组成）
@@ -271,6 +296,72 @@ Student.judge('bad')
 Student('Mary').judge('good')
 ```
 
+### 将实例变成函数
+
+在 Python 中一切皆对象，函数也是对象，函数可以被调用，所以被称为可调用对象。
+
+```
+>>> a=abs
+>>> type(a)
+<type 'builtin_function_or_method'>
+>>> isinstance(a, object)
+True
+>>> a(-1)
+1
+>>> a.__name__
+'abs'
+```
+
+我们定义一个类之后，这个类本身也是一个对象，将这个类实例化之后生成的实例还是一个对象，只不过这个类可以被调用，而一般的实例则不能被调用。
+
+```
+>>> class foo():
+...     pass
+...
+>>> isinstance(foo, object)
+True
+>>> bar=foo()
+>>> isinstance(bar, object)
+True
+>>> bar()
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+AttributeError: foo instance has no __call__ method
+```
+
+可以看到，它报错的原因就是没有 `__call__` 函数，这个函数就是连接实例和函数之间的桥梁，给类实现一个 `__call__` 方法，则可以调用这个实例。
+
+```
+>>> class foo():
+...     def __call__(self):
+...             print "hello world"
+...
+>>> bar=foo()
+>>> bar()
+hello world
+>>> bar()
+hello world
+```
+
+就像这样，我们来试一下斐波那契数列
+
+```
+>>> class Fib(object):
+...     def __call__(self, num):
+...             a,b = 0,1
+...             self.l = []
+...             for i in xrange(num):
+...                     self.l.append(a)
+...                     a,b = b,a+b
+...             return self.l
+...
+>>> f = Fib()
+>>> f(10)
+[0, 1, 1, 2, 3, 5, 8, 13, 21, 34]
+```
+
+这样就进一步模糊了对象和函数之间的界限，至于这个类是继承 object 或者不继承，则是 Python 中新式类和旧式类的区别了，建议用新式类，具体区别下次再讲。
+
 ## 上下文管理器
 
 在 Python 中有一个很重要的部分即是上下文管理器，比如说我们想要计算某个函数的运行时间。
@@ -320,6 +411,48 @@ def countsum(count):
 	return num
 
 print countsum(100000)
+```
+上下文管理器一般用在 文件打开自动关闭，线程锁获取自动释放，数据库钩子获取自动释放等地方。
+
+如线程锁获取自动释放的实现，和文打开自动关闭的上下文管理器
+
+```
+# coding=utf-8
+
+import threading
+
+class LockContext(object):
+    """docstring for LockContext"""
+    def __init__(self):
+        print "__init__"
+        self.lock = threading.Lock()
+
+    def __enter__(self):
+        print "__enter__"
+        self.lock.acquire()
+        return self
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        print "__exit__"
+        self.lock.release()
+
+with LockContext():
+    print "in the context"
+
+class OpenContext(object):
+    """docstring for OpenContext"""
+    def __init__(self, filename, mode):
+        self.fp = open(filename, mode)
+
+    def __enter__(self):
+        return self.fp
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        self.fp.close()
+
+with OpenContext("/tmp/a", "a") as f:
+    f.write("hello world ~ ")
+
 ```
 
 ## 优雅显示

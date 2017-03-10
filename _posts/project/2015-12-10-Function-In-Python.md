@@ -1173,6 +1173,26 @@ def reduce(func,seq,initial=None):
 20
 ```
 
+或者是使用 reduce 实现 lisp 风格的代码
+
+```
+# coding=utf-8
+
+import operator
+
+def f(op, *args):
+  return {
+    '+': operator.add,
+    '-': operator.sub,
+    '*': operator.mul,
+    '/': operator.div,
+    '&': operator.mod
+  }[op](*args)
+
+print f("*", f("+", 1, 2), 3)
+```
+
+
 #### yeild递推式
 
 相当于一个生成器（generator），yield首先可以当做一般的return来使用，调用生成yield的函数返回的是一个yield实例，并没有数值，必须先执行next得到函数的第一个返回值，然后再次next，从上一个yield返回的地方继续执行得到第二个返回值，也就是说，在我们调用这个函数的时候函数其实并没有执行，只有在一次次的next中才一步步的执行了函数，最后整个函数执行结束，再执行next函数就会返回StopIteration异常。
