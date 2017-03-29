@@ -18,7 +18,7 @@ del{text-decoration:line-through;}
 address,caption,cite,code,dfn,em,th,var {font-style:normal;font-weight:500;}
 ol,ul {list-style:none;}
 /*caption,th{text-align:left;}*/
-th{border-bottom: 1px solid #ccc;padding: .2em 1em;}
+th{border-bottom: 1px solid #ccc;padding: .2em 1em; border-right: 1px solid #ccc; background-color: #efefef;line-height: 2em;}
 h1,h2,h3,h4,h5,h6{font-size:100%;font-weight:500;}
 q:before,q:after {content:'';}
 sup{vertical-align:text-top;}
@@ -235,6 +235,7 @@ table tr{
 table td{
     /*padding: 5px; */
     padding:0.2em 1em;
+    border-right: 1px solid #ccc;
 }
 
 object{

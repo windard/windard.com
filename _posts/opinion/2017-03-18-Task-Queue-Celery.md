@@ -362,14 +362,11 @@ CELERY_QUEUES = (
     Queue('web_tasks', routing_key='web.#'),
 )
 
-CELERY_DEFAULT_EXCHANGE = 'tasks'
-CELERY_DEFAULT_EXCHANGE_TYPE = 'topic'
-CELERY_DEFAULT_ROUTING_KEY = 'task.default'
 ```
 
 默认队列是 `default`。
 
-将任务和队列绑定的方法有三种，可以在定义任务的时候指定队列，
+接下来对任务指定队列。
 
 ```
 @app.task
@@ -377,18 +374,7 @@ def add(x, y, queue='default'):
     return x + y
 ```
 
-也可以在配置中设定
-
-```
-CELERY_ROUTES = {
-    'tasks.sendmail':{
-        'queue': 'web_tasks',
-        'routing_key': 'web.sendmail',
-    }
-}
-```
-
-还可以在调用时指定路由或者队列 
+然后在调用的时候也需要指定队列，这时的队列可以不一定是任务指定的队列。
 
 ```
 result = add.apply_async((1, 2), routing_key='task.add')
@@ -396,6 +382,12 @@ result = add.apply_async((1, 2), routing_key='task.add')
 
 ```
 result = add.apply_async(args=(1, 2), queue='default')
+```
+
+仅开启单个路由
+
+```
+celery -A tasks worker -Q default -l info
 ```
 
 ## 其他功能
@@ -440,43 +432,48 @@ Out[5]: <AsyncResult: df5d7387-39ca-493d-8850-1ff91aad173c>
 
 1. 关联任务
 
-    调用任务函数 `add.delay(1,2)` 的效果与 `add.apply_async(args=(1,2))` 相同。使用 link 将第一个任务的结果作为第二个任务的参数。
+调用任务函数 `add.delay(1,2)` 的效果与 `add.apply_async(args=(1,2))` 相同。使用 link 将第一个任务的结果作为第二个任务的参数。
 
-    ```
-    add.apply_async(args=(1,2), link=add.s(4))
-    ```
+```
+add.apply_async(args=(1,2), link=add.s(4))
+```
 
-    结果为 7
-
+结果为 7
 2. 过期时间
 
-    expires 单位为 秒，超过过期时间还未开始执行的任务会被回收。
+expires 单位为 秒，超过过期时间还未开始执行的任务会被回收。
 
-    ```
-    add.apply_async((1,2), expires=10)
-    ```
+```
+add.apply_async((1,2), expires=10)
+```
 
 3. 并行调度
 
-    group , 一次调度多个任务，将任务结果以列表形式返回。
+group , 一次调度多个任务，将任务结果以列表形式返回。
 
-    ``` python
-    In [16]: from celery import group
-    In [17]: res = group(add.s(i, i) for i in xrange(10))()
-    In [18]: res.get()
-    Out[18]: [0, 2, 4, 6, 8, 10, 12, 14, 16, 18]
-    ```
+```
+In [16]: from celery import group
+In [17]: res = group(add.s(i, i) for i in xrange(10))()
+In [18]: res.get()
+Out[18]: [0, 2, 4, 6, 8, 10, 12, 14, 16, 18]
+```
 
 4. 串行调度
 
-    chain , 一次调度多个任务，将前一个任务的结果作为参数传入下一个任务
+chain , 一次调度多个任务，将前一个任务的结果作为参数传入下一个任务
 
-    ``` python
-    In [19]: from celery import chain
-    In [20]: res = chain(add.s(2, 2), add.s(4), add.s(8))()
-    In [21]: res.get(timeout=1)
-    Out[21]: 16
-    ```
+```
+In [19]: from celery import chain
+In [20]: res = chain(add.s(2, 2), add.s(4), add.s(8))()
+In [21]: res.get(timeout=1)
+Out[21]: 16
+```
+
+效果同
+
+```
+c2 = (add.s(4, 16) | mul.s(2) | (add.s(4) | mul.s(8)))()
+```
 
 5. chord
 6. map
