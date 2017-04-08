@@ -5,7 +5,7 @@ category: project
 description: 完成上一篇 Python 的内置函数的关于 Python 的类未完成部分。
 ---
 
-### Python 的面向对象特性
+## Python 的面向对象特性
 
 在 [Python 继承中的构造方法和成员方法](https://windard.com/blog/2016/03/01/Method-In-Python-Child) 一文中已经对 Python 的类的一些特性有一个简单的介绍。
 
@@ -25,9 +25,9 @@ description: 完成上一篇 Python 的内置函数的关于 Python 的类未完
 # coding=utf-8
 
 class Student(object):
-	grade = 5
-	def __init__(self, name):
-		self.name = name
+    grade = 5
+    def __init__(self, name):
+        self.name = name
 
 # Student 的类属性
 print "Student.grade",Student.grade
@@ -164,13 +164,13 @@ print "Student.grade",Student.grade
 # coding=utf-8
 
 class Student(object):
-	num = 0
-	def __init__(self, name):
-		Student.num += 1
-		self.name = name
+    num = 0
+    def __init__(self, name):
+        Student.num += 1
+        self.name = name
 
 for x in xrange(10):
-	a = Student('fake')
+    a = Student('fake')
 
 print Student.num
 ```
@@ -182,22 +182,22 @@ print Student.num
 
 class Student(object):
 
-	def __init__(self, name):
-		self.name = name
+    def __init__(self, name):
+        self.name = name
 
 Mary = Student("Mary")
 
 if not hasattr(Mary, "age"):
-	setattr(Mary, "age", 21)
+    setattr(Mary, "age", 21)
 
 if hasattr(Mary, "age"):
-	print getattr(Mary, "age")
+    print getattr(Mary, "age")
 
 if hasattr(Mary, "age"):
-	delattr(Mary, "age")
+    delattr(Mary, "age")
 
 if not hasattr(Mary, "age"):
-	print "End"
+    print "End"
 ```
 
 #### 一些特殊类属性
@@ -231,16 +231,16 @@ if not hasattr(Mary, "age"):
 ```
 # coding=utf-8
 class School(object):
-	__location = 'Shannxi'   
+    __location = 'Shannxi'   
 
-	def __init__(self, name):
-		self.__name = name
+    def __init__(self, name):
+        self.__name = name
 
-	def where(self):
-		print School.__location
+    def where(self):
+        print School.__location
 
-	def what(self):
-		print self.__name
+    def what(self):
+        print self.__name
 
 xidian = School('Xidian')
 xidian.where()
@@ -257,11 +257,13 @@ xidian.where()
 print School._School__location
 print xidian._School__location
 
-# 只有通过变化形式后才能访问私有实例属性
+# 只有通过变换形式后才能访问私有实例属性
 print xidian._School__name
 ```
 
-私有方法同样的也是双下划线 `__` 加变量名，只能在实例内访问。
+私有方法同样的也是双下划线 `__` 加变量名，只能在类的内部访问。
+
+但是同样的，私有方法并不绝对私有，在外界可以通过单下划线加类名加私有方法的方式访问，虽然这是不应该的。
 
 ### 类的静态方法和类方法
 
@@ -278,17 +280,17 @@ Python 中常见的三种方法即为实例方法，静态方法和类方法。
 ```
 # coding=utf-8
 class Student(object):
-	school = 'xidian'
-	def __init__(self, name):
-		self.name = name
+    school = 'xidian'
+    def __init__(self, name):
+        self.name = name
 
-	@staticmethod
-	def write(name):
-		print "Hello,", name
+    @staticmethod
+    def write(name):
+        print "Hello,", name
 
-	@classmethod
-	def judge(cls, words):
-		print cls.school,'is', words
+    @classmethod
+    def judge(cls, words):
+        print cls.school,'is', words
 
 
 # 类或者实例都可以调用静态方法
@@ -298,6 +300,44 @@ Student('Mary').write('windard')
 # 类或者实例都可以调用类方法
 Student.judge('bad')
 Student('Mary').judge('good')
+```
+
+### 类的属性
+
+类的属性和类的方法并不是完全独立的，可以将类的方法想类的属性一样调用，也可以将类的属性像类的方法一样获取。
+
+这里底层实现是使用魔术方法 `__set__` 和 `__get__` ，但是 Python 已经给我们封装好了，直接使用 `property` 和 `setter` 即可方便使用。
+
+property 只能在新式类上使用。
+
+```
+# coding=utf-8
+
+import hashlib
+
+
+class User(object):
+    password = ''
+    password_hash = ''
+
+    @property
+    def password(self):
+        raise AttributeError('password is not a readable attribute')
+
+    @password.setter
+    def password(self, password):
+        self.password_hash = hashlib.sha512(password).hexdigest()
+
+student = User()
+student.password = '123456'
+
+try:
+    print student.password
+except AttributeError, e:
+    print tuple(e)
+
+print student.password_hash
+
 ```
 
 ### 将实例变成函数
@@ -375,21 +415,21 @@ hello world
 import time
 
 class ElapsedTime(object):
-	def __enter__(self):
-		self.start_time = time.time()
+    def __enter__(self):
+        self.start_time = time.time()
 
-	def __exit__(self, exception_type, exception_value, traceback):
-		self.end_time = time.time()
-		print "Speeds %f S."%(self.end_time - self.start_time)
+    def __exit__(self, exception_type, exception_value, traceback):
+        self.end_time = time.time()
+        print "Speeds %f S."%(self.end_time - self.start_time)
 
 def countsum(count):
-	num = 0
-	for x in xrange(count):
-		num += x
-	return num
+    num = 0
+    for x in xrange(count):
+        num += x
+    return num
 
 with ElapsedTime():
-	print countsum(100000)		
+    print countsum(100000)      
 ```
 
 这个也可以用装饰器来实现
@@ -399,20 +439,20 @@ with ElapsedTime():
 import time
 
 def ElapsedTimeWarp(func):
-	def spendtime(*args, **kwargs):
-		start_time = time.time()
-		result = func(*args, **kwargs)
-		end_time = time.time()
-		print "Speeds %f S."%(end_time - start_time)
-		return result
-	return spendtime
+    def spendtime(*args, **kwargs):
+        start_time = time.time()
+        result = func(*args, **kwargs)
+        end_time = time.time()
+        print "Speeds %f S."%(end_time - start_time)
+        return result
+    return spendtime
 
 @ElapsedTimeWarp
 def countsum(count):
-	num = 0
-	for x in xrange(count):
-		num += x
-	return num
+    num = 0
+    for x in xrange(count):
+        num += x
+    return num
 
 print countsum(100000)
 ```
@@ -520,7 +560,7 @@ Foo(1, bar)
 
 通过一个嵌套，将另一个函数嵌入到原函数中，调用原函数时，返回另一个函数，但是因为另一个函数处于原函数中，所以仍然保留原函数的局部变量，通过函数嵌套即实现了闭包。
 
-闭包的功能就是通过两个函数的嵌套实现局部变量的持久化存储，将局部变量的作用域扩大到每一次原函数的调用中，在本例中类似于默认参数的使用，或者是默认参数加上解释器的使用，但是实际中的闭包用途更加广泛 。
+闭包的功能就是通过两个函数的嵌套实现局部变量的持久化存储，将局部变量的作用域扩大到每一次原函数的调用中，在本例中类似于默认参数的使用，或者是默认参数加上装饰器的使用，但是实际中的闭包用途更加广泛 。
 
 ## 新式类和旧式类
 
@@ -665,15 +705,15 @@ class NewClass(object):
 
 new_class = NewClass()
 
-print NewClass.__class__            		# <type 'type'>
-print NewClass.__base__             		# <type 'object'>
-print new_class.__class__           		# <class '__main__.NewClass'>
-# print new_class.__base__          		# AttributeError
+print NewClass.__class__                    # <type 'type'>
+print NewClass.__base__                     # <type 'object'>
+print new_class.__class__                   # <class '__main__.NewClass'>
+# print new_class.__base__                  # AttributeError
 
-print isinstance(NewClass, type)    		# True
-print isinstance(NewClass, object)  		# True
-print isinstance(new_class, type)   		# False
-print isinstance(new_class, object) 		# True
+print isinstance(NewClass, type)            # True
+print isinstance(NewClass, object)          # True
+print isinstance(new_class, type)           # False
+print isinstance(new_class, object)         # True
 
 
 ```
@@ -804,6 +844,8 @@ print dir(new_class)
 
 所有实例化对象都是类的实例，都是 object 的间接子类，不再是 type 的间接实例。
 
+在继承中，主要起作用的方法是构造方法 `__init__`， 而在实现的时候，则是实例方法 `__new__` 。
+
 在面向对象程序设计中，设计的最多的就是类，写了各种类，但是，你有没有写过类型呢？
 
 类的类被称为元类，在 Python 中元类只有 type 。新式类与旧式类的区别就在于 有没有类的类。
@@ -839,3 +881,11 @@ print new_class.__class__               # <class '__main__.NewClass'>
 在这里也可以发现，它的类型不再是形如 `<type XXX>` 而是形如 `<class XXX>`。
 
 具体的可以看 [Python 的 type 和 object 之间是怎么一种关系？](https://www.zhihu.com/question/38791962) 和 [Python Types and Objects](http://www.cafepy.com/article/python_types_and_objects/python_types_and_objects.html)
+
+## python 的模块
+
+在 Python 模块中常用到的两个函数 `__all__` 和 `__import__`
+
+分别表示在可以引用本模块中的内容，和动态引用另一个模块。
+
+还有 `__file__` 查看模块所在位置。
