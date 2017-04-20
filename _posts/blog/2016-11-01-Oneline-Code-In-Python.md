@@ -141,6 +141,12 @@ print(lambda x:x+str((x,)))('print(lambda x:x+str((x,)))',)
 qsort = lambda arr: len(arr) > 1 and qsort(list(filter(lambda x: x <= arr[0], arr[1:]))) + arr[0:1] + qsort(list(filter(lambda x: x > arr[0], arr[1:]))) or arr
 print qsort([12,43,54,23,14,243,54,13,43])
 ```
+
+```
+quickSort = lambda a: a if len(a) <= 1 else quickSort([x for x in a[1:] if x < a[0]]) + [a[0]] + quickSort([x for x in a[1:] if x >= a[0]])
+print quickSort(a)
+```
+
 #### 一句话求解 2 的 1000 次方的各位数字之和
 
 ```

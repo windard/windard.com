@@ -440,9 +440,9 @@ import time
 
 def ElapsedTimeWarp(func):
     def spendtime(*args, **kwargs):
-        start_time = time.time()
+        start_time = time.clock()
         result = func(*args, **kwargs)
-        end_time = time.time()
+        end_time = time.clock()
         print "Speeds %f S."%(end_time - start_time)
         return result
     return spendtime

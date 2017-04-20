@@ -7,7 +7,7 @@ category: opinion
 
 
 
-##复习计划及暑假计划
+## 复习计划及暑假计划
  
 马上就要期末考试了，还是很重要的，就算拿不到奖学金（也不一定），但是一定要好好学习
 
@@ -25,4 +25,5 @@ category: opinion
 
 有很多的东西要来慢慢学
 bootstrapt—JavaScript（jQuery）—ajax—HTML5 css3—node.js—Python—PHP 
-##加油！少年！##
+
+## 加油！少年！##
