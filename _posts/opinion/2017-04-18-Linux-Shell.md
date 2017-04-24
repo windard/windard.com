@@ -31,6 +31,15 @@ category: opinion
 
 常用命令 `tail -n100 <filename>`, `tail -f <filename>`
 
+### head
+
+`tail [option] [file]` 打印文件前十行，如果没有 file，则从屏幕输入
+
+- `-n` : 输出前 n 行
+- `-c` : 输出前 c 个字节
+
+常用命令 `head <filename>`
+
 ### grep
 
 `grep [option] pattern [file]` 正则匹配查找，查找所有行使用`''` 而不是 `*`
@@ -68,6 +77,7 @@ category: opinion
 
 - `-F ` : 修改分割符，默认分割符为空格或者 Tab
 - `$0`  : 所有域，类似的 `$1` 第一个域
+- `-f`  : 使用文件中的 awk 命令
 
 常用命令
 
@@ -320,7 +330,14 @@ awk 'BEGIN{sum=0;len=0} {for(i=1;i<=NF;i++){if($i~/^[0-9]+[\.0-9]*$/){sum+=$i;le
 2. `awk 'END{print NR}' test`
 3. `awk 'BEGIN{count=0} {count++} END{print count}' test`
 4. `cat test |wc -l`
-5. `wc -l test`
-6. `grep -n '' test |tail -n1`
-7. `grep -n '' test |awk -F: '{print $1}'|tail -n1`
-8. `sed -n '$=' test`
+5. `cat -n test |tail -n1`
+6. `wc -l test`
+7. `grep -n '' test |tail -n1`
+8. `grep -n '' test |awk -F: '{print $1}'|tail -n1`
+9. `sed -n '$=' test`
+
+### 输出文件前十行
+
+1. `head test`
+2. `sed -n '1,10p' test`
+3. `awk '{if(NR<11)print $0}' test`
