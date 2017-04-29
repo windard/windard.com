@@ -252,6 +252,8 @@ redis:
 
 这样就是在当前目录下创建镜像并启动容器。
 
+关于 docker-compose 的配置信息，查看[官方文档](https://docs.docker.com/compose/compose-file/compose-file-v2/#service-configuration-reference)更简明易懂
+
 - `docker-compose up -d` 后台运行当前目录下 `docker-compose.yml` 中的所有容器
 - `docker-compose stop`  停止运行当前目录下 `docker-compose.yml` 中的所有容器
 - `docker-compose build` 重新创建当前目录下 `docker-compose.yml` 中的镜像

@@ -135,6 +135,81 @@ for item in itertools.combinations(digital,3):
 print nums
 ```
 
+在上面的排列组合问题中，如果只是排列，而且是全排列的话，有一个简单一点的算法
+
+```
+# coding=utf-8
+
+
+def all_perms(elements):
+    if len(elements) <= 1:
+        yield elements
+    else:
+        for perm in all_perms(elements[1:]):
+            for i in range(len(elements)):
+                # nb elements[0:1] works in both string and list contexts
+                yield perm[:i] + elements[0:1] + perm[i:]
+
+print list(all_perms(range(3)))
+print list(all_perms('abc'))
+
+```
+
+或者非要有选择的排列的话，itertools.permutations 的文档中列出了几种替代方法
+
+```
+# coding=utf-8
+
+
+def permutations(iterable, r=None):
+    # permutations('ABCD', 2) --> AB AC AD BA BC BD CA CB CD DA DB DC
+    # permutations(range(3)) --> 012 021 102 120 201 210
+    pool = tuple(iterable)
+    n = len(pool)
+    r = n if r is None else r
+    if r > n:
+        return
+    indices = range(n)
+    cycles = range(n, n-r, -1)
+    yield tuple(pool[i] for i in indices[:r])
+    while n:
+        for i in reversed(range(r)):
+            cycles[i] -= 1
+            if cycles[i] == 0:
+                indices[i:] = indices[i+1:] + indices[i:i+1]
+                cycles[i] = n - i
+            else:
+                j = cycles[i]
+                indices[i], indices[-j] = indices[-j], indices[i]
+                yield tuple(pool[i] for i in indices[:r])
+                break
+        else:
+            return
+
+print len(list(permutations(xrange(10), 3)))
+```
+
+或者是是用 itertools.production
+
+```
+# coding=utf-8
+
+
+from itertools import product
+
+
+def permutations(iterable, r=None):
+    pool = tuple(iterable)
+    n = len(pool)
+    r = n if r is None else r
+    for indices in product(range(n), repeat=r):
+        if len(set(indices)) == r:
+            yield tuple(pool[i] for i in indices)
+
+print len(list(permutations(xrange(10), 3)))
+
+```
+
 类似的，还有八皇后问题，我们先简化为三皇后问题，即在一个三乘三棋盘上，如何放置三个皇后棋子，使每个皇后水平或者垂直方向上都不会遇到其他皇后。
 
 答案很简单，六种摆放方式。
@@ -367,12 +442,6 @@ def solvequeen(size):
     return [chessdot for chessdot in __import__('itertools').permutations(xrange(size)) if len(set([i+chessdot[i] for i in xrange(size)])) == size == len(set([i-chessdot[i] for i in xrange(size)]))]
 
 print len(solvequeen(8))
-```
-
-最终压缩版
-
-```
-
 ```
 
 在 八皇后问题 一开始的思路是先确定八个皇后的位置，然后判断当前这个位置状态是否符合，如果不符合则舍弃，否则标记保留下来。
