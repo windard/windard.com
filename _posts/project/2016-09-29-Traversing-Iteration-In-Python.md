@@ -155,6 +155,25 @@ print list(all_perms('abc'))
 
 ```
 
+还有一种方法
+
+```
+# coding=utf-8
+
+
+def permutations(array):
+    if len(array) == 0:
+        yield array
+    else:
+        for i in range(len(array)):
+            array[0], array[i] = array[i], array[0]
+            for item in permutations(array[1:]):
+                yield [array[0]] + item
+
+for item in permutations(range(3)):
+    print item
+```
+
 或者非要有选择的排列的话，itertools.permutations 的文档中列出了几种替代方法
 
 ```
