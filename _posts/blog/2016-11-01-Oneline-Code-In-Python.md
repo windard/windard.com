@@ -173,6 +173,20 @@ print flatten(a)
 [1, 2, 3, 4, 5, 6, 7, 8]
 ```
 
+其实还可以这样
+
+```
+import itertools
+
+a_list = [[1, 2], [3, 4], [5, 6]]
+print(list(itertools.chain.from_iterable(a_list)))
+# Output: [1, 2, 3, 4, 5, 6]
+
+# or
+print(list(itertools.chain(*a_list)))
+# Output: [1, 2, 3, 4, 5, 6]
+```
+
 #### 矩阵转置
 
 ```

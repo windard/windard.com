@@ -537,6 +537,29 @@ None
 
 ### 高级生成器应用
 
+协程可以这样用
+
+```
+# coding=utf-8
+
+
+def grep(pattern):
+    print "Searching for", pattern
+    while True:
+        line = (yield)
+        if pattern in line:
+            print(line)
+
+search = grep('coroutine')
+next(search)
+#output: Searching for coroutine
+search.send("I love you")
+search.send("Don't you love me?")
+search.send("I love coroutine instead!")
+#output: I love coroutine instead!
+search.close()
+```
+
 之前我用线程写过生产者消费者模型，需要用到资源锁，就比较复杂，用协程就比较容易实现，这是使用高级生成器实现的协程。
 
 ```
