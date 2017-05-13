@@ -385,7 +385,7 @@ ubuntu好像这个问题比较严重，一般就是当你合上笔记本电脑�
 为了支持这些加密方式，需要安装python的一个加密模块
 `sudo apt-get install python-m2crypto`
 
-然后你就可以使用shadowsocks了，这是客户端的使用：`sudo sslocal -c /etc/shadowsocks.json`，如果你是搭建ss服务器端就是这样：`sudo ssserver -c /etc/shadowsocks.json`
+然后你就可以使用shadowsocks了，这是客户端的使用：`sudo sslocal -c /etc/shadowsocks.json`，如果你是搭建ss服务器端就是这样：`sudo ssserver -c /etc/shadowsocks.json -d start --log /var/log/shadowsocks.log`
 
 当然如果你的浏览器可能也还需要设定一下代理，或者是直接开启全局代理模式。
 
@@ -419,6 +419,12 @@ make install
 
 ```
 ss-server -c config.json -f /var/run/shadowsocks.pid
+```
+
+或者 
+
+```
+nohup ss-server -c config.json >shadowsocks.log 2>&1 &
 ```
 
 配置文件这样可以同时监听 v4 和 v6

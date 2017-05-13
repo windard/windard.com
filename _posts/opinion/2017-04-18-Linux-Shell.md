@@ -20,7 +20,7 @@ category: opinion
 - `-n` : 输出行号，包括空行
 - `-b` : 输出行号，不包括空行
 
-常用命令 `cat <filename>` , `cat -n <filename>|tail -n1`
+常用命令 `cat <filename>` , `cat -n <filename>|tail -n1`, `cat prefix* >all`, `cat last>>first`
 
 ### tail
 
@@ -173,6 +173,19 @@ function:
 - `-u` : 去重，功能同 `uniq`，但它是全文本去重
 
 常用命令 `sort <file>`
+
+### split
+
+`split [option] [file] (prefix)` 对文件内容进行切分
+
+- `-l` : 每一段输出的行数，默认为 1000 行
+- `-b` : 每一段输出的大小，单位为  byte
+- `-C` : 每一段输出的大小，但是在切割时尽量维持每行的完整性
+- `-d` : 切割后文件名按 数字顺序递增
+- `-a` : 后缀系数位数，默认有两位
+- `(prefix)` : 切割后文件名前缀，默认为 aa，按字母顺序递增
+
+常用命令 `split <file>`, `split -2000 <file>`, `split -b 1m <file>`, `split -C 1m <file>`, `split <file> -d -a 4 prefix_`
 
 ## 实际应用
 
