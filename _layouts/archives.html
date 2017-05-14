@@ -1,0 +1,67 @@
+---
+layout: default
+---
+
+<style type="text/css" media="screen">
+    #main{
+        width: 1080px;
+        margin: 90px auto 60px;
+        min-height: 400px;
+        height: auto !important;
+    }
+    .main-inner{
+        width: 800px;
+        margin: 2em auto 0;
+    }
+    .post{
+        opacity: 1;
+        display: block;
+        transform: translateX(0px);
+        padding-bottom: 15px;
+        position: relative;
+        border-bottom: 1px dashed #ccc;
+    }
+    .post .post-title{
+        font-size: 18px;
+        margin:0;
+    }
+    .post .post-date{
+        font-size: 12px;
+        margin:-5px 0 0;
+    }
+    @media screen and (max-width: 1020px){
+        #main{
+            width: 95%;
+        }
+        .main-inner{
+            width: 90%;
+        }
+        .post .post-title{
+            font-size: 14px;
+            margin:0;
+            word-break: break-all;
+        }
+        .post .post-date{
+            font-size: 12px;
+            margin:0;
+        }
+    }
+    a{
+        color: black;
+    }
+    a:hover{
+        text-decoration: none;
+        color: #E50053;
+        transition: border 0.2s ease-in-out;
+    }
+</style>
+
+<div class='main' id='main'>
+    <div class="main-inner">
+        <div class="content-wrap">
+            <div class="content">
+                {{ content }}
+            </div>
+        </div>
+    </div>
+</div>

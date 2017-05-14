@@ -106,7 +106,7 @@ awk 内置变量
 - OFS                输出域分隔符 默认为空格
 - RS                 输入行分隔符 默认为 \n
 - ORS                输出行分隔符 默认为 \n
-- LENGTH			 当前行长度
+- LENGTH             当前行长度
 
 ### sed
 
@@ -354,3 +354,36 @@ awk 'BEGIN{sum=0;len=0} {for(i=1;i<=NF;i++){if($i~/^[0-9]+[\.0-9]*$/){sum+=$i;le
 1. `head test`
 2. `sed -n '1,10p' test`
 3. `awk '{if(NR<11)print $0}' test`
+
+### Nignx 日志切割
+
+```
+#!/bin/bash
+
+prefix=error_`date +%Y%m%d`_
+split error.log -10000 -d $prefix
+for i in `ls |grep $prefix`;
+do
+    gzip $i;
+done
+
+last=`ls|grep $prefix|tail -n1`
+gzip -d $last
+
+last=`ls|grep $prefix|tail -n1`
+mv $last error.log
+
+kill -USR1 $(cat /var/logs/nginx.pid)
+```
+
+或者
+
+```
+#!/bin/bash
+#cut nginx access.log
+ 
+LOGS_PATH=/var/log/nginx
+yesterday=`date  +"%F" -d  "-1 days"`
+mv ${LOGS_PATH}/nginx.log  ${LOGS_PATH}/nginx-${yesterday}.log
+kill -USR1 $(cat /var/logs/nginx.pid)
+```
