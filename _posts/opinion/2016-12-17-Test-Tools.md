@@ -60,6 +60,8 @@ Longest transaction:           31.62
 Shortest transaction:           0.00
 ```
 
+主要查看参数 `Transaction rate`
+
 ## Apache Benchmark
 
 ```
@@ -164,3 +166,5 @@ Percentage of the requests served within a certain time (ms)
   99%    106
  100%    107 (longest request)
 ```
+
+主要参看参数 `Requests per second`

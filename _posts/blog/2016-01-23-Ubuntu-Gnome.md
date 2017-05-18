@@ -485,6 +485,7 @@ sudo apt-get install smplayer
 ```
 
 ## node
+
 在 Ubuntu 下安装 node 可以使用 nvm 比较方便。
 
 树莓派下可以直接下载二进制包安装比较方便 `http://nodejs.org/dist/`
@@ -526,4 +527,23 @@ export path=$path:/path1:/path2:/pahtN
 ```
 
 永久加入环境变量，修改文件 `/etc/profile`，在最后加入 `export path=$path:/path1:/path2:/pahtN` ,然后 `source /etc/profile ` 重新加载环境变量
+
+## proxychain
+
+在命令行中使用代理，在也不用在 wget ，curl 里找各种设置代理的地方了。
+
+[github 地址](https://github.com/rofl0r/proxychains-ng)
+
+安装方式
+
+```
+git clone git@github.com:rofl0r/proxychains-ng.git
+cd proxychains-ng
+./configure --prefix=/usr --sysconfdir=/etc
+make
+[optional] sudo make install
+[optional] sudo make install-config (installs proxychains.conf)
+```
+
+最后在 `/etc/proxychains.conf` 的最后一行改为 socks5 的代理，默认是 sock4 的 tor 代理。
 

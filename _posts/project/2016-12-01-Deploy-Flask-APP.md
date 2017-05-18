@@ -23,7 +23,7 @@ if __name__ == "__main__":
     app.run(host="0.0.0.0", port=8080)
 ```
 
-然后直接 ` python hello.py ` 运行即可
+然后直接 `python hello.py` 运行即可
 
 ```
 C:\Users\dell\.ssh\Flasky\test (master)
@@ -153,6 +153,8 @@ uWSGI 也是部署 web 服务的一种选择，它也是基于 WSGI 的，但是
 
 uWSGI 本身就能够驱动 Flask 程序运行，同样是最上面的那个 Flask 文件，监听 127.0.0.1:3031 ，使用 4 个进程，2 个线程，监控端口在 127.0.0.1:9091.
 
+使用 uwsgi 的话，请使用 `pip install uwsgi` 而不是使用系统自带的包管理器，如 apt，yum 之类的，因为这样的话还需要额外安装 Python 的插件，比较麻烦。
+
 ```
 uwsgi --http 127.0.0.1:3031 --wsgi-file hello.py --callable app --processes 4 --threads 2 --stats 127.0.0.1:9191
 ```
@@ -255,6 +257,23 @@ logto = /var/log/uwsgi.log
 stats = 127.0.0.1:9091
 ```
 
+或者是另一种风格
+
+```
+[uwsgi]
+socket = /var/run/project/uwsgi.sock
+logto = /var/log/project/uwsgi.log
+chdir = /var/www/project
+wsgi-file = hello.py
+callable = app
+processes = 4
+threads = 2
+stats = 127.0.0.1:9091
+uid = www-data
+gid = www-data
+chmod-socket = 666
+```
+
 Nginx 的配置文件也是一样的
 
 ```
@@ -266,6 +285,46 @@ location / {
     proxy_set_header   X-Real-IP            $remote_addr;
     proxy_set_header   X-Forwarded-For      $proxy_add_x_forwarded_for;
     proxy_set_header   X-Forwarded-Proto    $scheme;
+}
+```
+
+或者是使用本地虚拟环境中的 Python 的话，配置文件需要稍作修改
+
+```
+[uwsgi]
+base = /var/www/nginx/project
+app = manage
+callable = app
+module = %(app)
+home = %(base)/venv
+pythonpath = %(base)
+socket = /var/run/project/project_uwsgi.sock
+chomd-socket = 666
+logto = /var/log/project/project_uwsgi.log
+```
+
+完整的配置文件
+
+```
+server {
+        listen                                  8089;
+        listen                                  [::]:8089;
+        server_name                             0.0.0.0;
+        charset                                 utf-8;
+        client_max_body_size                    75M;
+
+        access_log /var/log/project/project.access.log main;
+        error_log /var/log/project/project.error.log error;
+
+        location / {
+            include uwsgi_params;
+            uwsgi_pass unix:/var/run/project/uwsgi.sock;
+            proxy_set_header   Host                 $host;
+            proxy_set_header   X-Real-IP            $remote_addr;
+            proxy_set_header   X-Forwarded-For      $proxy_add_x_forwarded_for;
+            proxy_set_header   X-Forwarded-Proto    $scheme;
+        }
+
 }
 ```
 
@@ -436,7 +495,7 @@ Longest transaction:           31.05
 Shortest transaction:           0.00
 ```
 
-虽然设定的是每次 1000 个，但是好像是限制并发数255。
+虽然设定的是每次 1000 个，但是好像是限制并发数255，可以使用 `ulimit -n 3000` 修改最大连接数。
 
 感觉是不是页面太简单了，好像并没有多大的差距。。。
 

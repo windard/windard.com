@@ -188,3 +188,5 @@ ipconfig /flushdns
 ```
 
 39. PPT 的后缀名由 pptx 改为 ppsx 即可双击打开即播放，就像 Python 代码后缀名 由 py 改为 pyw 一样，双击打开即运行。
+
+40. 快速获得外网 IP `curl http://httpbin.org/ip`

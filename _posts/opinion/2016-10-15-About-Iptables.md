@@ -53,11 +53,11 @@ iptables -I INPUT -s ***.***.***.*** -j DROP        # 要封停一个IP，使用
 iptables -D INPUT -s ***.***.***.*** -j DROP        # 要解封一个IP，使用下面这条命令
 ```
 
-#### iptables 组成
+### iptables 组成
 
 **四表五链**
 
-##### 表: 
+#### 表: 
 
 - filter 用于过滤，访问控制、规则匹配 
 - nat 用于nat功能，端口映射，地址转发
@@ -66,7 +66,7 @@ iptables -D INPUT -s ***.***.***.*** -j DROP        # 要解封一个IP，使用
 
 一般前两张表用的比较多
 
-##### 链: 
+#### 链: 
 
 - INPUT 匹配目的地址为本机的
 - OUTPUT 匹配向外转发的
@@ -74,13 +74,13 @@ iptables -D INPUT -s ***.***.***.*** -j DROP        # 要解封一个IP，使用
 - PREROUTING 路由前，用于修改目的地址（DNAT）
 - POSTROUTING 路由后，用于修改源地址（SNAT）
 
-#### iptables 使用
+### iptables 命令
 
 iptables  [-t 表名 ]  命令 链名 匹配  -j 操作
 
 > 默认使用 filter 表
 
-##### 命令
+#### 命令
 
 - `-A` （append）追加一条规则
 - `-I` （insert）插入一条规则，因为 iptables 的规则是从前往后匹配，找到匹配即停止，所以 `drop` 或 `reject`操作一般是放在最后，那么如果在这里操作之后再用 `-A` 就不起作用，此时即使用 `-I`。
@@ -95,7 +95,7 @@ iptables  [-t 表名 ]  命令 链名 匹配  -j 操作
 - `-6` （ipv6） 设定 IPv6 的规则
 - `-V` （version）版本号
 
-##### 匹配条件
+#### 匹配条件
 
 - `-i` （input）进入接口 如 eth0,wlan0
 - `-o` （output）出去接口
@@ -110,7 +110,7 @@ iptables  [-t 表名 ]  命令 链名 匹配  -j 操作
 - `--limit` 包速率匹配
 - `--multiport` 多端口匹配，端口以逗号分隔
 
-##### 操作
+#### 操作
 
 - `ACCEPT` 允许数据包通过
 - `DROP` 阻止数据包通过
@@ -121,7 +121,7 @@ iptables  [-t 表名 ]  命令 链名 匹配  -j 操作
 
 默认 iptables 配置文件位置 `/etc/sysconfig/iptables`
 
-#### 简单使用
+### 简单使用
 
 关闭 iptables ，开启 iptables，查看 iptables 状态，重启 iptables
 
@@ -196,7 +196,7 @@ iptables -A INPUT -p tcp --dport 1723 -j ACCEPT
 iptables -A INPUT -j REJECT
 ```
 
-#### 端口转发
+### 端口转发
 
 NAT( Network Address Translation，网络地址转换 ) ，用来解决 Ipv4 地址不足的问题，可以通过少量的 公有 IP 来代表多数 私有 IP，一般通过 端口转发 来实现，在学校，公司，研究机构等场景应用较为广泛。
 
@@ -235,6 +235,13 @@ iptables –t nat -A POSTROUTING -s [内网IP或网段] -j SNAT --to [公网IP]
 iptables –t nat -A PREROUTING -d [对外IP] -p tcp --dport [对外端口] -j DNAT --to [内网IP:内网端口]
 ```
 
+或者根据外网网卡做映射
+
+```
+iptables –t nat -A PREROUTING -i eth0 -p tcp --dport [对外端口] -j DNAT --to [内网IP:内网端口]
+
+```
+
 这里不用再配 SNAT ，因为系统会根据数据包的来源再返还回去。
 
 还可以做流量劫持，比如你在路由器上，内网设备都通过 `br-lan`，把内网设备网站劫持到你的路由器配置页面。
@@ -244,6 +251,8 @@ iptables -t nat -A PREROUTING -i br-lan -p tcp --dport 80 -j DNAT --to 192.168.1
 ``` 
 
 对 HTTPS 的站无效。
+
+### 端口转发
 
 #### 本地端口转发
 
@@ -261,7 +270,7 @@ iptables -t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to-ports 8080
 iptables -t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to-ports 8001:8008
 ```
 
-#### 默认 iptables 配置
+### 默认 iptables 配置
 
 ```
 iptables -nvL              
@@ -288,7 +297,7 @@ cent OS 上 iptables 的默认配置
 -A FORWARD -j REJECT --reject-with icmp-host-prohibited
 ```
 
-参考链接
+### 参考链接
 
 [Iptables小总结](https://yq.aliyun.com/articles/38737) <br>
 [→_→ iptables](https://vvl.me/2016/08/iptables-two/) <br>
