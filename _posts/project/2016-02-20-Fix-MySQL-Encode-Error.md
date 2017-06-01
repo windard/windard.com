@@ -5,6 +5,8 @@ category: project
 description: 无论是在windows上还是linux上，好像MySQL的存储格式编码都有问题，默认是拉丁语系的存储格式，需要改为utf8的存储格式
 ---
 
+## 数据库的编码问题
+
 中文编码确实是非常蛋疼的一件事。  
 在数据库里尤甚。MySQL的默认字符串集是拉丁语，真是~~  
 而且，在MySQL数据库中，没有UTF-8，也没有utf-8，而是utf8.    
@@ -66,9 +68,12 @@ description: 无论是在windows上还是linux上，好像MySQL的存储格式�
 
 至于我们为什么要把编码格式都改成utf-8，因为utf-8是能够存储更多的字符，，包括全球所有的语言，是大势所趋。而GBK是中国的标准，不仅支持的汉字数量远不足utf-8，而且在几种GBK的编码方式中相互都不兼容，虽然目前的Windows操作系统中中文的默认编码格式是GBK，但是GBK编码的很多缺点已经越来越明显。  
 
-#### 修复数据库编码问题
+> 在现在的发展中，`utf8` 也要渐渐被 `utf8mb4` 所取代，因为后者所占的字节更大，可以表示的内容也更多，如 emoji。
 
-1. Linux
+## 修复数据库编码问题
+
+### Linux
+
 我是在Ubuntu下装的MySQL，使用`SHOW VARIABLES LIKE ‘%character%’;`后查看的结果是这样。  
 
 ```
@@ -101,33 +106,41 @@ SET character_set_client = utf8;
 SET character_set_results = utf8;  
 SET character_set_connection = utf8;  
 ```
-2. Windows
+
+### Windows
+
 我也在Windows下安装了MySQL，中文编码问题非常严重，在网上找的教程有一点的问题，最终解决了。  
 一开始我的数据库编码是这样的。   
 ![MySQL_error_windows.jpg](/images/MySQL_error_windows.jpg)  
+
 简直惨不忍睹，各种编码格式，在网上找了教程步骤也是跟上面的一样，分别在三个地方加上设定默认编码格式就好了。  但是我的my.ini的内容是这样的，根本就没有那些字段。
 ![MySQL_ini.jpg](/images/MySQL_ini.jpg)  
+
+**解决办法**  
  1. 那我们先自己加上一个字段`[client]`,并在这个的下一行加上`default-character-set = utf8`，保存看一下结果。当然，先重启MySQL。  
-此时我的`my.ini`是这个样子的。   
-![MySQL_client.jpg](/images/MySQL_client.jpg)  
-此时我的MySQL是这个样子的。  
-![MySQL_client_successful.jpg](/images/MySQL_client_successful.jpg)  
-太棒了，多了俩utf8。  
- 2.那我们在`my.ini`里面再加上一个字段`[mysql]`，并在这个的下一行加上`default-character-set = utf8`，保存看一下结果。当然先重启MySQL。  
-此时我的`my.ini`是这个样子的。  
-![MySQL_mysql.jpg](/images/MySQL_mysql.jpg)  
-此时我的MySQL是这个样子的。  
-![MySQL_mysql_success.jpg](/images/MySQL_mysql_success.jpg)  
-跟之前没有什么变化嘛~  (⊙o⊙)… 没事，还有一步。
+ 此时我的`my.ini`是这个样子的。   
+ ![MySQL_client.jpg](/images/MySQL_client.jpg)  
+ 此时我的MySQL是这个样子的。  
+ ![MySQL_client_successful.jpg](/images/MySQL_client_successful.jpg)  
+ 太棒了，多了俩utf8。  
+ 2. 那我们在`my.ini`里面再加上一个字段`[mysql]`，并在这个的下一行加上`default-character-set = utf8`，保存看一下结果。当然先重启MySQL。  
+ 此时我的`my.ini`是这个样子的。  
+ ![MySQL_mysql.jpg](/images/MySQL_mysql.jpg)  
+ 此时我的MySQL是这个样子的。  
+ ![MySQL_mysql_success.jpg](/images/MySQL_mysql_success.jpg)  
+ 跟之前没有什么变化嘛~  (⊙o⊙)… 没事，还有一步。
  3. 我们在`my.ini`的仅有的一个字段`[mysqld]`里面再加上这一句`character-set-server=utf8`,保存看一下结果。当然，先重启MySQL。   
-此时我的`my.ini`是这个样子的。  
-![MySQL_mysqld.jpg](/images/MySQL_mysqld.jpg)
-此时我的MySQL是这个样子的。  
-![MySQL_mysqld_successful.jpg](/images/MySQL_mysqld_successful.jpg)
-完成了，哦也\\(\^o\^)/.   
+ 此时我的`my.ini`是这个样子的。  
+ ![MySQL_mysqld.jpg](/images/MySQL_mysqld.jpg)
+ 此时我的MySQL是这个样子的。  
+ ![MySQL_mysqld_successful.jpg](/images/MySQL_mysqld_successful.jpg)
+ 完成了，哦也\\(\^o\^)/.   
 
+> 现在的都推荐使用 `utf8mb4` 来取代 `utf8` ,相对的设置或者创建的时候是选择 `utf8md4_general_ci` 而不是 `utf8_general_ci`
 
->设定与数据库的连接的编码格式,这是在Linux下和Windows下通用的。
+### 连接时设置编码方式
+
+设定与数据库的连接的编码格式,这是在Linux下和Windows下通用的。
 
 ```php
 mysql_query("SET NAMES 'UTF8'"); 
@@ -135,11 +148,11 @@ mysql_query("SET NAMES 'UTF8'");
 #mysqli_set_charset($recouce ,"utf8");
 ```
 
-如果其他地方都没有什么问题了的话，还可以试一下在phpmyadmin里新建table时的将'排序规则'或者是叫做'整理'，选择`utf8_general_ci`，或者是在新建数据库时使用`CREATE DATABASE `dbname` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci; `，新建数据表时使用`CREATE TABLE `test` ( 
-`id` INT NOT NULL , 
-`name` VARCHAR( 10 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL , 
-PRIMARY KEY ( `id` ) 
-) ENGINE = MYISAM ; `
+如果其他地方都没有什么问题了的话，还可以试一下在phpmyadmin里新建table时的将`排序规则`或者是叫做`整理`，选择`utf8_general_ci`，或者是在新建数据库时使用 `CREATE DATABASE dbname DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci; `，新建数据表时使用 `CREATE TABLE test ( 
+id INT NOT NULL , 
+name VARCHAR( 10 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL , 
+PRIMARY KEY ( id ) 
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ; `
 
 在连接数据库之后，可以加入这两行代码，使其正常读写数据库。
 

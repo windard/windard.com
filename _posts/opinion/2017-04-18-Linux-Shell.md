@@ -188,6 +188,28 @@ function:
 
 常用命令 `split <file>`, `split -2000 <file>`, `split -b 1m <file>`, `split -C 1m <file>`, `split <file> -d -a 4 prefix_`
 
+### curl
+
+`curl [option] [url]` 高超的命令行网络请求命令
+
+- `-O` : 保存请求内容到文本
+- `-L` : 跟随跳转，如 302
+- `-c` : 保存 cookie 到文件
+- `-b` : 指定 cookie ，可以使用上面保存的 cookie 文件
+- `-i` : 显示返回响应头部信息
+- `-I` : 使用 HEAD 请求方式请求头部信息
+- `-G` : 使用 GET 请求方式，默认
+- `-v` : 查看完整的请求流程
+- `-d` : 请求的数据
+- `-H` : 指定请求头部信息
+- `-u` : 指定用户名和密码，用于 HTTP Auth 登陆或者 ftp 登陆
+- `-D` : 将返回响应头输出到文件
+- `-0` : 使用 HTTP 1.0 协议
+- `-x` : 使用代理
+- `-X` : 指定 HTTP 请求方式，如 GET, POST, PUT, DELETE
+
+常用命令 `curl -x 127.0.0.1:1080 http://httpbin.org/ip` `curl -X POST -d "username=username&password=password" http://127.0.0.1:5000/login` `curl -b "session=cookieinfo" http://127.0.0.1:5000/status`
+
 ## 实际应用
 
 ### 去重
