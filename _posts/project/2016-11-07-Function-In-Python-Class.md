@@ -263,6 +263,8 @@ print xidian._School__name
 
 私有方法同样的也是双下划线 `__` 加变量名，只能在类的内部访问。
 
+子类也无法调用父类的私有方法和私有属性。
+
 但是同样的，私有方法并不绝对私有，在外界可以通过单下划线加类名加私有方法的方式访问，虽然这是不应该的。
 
 ### 类的静态方法和类方法
@@ -438,14 +440,16 @@ with ElapsedTime():
 # coding=utf-8
 import time
 
+
 def ElapsedTimeWarp(func):
     def spendtime(*args, **kwargs):
         start_time = time.clock()
         result = func(*args, **kwargs)
         end_time = time.clock()
-        print "Speeds %f S."%(end_time - start_time)
+        print "Speeds %f S." % (end_time - start_time)
         return result
     return spendtime
+
 
 @ElapsedTimeWarp
 def countsum(count):
@@ -455,7 +459,36 @@ def countsum(count):
     return num
 
 print countsum(100000)
+
 ```
+
+感觉上下文管理器跟闭包函数比较类似，所以其实也可以这样写
+
+```
+# coding=utf-8
+import time
+
+
+def ElapsedTimeWarp(func):
+    def spendtime(*args, **kwargs):
+        start_time = time.clock()
+        result = func(*args, **kwargs)
+        end_time = time.clock()
+        print "Speeds %f S." % (end_time - start_time)
+        return result
+    return spendtime
+
+
+def countsum(count):
+    num = 0
+    for x in xrange(count):
+        num += x
+    return num
+
+print ElapsedTimeWarp(countsum)(100000)
+
+```
+
 上下文管理器一般用在 文件打开自动关闭，线程锁获取自动释放，数据库钩子获取自动释放等地方。
 
 如线程锁获取自动释放的实现，和文打开自动关闭的上下文管理器

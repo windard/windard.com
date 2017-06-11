@@ -105,4 +105,11 @@ layout: default
 //                 BYB.includeScript('http://' + disqus_shortname + '.disqus.com/embed.js',function(){$(that).remove()}); //这是一个加载js的函数
 //         });
 //     })
-// </script>
+
+    $(document).ready(function(){
+        $('.artical-list li:nth-child(n+15)').each(function(i,item){
+            $(item).hide();
+        });
+    })
+
+</script>
