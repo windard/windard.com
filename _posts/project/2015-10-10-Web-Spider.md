@@ -12,7 +12,7 @@ description: 网络爬虫，即Web Spider，抓取网页数据，像Google，Bai
 
 当然他们的爬虫不是用python写的，不过python强大的各种函数库的使用也可以做简单的爬虫来玩玩。本系列教程博客主要使用的python库有urllib urllib2 request re和cookielib。因为python2.x与python3.x有一定区别，特作强调，本系列博客使用的是python2.7.10。
 
-## rllib
+## urllib
 
 #### 基本使用
 urllib是几乎所有的python网络爬虫都会使用的库，功能很简单直接，向指定URL发送http请求并接受数据，以下是一个urllib基本实例。 

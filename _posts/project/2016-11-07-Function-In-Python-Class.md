@@ -156,7 +156,7 @@ print "Student.grade",Student.grade
 
 实例可以删除实例属性，无法删除类属性，只有类才能删除类属性，此时如果新一个生成的实例无类属性。
 
-在类函数中使用类属性，则使用 `类名.类属性` 来引用，若无重名实例属性的话，也能用 `self.类属性`来引用。使用实例属性，则使用 `self.实例属性`，`self` 指自身实例。
+在实例方法中使用类属性，则使用 `类名.类属性` 来引用，若无重名实例属性的话，也能用 `self.类属性`来引用，在类方法中使用类属性，则使用 `cls.类属性` 来引用。使用实例属性，则使用 `self.实例属性`，`self` 指自身实例。
 
 类属性在每生成一个新实例时并不改变，故可以作为静态属性，作计数器使用。
 
@@ -486,6 +486,60 @@ def countsum(count):
     return num
 
 print ElapsedTimeWarp(countsum)(100000)
+
+```
+
+除了计算时间，这种补充代码与主代码无关联的情况，即使是在有共享变量的情况下，如文件的打开和关闭的情况，闭包，装饰器和上下文管理器都是可以互换的。
+
+```
+# coding=utf-8
+
+class OpenContext(object):
+    """docstring for OpenContext"""
+    def __init__(self, filename, mode):
+        self.fp = open(filename, mode)
+
+    def __enter__(self):
+        return self.fp
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        self.fp.close()
+
+with OpenContext('test.txt', "r") as f:
+    print f.read()
+
+print '-' * 80
+
+
+def OpenDecorator(func):
+    def OpenFile(filename, mode):
+        filename = open(filename, mode)
+        func(filename, mode)
+        filename.close()
+    return OpenFile
+
+
+@OpenDecorator
+def test_Decorator(filename, mode):
+    print filename.read()
+
+test_Decorator('test.txt', 'r')
+
+print '-' * 80
+
+
+def OpenClosure(func):
+    def OpenFile(filename, mode):
+        filename = open(filename, mode)
+        func(filename, mode)
+        filename.close()
+    return OpenFile
+
+
+def test_Closure(filename, mode):
+    print filename.read()
+
+OpenClosure(test_Closure)('test.txt', 'r')
 
 ```
 
