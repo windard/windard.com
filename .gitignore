@@ -2,3 +2,6 @@ nohup.out
 _site
 .sass-cache
 .jekyll-metadata
+.bash_history
+.bundle
+.gem/
