@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 面试总结
+title: Python 面试总结
 category: project
 description: 在 Python 方面和工作方面的面试总结
 ---

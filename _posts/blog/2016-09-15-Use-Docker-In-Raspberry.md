@@ -53,8 +53,9 @@ pass: hypriot
 - `docker rm 8c342c0c275c` 删除 容器ID 为 8c342c0c275c 的容器
 - `docker start 256d7bdde650` 开启已经停止的容器
 - `docker stop 256d7bdde650` 关闭容器
-- `docker attach 256d7bdde650` 连接到一个已经存在的容器
-- `docker rm 'docker ps -a -q'` 删除所有的容器
+- `docker attach 256d7bdde650` 连接到一个已经存在的容器，只有当另一个打开的时候
+- `docker exec -t -i 256d7bdde650  /bin/bash` 连接到一个已经存在的容器，比 attach 好用
+- `docker rm 'docker ps -a -q'` 删除所有的容器 
 - `docker rm 256d7bdde650` 删除容器
 - `docker rmi sdhibit/rpi-raspbian` 删除镜像 
 - `docker logs 256d7bdde650` 查看容器的日志
