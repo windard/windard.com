@@ -41,7 +41,7 @@ Mary = Student('Mary')
 print "Mary.grade",Mary.grade
 print "Mary.name",Mary.name
 
-# 类修改类属性 
+# 类修改类属性
 # 在实例未修改类属性之前，实例的类属性与类的类属性指向同一位置
 Student.grade += 1
 
@@ -231,7 +231,7 @@ if not hasattr(Mary, "age"):
 ```
 # coding=utf-8
 class School(object):
-    __location = 'Shannxi'   
+    __location = 'Shannxi'
 
     def __init__(self, name):
         self.__name = name
@@ -248,7 +248,7 @@ xidian.where()
 # 在外部无法通过类来访问私有类属性
 # 在外部无法通过实例来访问私有类属性
 # print School.__location
-# print xidian.__location  
+# print xidian.__location
 
 # 在外部无法通过实例来访问私有实例属性
 # print xidian.__name
@@ -431,7 +431,7 @@ def countsum(count):
     return num
 
 with ElapsedTime():
-    print countsum(100000)      
+    print countsum(100000)
 ```
 
 这个也可以用装饰器来实现
@@ -628,6 +628,28 @@ Foo(1, bar)
 
 这样显得优雅一些。
 
+优雅显示的办法有很多，还可以直接让其显示效果相同即可。
+
+```
+>>> class Foo(object):
+...     def __init__(self, id, name):
+...             self.id = id
+...             self.name = name
+...     def __str__(self):
+...             return '({}, {})'.format(self.id, self.name)
+...     __repr__ = __str__
+...
+>>> bar = Foo(1, '中文')
+>>> bar
+(1, 中文)
+>>> print bar
+(1, 中文)
+>>> print str(bar)
+(1, 中文)
+>>> print repr(bar)
+(1, 中文)
+```
+
 ## 闭包
 
 先来看一个闭包的典型应用
@@ -705,14 +727,14 @@ print object.__class__                      # <type 'type'>
 # print 'a'.__base__                        # AttributeError
 # print [].__base__                         # AttributeError
 # print ().__base__                         # AttributeError
-# print {}.__base__                         # AttributeError  
+# print {}.__base__                         # AttributeError
 print int.__base__                          # <type 'object'>
 print str.__base__                          # <type 'basestring'>
 print str.__base__.__base__                 # <type 'object'>
 print list.__base__                         # <type 'object'>
 print set.__base__                          # <type 'object'>
 print dict.__base__                         # <type 'object'>
-print type.__base__                         # <type 'object'> 
+print type.__base__                         # <type 'object'>
 print object.__base__                       # None
 ```
 
@@ -975,4 +997,324 @@ print new_class.__class__               # <class '__main__.NewClass'>
 
 分别表示在可以引用本模块中的内容，和动态引用另一个模块。
 
-还有 `__file__` 查看模块所在位置。
+还有 `__file__` 查看模块所在位置，这个也可以在 Python 文件中使用，还可以使用 `__name__` 来查看该文件的所属的 Python 模块名。
+
+## Python 中的魔术方法
+
+### 构造和初始化相关
+
+Python 中有很多神奇的魔术方法，比如说实例函数 `__new__`，`__init__`, `__del__` 等与面向对象有关的魔术方法
+
+在 Python 类的创建过程中，构造函数 `__init__` 并不是作为第一个被调用的函数，首先是调用 `__new__` 实例函数，这才是 Python 对象实例化的第一个函数，其返回值是这个对象的实例，而 `__init__` 没有返回值。
+
+`__new__` 是创建这个类然后返回这个类的实例，而 `__init__` 只是根据传来的参数初始化该实例,两个函数的传入参数除了第一个不同，其他都是相同的,即构造时传入的参数。
+
+一般在设置使用元类的时候才会用到实例函数 `__new__` ，用来控制实例的创建。
+
+比如单例模式的一个常见实现方式，常用于数据库连接池的创建。
+
+```
+# coding=utf-8
+
+class Singleton(object):
+    def __new__(cls, *args, **kwages):
+        if not hasattr(cls, '_instance'):
+            orig = super(Singleton, cls)
+            cls._instance = orig.__new__(cls, *args, **kwages)
+        return cls._instance
+
+
+a = Singleton()
+b = Singleton()
+print(id(a))
+print(id(b))
+print a is b
+```
+
+`__init__` 和 `__del__` 分别是构造方法和析构方法，和其他的面向对象编程语言一致，不再赘述。
+
+### 对象转换和基本运算相关
+
+- `__cmp__` 定义类比较的魔术方法，在 Python 3 及以后因冗余而被废除
+- `__eq__` 定义等号的行为
+- `__ne__` 定义不等号的行为
+- `__lt__` 定义小于号的行为
+- `__gt__` 定义大于等于号的行为
+
+以上四个是在类或者函数比较的时候使用
+
+- `__add__` 实现加法的行为
+- `__sub__` 实现减法的行为
+- `__mul__` 实现乘法的行为
+- `__floordiv__` 实现整数除法的行为 `//`
+- `__div__` 实现除法的行为 `/` ，在 Python 3 及以后因与 `__truediv__` 相同而被废除
+- `__truediv__` 实现真除法，只有在使用 `from __future__ import division` 才会起作用
+- `__mod__` 实现取模运算
+- `__divmod__` 实现内置的 `divmod()` 运算
+- `__pow__` 实现指数运算
+- `__lshift__` 实现向左位移操作
+- `__rshift__` 实现向右位移操作
+- `__and__` 实现按位与操作 `&`
+- `__or__` 实现按位或操作 `|`
+- `__xor__` 实现按位异或操作 `^`
+
+使用类型转换时的内置函数
+
+- `__int__` 使用 `int()` 转换为整数时的操作
+- `__long__` 使用 `long()` 转换为长整型时的操作
+- `__float__` 使用 `float` 转换为浮点型的操作
+- `__complex__` 使用 `complex()` 转换为复数的操作
+- `__oct__` 使用 `oct()` 转换为八进制的操作
+- `__hex__` 使用 `hex()` 转换为十六进制的操作
+- `__nonzero__` 使用 `bool()` 转换为布尔值的操作在 Python 3 及以后改名为 `__bool__`
+- `__coerce__` 使用 `coerce()` 转换为形同数据类型的操作，在 Python 3 及以后因冗余而被废除
+- `__index__` 对象使用切片表达式时的操作
+
+其他的内置函数
+
+包括 `str()` `repr()` `unicode()` `hash()` `len()` 等方法都是可以转换为魔术方法 `__str__` `__repr__` `__unicode__` `__hash__` `__len__`,在 Python 3 及以后，`__unicode__` 该废除，新增 `__bytes__`
+
+其中只有可以使用哈希函数获得值得对象才可以作为字典的键值。
+
+### 与对象属性相关
+
+在其他语言中常见的模式方法 `setter()` 和 `getattr` ，在 Python 中是 `__setattr__` 和 `__getattr__` ，设置和获得对象属性，还有一个 `__delattr__` 用来删除对象属性，在使用 Python 关键字 `del ` 时调用。
+
+但是并不是像其他语言中，`setter` 设置的属性使用 `getattr` 获取就好，`__setattr__` 确实是设置属性的，但是 `__getattr__` 并不是真正设置属性的，而是在没有找到属性时才被调用，它用来捕获错误和返回默认值。
+
+真正获取属性的方法是 `__getattribute__` ，用来查找获取属性，定义属性被访问时的行为，所以在访问属性的过程中，先调用 `__getattribute__` 然后调用 `__getattr__`，但是因为属性定义域的原因，并不建议尝试实现 `__getattribute__` 。
+
+设置对象的属性的方法有两种，可以使用 `setattr()` 函数来为对象设置属性，也可以使用 `self.attr=name` 来为对象设置属性，所以在 `__setattr__` 函数内部不能使用以上两种方式来设置属性，会造成递归调用，其实同样的，在使用 `__getattr__` 和 `__getattribute__` 和 `__delattr__` 的时候都需要注意循环调用的问题。
+
+```
+# coding=utf-8
+
+# 危险，循环调用
+# class Computer(object):
+#     def __setattr__(self, name, value):
+#         self.name = value
+
+#     def __getattr__(self, name):
+#         return self.name
+
+# 危险，循环调用
+# class Computer(object):
+#     def __setattr__(self, name, value):
+#         setattr(self, name, value)
+
+#     def __getattr__(self, name):
+#         getattr(self, name)
+
+class Computer(object):
+    def __setattr__(self, name, value):
+        self.__dict__[name] = value
+    def __getattr__(self, name):
+        return 'not found'
+c = Computer()
+c.name = 'dell'
+
+print c.name
+print getattr(c, 'name')
+print dir(c)
+print c.__dict__
+print c.price
+```
+
+结果是
+
+```
+dell
+dell
+['__class__', '__delattr__', '__dict__', '__doc__', '__format__', '__getattr__', '__getattribute__', '__hash__', '__init__', '__module__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__sizeof__', '__str__', '__subclasshook__', '__weakref__', 'name']
+{'name': 'dell'}
+not found
+```
+
+可以看到，给对象增加了属性之后，在对象的属性列表中，不但有实例属性，类属性，还出现了我们为对象新定义的属性，虽然在定义时是将属性定义在 `__dict__` 的字典中，但是在也会出现在对象的属性列表中。
+
+使用 `__getattribute__` 的效果
+
+```
+# coding=utf-8
+
+# 危险，循环调用
+# class Computer(object):
+#     def __setattr__(self, name, value):
+#         self.name = value
+
+#     def __getattr__(self, name):
+#         return self.name
+
+# 危险，循环调用
+# class Computer(object):
+#     def __setattr__(self, name, value):
+#         setattr(self, name, value)
+
+#     def __getattr__(self, name):
+#         getattr(self, name)
+
+class Computer(object):
+    def __setattr__(self, name, value):
+        self.__dict__[name] = value
+    def __getattr__(self, name):
+        print '__getattr__'
+        return 'not found'
+    def __getattribute__(self, name):
+        print '__getattribute__'
+        return super(Computer, self).__getattribute__(name)
+
+c = Computer()
+c.name = 'dell'
+
+print c.name
+print getattr(c, 'name')
+print dir(c)
+print c.__dict__
+print c.price
+```
+
+结果是
+
+```
+__getattribute__
+__getattribute__
+dell
+__getattribute__
+dell
+__getattribute__
+__getattribute__
+__getattr__
+__getattribute__
+__getattr__
+__getattribute__
+['__class__', '__delattr__', '__dict__', '__doc__', '__format__', '__getattr__', '__getattribute__', '__hash__', '__init__', '__module__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__sizeof__', '__str__', '__subclasshook__', '__weakref__', 'name']
+__getattribute__
+{'name': 'dell'}
+__getattribute__
+__getattr__
+not found
+```
+
+可以看到 `__getattribute__` 在很多地方被调用了很多次。
+
+### 容器自定义相关
+
+除了可以给对象增加属性之外，也可以直接给对象增加索引。
+
+```
+# coding=utf-8
+
+class Mac(object):
+    def __setitem__(self, name, value):
+        self.name = value
+    def __getitem__(self, name):
+        return self.name
+
+m = Mac()
+m['name'] = 'windard'
+
+print m.name
+print m['name']
+print dir(m)
+print m.__dict__
+
+```
+
+结果是
+
+```
+windard
+windard
+['__class__', '__delattr__', '__dict__', '__doc__', '__format__', '__getattribute__', '__getitem__', '__hash__', '__init__', '__module__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__setitem__', '__sizeof__', '__str__', '__subclasshook__', '__weakref__', 'name']
+{'name': 'windard'}
+```
+
+可以看到通过给对象增加属性来存储对象的索引，这样就能将对象的当成字典或者列表一样使用,同样的，对象也还存在删除索引的魔术方法，`__delitem__` ，用来删除对象的某个索引。
+
+当然，容器对象除了可以设置和获取索引之外，还有迭代，反转，是否包含等方法。
+
+- `__iter__` 迭代对象方法
+- `__reversed__` 使用 `reversed()` 方法
+- `__contains__` 是否包含
+- `__missing__` 定义找不到索引的行为
+
+```
+# -*- coding: utf-8 -*-
+class FunctionalList:
+    ''' 实现了内置类型list的功能,并丰富了一些其他方法: head, tail, init, last, drop, take'''
+
+    def __init__(self, values=None):
+        if values is None:
+            self.values = []
+        else:
+            self.values = values
+
+    def __len__(self):
+        return len(self.values)
+
+    def __getitem__(self, key):
+        return self.values[key]
+
+    def __setitem__(self, key, value):
+        self.values[key] = value
+
+    def __delitem__(self, key):
+        del self.values[key]
+
+    def __iter__(self):
+        return iter(self.values)
+
+    def __reversed__(self):
+        return FunctionalList(reversed(self.values))
+
+    def append(self, value):
+        self.values.append(value)
+
+    def head(self):
+        # 获取第一个元素
+        return self.values[0]
+
+    def tail(self):
+        # 获取第一个元素之后的所有元素
+        return self.values[1:]
+
+    def init(self):
+        # 获取最后一个元素之前的所有元素
+        return self.values[:-1]
+
+    def last(self):
+        # 获取最后一个元素
+        return self.values[-1]
+
+    def drop(self, n):
+        # 获取所有元素，除了前N个
+        return self.values[n:]
+
+    def take(self, n):
+        # 获取前N个元素
+        return self.values[:n]
+
+l = FunctionalList()
+
+l.append(1)
+l.append('a')
+
+print l
+print l[0]
+print l.drop(0)
+
+```
+
+### 会话处理器
+
+使用 `__enter__` 和 `__exit__` 实现会话处理器，也可以使用更方便的上下文管理器库
+
+### 对象调用
+
+在对象实例化之后，再次调用对象方法，使用 `__call__` 魔术方法。
+
+### 对象描述器
+
+使用比较少见，一般采用设置属性或者设置索引的办法。
+
+参考链接 [介绍Python的魔术方法 - Magic Method](https://segmentfault.com/a/1190000007256392)

@@ -73,6 +73,10 @@ MySQL 存储引擎 InnoDB 和 MyISAM，区别是 MyISAM 没有事务支持，没
 
 CSRF 防护原理和控制
 
+CSRF 在一般的 web 应用中是比不可少的，CSRF 的一个有效防御手段就是使用 token，而作为 API 服务，每个请求中都会带有 token，所以实际上并不用担心 CSRF 的问题。
+
+需要担心的是时间戳的问题，使用 token 时需要设置 token 过期时间，那么 token 设置过期时间之后，在请求参数中是否就可以免除时间戳了呢？应该是不可以的，为了防重放攻击，虽然重放的时候 token 一般已经过期了，但是万一没有呢，时间戳还是需要检验的，但是需要注意一点，服务器上有时间同步服务，用户终端不一定会时间同步，若是接口也为普通用户提供服务，则时间戳的接受范围应在当前时间的两侧都可以，因为误差是均匀分布的。
+
 ## flask 启动流程
 
 上下文处理流程，一个程序上下文中有很多的请求上下文，在每一个请求上下文是相互独立的，在 `__storage__` 中保存了不同线程的状态，在 flask 中，有线程，也有协程。
@@ -141,7 +145,7 @@ GIL 保证内核在同一个时间片下只有一个 Python 线程在执行，�
 
 线程的同步与互斥解决的是多线程之间的数据访问正确性问题，而 GIL 是保证在 CPython 解释器下当前时刻只有一个线程在执行。
 
-但是 GIL 并不是不能保证 Python 的线程安全，它保证的是 Python 在内存管理级别线程安全，在粗粒度上的线程安全，在细粒度上的线程安全需要手动使用线程互斥锁来实现。 
+但是 GIL 并不是不能保证 Python 的线程安全，它保证的是 Python 在内存管理级别线程安全，在粗粒度上的线程安全，在细粒度上的线程安全需要手动使用线程互斥锁来实现。
 
 
 > In CPython, the global interpreter lock, or GIL, is a mutex that prevents multiple native threads from executing Python bytecodes at once. This lock is necessary mainly because CPython’s memory management is not thread-safe. (However, since the GIL exists, other features have grown to depend on the guarantees that it enforces.)
@@ -243,7 +247,7 @@ Speeds 16.947642 S.
 
 所以单线程变快了，多线程变慢了，但是基本一致了，我选择多进程。
 
-## 协程 
+## 协程
 
 协程 (Coroutine)，又称微线程。
 
@@ -264,7 +268,7 @@ Speeds 16.947642 S.
 
 ### 装饰器
 
-装饰器 (decorator) 是设计模式中的一种，也是 Python 中用到的不多的设计模式中的一种。装饰器的常用场景有 
+装饰器 (decorator) 是设计模式中的一种，也是 Python 中用到的不多的设计模式中的一种。装饰器的常用场景有
 1. 事务处理，如性能分析，日志记录，运行时间记录
 2. 验证及运行时检查，如 flask 中的错误钩子，信号接收和权限管理
 
@@ -359,7 +363,7 @@ Python 字典是一个键值映射关系的集合，底层实现是一个哈希�
 
 但是在 Python 3.6 及以后，字典的哈希表修改了，在字典中是按照键的大小顺序存储。
 
-如果想使用按照写入的顺序存储的话，可以使用 collections 里的 OrderDict 
+如果想使用按照写入的顺序存储的话，可以使用 collections 里的 OrderDict
 
 ## Python 列表 list
 
@@ -383,7 +387,7 @@ Python 集合是无序的，没有重复元素，元组不能通过序号查找�
 
 集合不能使用序号查找元素，只能使用 pop 获取元素，是无序的。使用 add 和 remove 增加删减元素。
 
-如果想使用不可改变的集合，可以使用 frozenzet 
+如果想使用不可改变的集合，可以使用 frozenzet
 
 ## 可迭代对象和迭代器对象
 
@@ -458,7 +462,7 @@ else:
 在测试部门测试无误通过后，正式上线，将 release 分支合并到 master 。将下一个版本的开发分支 feature 合并入主开发分支 develop。如果上线后遇到问题，则在 master 分支上做热修复 hot-fix 分支。
 
 
-## 参考链接 
+## 参考链接
 
 [Python 2.7.x 和 Python 3.x 的主要区别](https://segmentfault.com/a/1190000000618286)
 [Default_Parameter.md](https://github.com/acmerfight/insight_python/blob/master/Default_Parameter.md)

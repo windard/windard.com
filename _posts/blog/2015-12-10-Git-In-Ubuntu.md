@@ -1,7 +1,7 @@
 ---
 layout: post
-title: How to use git for github 
-description: add git RSA-public-key to github 
+title: How to use git for github
+description: add git RSA-public-key to github
 category: blog
 ---
 
@@ -17,11 +17,11 @@ At begin ,I hadn't add my key to github successful,so I need to post my account 
 
 It's too boring.
 
-Now I add it to my github account successful . so push my code to github will be easier 
+Now I add it to my github account successful . so push my code to github will be easier
 
-Great!     
+Great!
 
-首先，你要有一个github帐号和在你的机器上有git客户端。           
+首先，你要有一个github帐号和在你的机器上有git客户端。
 
 然后，如果你已经有在本地生成过RSA，那就先删掉原有的。
 
@@ -29,7 +29,7 @@ Great!
 
 原有的私钥一般在`~/id_rsa`或者是`~/.ssh/id_rsa`这是私钥，也就是说不能让别人知道的，但是你自己可以看一下。无论是公钥还是私钥都是文本文件，可以用`cat`命令查看。
 
-现在我们就可以生成我们自己的RSA密钥了。             
+现在我们就可以生成我们自己的RSA密钥了。
 
 ```
 ssh-keygen -t rsa -C "email@gmail.com"
@@ -37,9 +37,9 @@ ssh-keygen -t rsa -C "email@gmail.com"
 
 将邮箱地址换成你自己的邮箱地址。
 
->在生成密钥的时候会提醒你密钥的保存地点，默认是在`~`下。                    
->在生成密钥的时候也会要求你输入一个密码，但是这个密码不是你的github密码，是用来锁定你的本地账户的，在每次提交项目的时候使用。                              
->在生成密钥之后，你就会发现目录下多了两个文件`id_rsa`和`id_rsa.pub`，前者是私钥，后者是密钥。                                  
+>在生成密钥的时候会提醒你密钥的保存地点，默认是在`~`下。
+>在生成密钥的时候也会要求你输入一个密码，但是这个密码不是你的github密码，是用来锁定你的本地账户的，在每次提交项目的时候使用。
+>在生成密钥之后，你就会发现目录下多了两个文件`id_rsa`和`id_rsa.pub`，前者是私钥，后者是密钥。
 
 然后登录你的github帐号，在右上角的`Settings`里的`SSH keys`选择`Add SSH key`,然后把你的`id_rsa.pub`里的内容放进去。
 
@@ -51,16 +51,16 @@ ssh -T git@github.com
 
 如果返回：`Hi XXX! You've successfully authenticated, but GitHub does not provide shell access.`
 
-即说明公钥添加成功。以后你克隆github上的代码就可以使用github专用通道了，每次上传自己的代码也不用再输入用户名和密码了。     
+即说明公钥添加成功。以后你克隆github上的代码就可以使用github专用通道了，每次上传自己的代码也不用再输入用户名和密码了。
 
->最后的最后                                  
->或许你还需要设定一个本地用户信息                                     
->`git config --global user.name "yourusername"`                                 
->`git config --global user.email "youremail"`                                
+>最后的最后
+>或许你还需要设定一个本地用户信息
+>`git config --global user.name "yourusername"`
+>`git config --global user.email "youremail"`
 
-github专用通道即：                                                     
-一般克隆代码是`git clone https://github.com/XXX/XXX.git`                               
-现在就可以这样`git clone git@github.com:XXX/XXX.git`                             
+github专用通道即：
+一般克隆代码是`git clone https://github.com/XXX/XXX.git`
+现在就可以这样`git clone git@github.com:XXX/XXX.git`
 
 ## 管理多个 git 账号
 
@@ -92,7 +92,7 @@ Host github.com
   HostName github.com
   User windard
   IdentityFile C:\Users\dell\.ssh\id_rsa
-  
+
 Host 192.168.0.103
   HostName 192.168.0.103
   User windard
@@ -136,8 +136,10 @@ PermitRootLogin no  		# 禁止 root 登录 ssh
 
 然后本地使用 `ssh-keygen -t rsa -f ./centos` 生成密钥对，如果你有多个密钥的话，还需要在 `.ssh/config` 中配置一下。
 
-如果你的密钥以 root 权限登陆，创建 `/root/.ssh/authorized_keys` ，以用户 windard 权限登陆的话，则创建 `/home/windard/.ssh/authorized_keys` 
+如果你的密钥以 root 权限登陆，创建 `/root/.ssh/authorized_keys` ，以用户 windard 权限登陆的话，则创建 `/home/windard/.ssh/authorized_keys`
 
 在文件中写入在本地生成的公钥，即 `centos.pub` 中的内容，一行一个公钥。
+
+如果想在服务器端配置客户端的公钥的话，也可以在客户端生成好了之后使用 `ssh-copy-id -i ~/.ssh/id_rsa.pub windard@centos.com` 来为服务器端配置，就可以免去手动配置。
 
 最后重启服务 `service sshd restart` 。

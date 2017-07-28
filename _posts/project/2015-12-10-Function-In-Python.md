@@ -142,7 +142,7 @@ False
 |函数                   |说明                                             |
 |:-----:                |:------:                                         |
 |int(x=0[,base=10])     |将其他进制的字符串或数转化为十进制整数，若为十进制浮点数，则表示取整|
-|long(x=0[,base=10])    |将其他进制的字符串或数转化为长型数               | 
+|long(x=0[,base=10])    |将其他进制的字符串或数转化为长型数               |
 |float(x=0)             |将其他进制的字符串或数转化为浮点数               |
 |round(x)               |将一个浮点数四舍五入进行取整                     |
 |complex(real [,imag ]) |创建一个复数                                     |
@@ -161,11 +161,11 @@ False
 
 ##### 与数学有关的内置函数
 
-- abs(x) 返回 x 的绝对值  
+- abs(x) 返回 x 的绝对值
 - coerce(x, y) 将 x,y 强制类型转换为两者中更精确的一种
 - divmod() = ((x-x%y)/y, x%y) 返回商和余数
 - round(number[, ndigits=1]) 四合五入，返回一个 ndigits 位的浮点数
-- pow(x, y[, z]) = (x**y) % z 
+- pow(x, y[, z]) = (x**y) % z
 
 #### id和del
 查看变量位置和删除变量。
@@ -1517,7 +1517,55 @@ find . -name "*.txt" -ls | sort -n -k7 | tail -n 1
 [4, 2]
 >>> max(a, key=lambda x:x[1])
 [3, 6]
-``` 
+```
+
+#### 将列表按照其值的某个字段分组
+
+```
+# coding=utf-8
+
+from collections import defaultdict
+
+a = [{'class': '1416', 'name': 'windard'},
+     {'class': '1416', 'name': 'sunmory'},
+     {'class': '1404', 'name': 'jellent'}]
+
+b = defaultdict(list)
+
+for i in a:
+    b[i['class']].append(i)
+
+print b.items()
+
+```
+
+结果是
+
+```
+[('1416', [{'class': '1416', 'name': 'windard'}, {'class': '1416', 'name': 'sunmory'}]), ('1404', [{'class': '1404', 'name': 'jellent'}])]
+```
+
+或者是使用 `itertools.groupby`
+
+```
+# coding=utf-8
+
+
+a = [{'class': '1416', 'name': 'windard'},
+     {'class': '1416', 'name': 'sunmory'},
+     {'class': '1404', 'name': 'jellent'}]
+
+from itertools import groupby
+
+result = {}
+
+for data, item in groupby(a, key=lambda x:x['class']):
+    result[data] = list(item)
+
+print result
+```
+
+但是前者的使用更快一些。
 
 ##### 字符串，列表转换
 
@@ -1536,7 +1584,7 @@ find . -name "*.txt" -ls | sort -n -k7 | tail -n 1
 
 ##### 动态的往字典中添加键值对
 
-可以使用 update 
+可以使用 update
 
 ```
 >>> a={}
@@ -1584,3 +1632,23 @@ find . -name "*.txt" -ls | sort -n -k7 | tail -n 1
 @classmethod @staticmethod @property __metaclass__
 
 _XXX 私有类 __XXX 私有变量
+
+- `__all__` 定义模块中对外显示的类和函数
+- `__name__` 当前函数，类，模块，库名
+- `__main__` 主函数，一般用来判断是否为主函数
+- `__call__` 对象调用，类实例化之后被再次调用
+- `__init__` 初始函数，类实例化时的初始化函数
+- `__del__`  析构函数，实例被删除时调用的函数
+- `__new__`  实例函数，实例化时被调用的第一个函数，返回生成的对象
+- `__file__` 当前文件名
+- `__enter__` 进入上下文处理器函数
+- `__exit__`  退出上下文处理器函数
+- `__setattr__` 为对象设置属性函数
+- `__getattr__` 从对象中取得属性函数
+- `__delattr__` 删除对象属性函数
+- `__setitem__` 为对象设置索引函数
+- `__getitem__` 从对象中获得索引函数
+- `__delitem__` 删除对象索引函数
+- `__str__`  使用 `str()` 将对象转换为字符串函数
+- `__repr__` 使用 `repr()` 将对象转化为格式化字符串函数
+- `__unciode__` 使用 `unicode()` 将对象转换为 Unicode 函数
