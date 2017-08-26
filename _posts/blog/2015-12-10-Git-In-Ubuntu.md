@@ -35,6 +35,8 @@ Great!
 ssh-keygen -t rsa -C "email@gmail.com"
 ```
 
+> 也可用户 `ssh-keygen -t rsa -b 4096` 生成长密钥
+
 将邮箱地址换成你自己的邮箱地址。
 
 >在生成密钥的时候会提醒你密钥的保存地点，默认是在`~`下。

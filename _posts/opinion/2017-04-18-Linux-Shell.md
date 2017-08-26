@@ -48,8 +48,9 @@ category: opinion
 - `-i` : 忽略大小写
 - `-A` : 找到匹配之后，多输出匹配下 n 行
 - `-n` : 找到匹配之后，输出匹配所在行数
+- `-v` : 找到不匹配的值
 
-常用命令 `ls -al|grep -i <name>`, `grep -P '^[\d]{3} [\w]{3} [\w]{5}' data.txt`, `grep <data> * -r`
+常用命令 `ls -al|grep -i <name>`, `grep -P '^[\d]{3} [\w]{3} [\w]{5}' data.txt`, `grep <data> * -r`, `find $PWD -name "*.py"|grep -v ".venv"`
 
 ### find
 
@@ -58,8 +59,9 @@ category: opinion
 - `-type f` : 仅显示文件
 - `-name `  : 匹配文件名
 - `-user `  : 匹配用户
+- `"regex"` : 使用引号匹配正则表达式
 
-常用命令 `find |grep <name>`, `find / -name <name>`, `find -user <user>`, `find -type f|wc`
+常用命令 `find |grep <name>`, `find / -name <name>`, `find -user <user>`, `find -type f|wc`, `find ./ -name "*.md" |xargs cat|wc`
 
 ### wc
 
@@ -81,7 +83,7 @@ category: opinion
 
 常用命令
 
-- 显示系统账户 `cat /etc/passwd |awk  -F ':'  '{print $1}' ` 
+- 显示系统账户 `cat /etc/passwd |awk  -F ':'  '{print $1}' `
 - 显示 root 账户内容 `awk -F: '/^root/{print $0}' /etc/passwd`
 - 显示系统账户和其使用的 shell，账户与 shell 之间使用 Tab 分割 `cat /etc/passwd |awk  -F ':'  '{print $1"\t"$7}'`
 - 显示系统账户和其使用的 shell，账户与 shell 之间使用 逗号 分割，在输出前加上标题，在输出后加上结束 `cat /etc/passwd |awk  -F ':'  'BEGIN {print "name, shell"}  {print $1", "$7} END {print "end ..."}'`
@@ -138,7 +140,7 @@ function:
 - 正则查询指定行 `sed -rn '/^[ab]{3}/p' test`
 
 - 在第一行后增加字符串 `sed '1a abb bba' test`
-- 在 1-3 行后增加字符串 `sed '1,3a abb bba aaa' test` 
+- 在 1-3 行后增加字符串 `sed '1,3a abb bba aaa' test`
 - 在最后一行后增加两行 `sed '$a aaa\nbbb' test`
 - 在最后一行上插入一行 `sed '$i aaa' test`
 
@@ -157,7 +159,7 @@ function:
 - `-D` : 仅输出有重复的行，有几行输出几行
 - `-f` : 跳过前 f 块元素，如 `-f1` 即从第二块元素开始比较
 - `-s` : 跳过第 s 个字符之后的内容
-- `-w` : 仅检查前 w 个字符 
+- `-w` : 仅检查前 w 个字符
 
 常用命令 `cat test |awk '{print $1}'|uniq -c`, `cat test |awk '{print $1}'|uniq -u`
 
@@ -246,7 +248,7 @@ awk '{if(!data[$0]){print $0;data[$0]=1}}' repeatxt
 用 shell 处理一个文本文件，内容如下：
 
 ```
-fdf     284 
+fdf     284
 asd     112
 adf     146
 csb     513
@@ -404,7 +406,7 @@ kill -USR1 $(cat /var/logs/nginx.pid)
 ```
 #!/bin/bash
 #cut nginx access.log
- 
+
 LOGS_PATH=/var/log/nginx
 yesterday=`date  +"%F" -d  "-1 days"`
 mv ${LOGS_PATH}/nginx.log  ${LOGS_PATH}/nginx-${yesterday}.log

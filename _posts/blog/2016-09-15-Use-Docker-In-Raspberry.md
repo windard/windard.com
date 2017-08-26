@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 在树莓派上使用 Docker 
+title: 在树莓派上使用 Docker
 description: Docker Is The Future
 category: blog
 ---
@@ -16,7 +16,7 @@ Dell Inspiron 14 + Windows10 && 树莓派一代B+ + raspbian 4.10
 在此处就曾想过算了，于是想在 Windows 上试一下 Docker 好了，下载了 Docker 安装包结果需要 `Hyper-V` 的支持，并不知道这个是什么，于是安装 Docker-Toolbox ，跟 Docker 一样的，安装好之后桌面上出现三个新的图标 `Docker Quickstart Terminal` , `Kitematic (Alpha)` 和 `Oracle VM VirtualBox` 。
 
 打开 `Docker Quickstart Terminal` 一开始就是 Docker 自动配置，其实就是它去下载一个叫做boot2docker.iso文件，就是 `default` 的镜像，然后在自己下载其他镜像的时候，不知道为什么连接 docker 的官方源的时候总会出问题，就无法下载新的镜像，这样肯定不行吖，就先搁置一边，继续折腾树莓派。
-  
+
 这个 default 的镜像同时也在你的 `Oracle VM VirtualBox` 里自动运行，直接进去不用密码，但是 ssh 上去需要用户名和密码
 
 ```
@@ -55,9 +55,9 @@ pass: hypriot
 - `docker stop 256d7bdde650` 关闭容器
 - `docker attach 256d7bdde650` 连接到一个已经存在的容器，只有当另一个打开的时候
 - `docker exec -t -i 256d7bdde650  /bin/bash` 连接到一个已经存在的容器，比 attach 好用
-- `docker rm 'docker ps -a -q'` 删除所有的容器 
+- `docker rm 'docker ps -a -q'` 删除所有的容器
 - `docker rm 256d7bdde650` 删除容器
-- `docker rmi sdhibit/rpi-raspbian` 删除镜像 
+- `docker rmi sdhibit/rpi-raspbian` 删除镜像
 - `docker logs 256d7bdde650` 查看容器的日志
 - `docker inspect 256d7bdde650` 查看日志的实例属性
 - `docker top 256d7bdde650` 显示容器的进程信息
@@ -80,6 +80,7 @@ pass: hypriot
 - `docker restart` 重启运行的容器
 - `docker save` 保存一个镜像为一个 tar 包[对应 load]
 - `docker tag` 给源中镜像打标签
+- `docker inspect jekyll` 查看某个容器或者镜像的信息
 
 - `docker run -e MYSQL_ROOT_PASSWORD=123 -p 3306:3306 -t -i mysql` 创建并进入一个 MySQL 的容器
 
@@ -134,7 +135,7 @@ HypriotOS: root@black-pearl in ~
 $ docker ps -a
 CONTAINER ID        IMAGE                              COMMAND                CREATED             STATUS                       PORTS                NAMES
 f9ccede2524d        sdhibit/rpi-raspbian:latest        "/bin/bash"            14 minutes ago      Exited (127) 5 minutes ago                        prickly_turing
-256d7bdde650        sdhibit/rpi-raspbian:latest        "/bin/bash"            About an hour ago   Exited (0) 15 minutes ago                         sad_galileo 
+256d7bdde650        sdhibit/rpi-raspbian:latest        "/bin/bash"            About an hour ago   Exited (0) 15 minutes ago                         sad_galileo
 60ca9b6c5c97        hypriot/rpi-busybox-httpd:latest   "/bin/busybox httpd    3 hours ago         Up 3 hours                   0.0.0.0:80->80/tcp   angry_euclid
 HypriotOS: root@black-pearl in ~
 $ docker search ubuntu
@@ -146,7 +147,7 @@ ubuntu-debootstrap                debootstrap --variant=minbase --components... 
 torusware/speedus-ubuntu          Always updated official Ubuntu docker imag...
 ```
 
-## docker run 的参数 
+## docker run 的参数
 
 ```
 docker run [OPTIONS] IMAGE[:TAG] [COMMAND] [ARG...]
