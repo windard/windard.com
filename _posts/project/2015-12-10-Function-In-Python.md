@@ -1623,6 +1623,15 @@ print result
 ['2017', '04', '20.0', '27.0', '13.0', '79.8', '84.8', '74.8']
 ```
 
+#### 比较两个列表的内容相同
+
+```
+>>> a=['helo', 'word', 'hi']
+>>> b=['hi', 'word', 'helo']
+>>> set(a) == set(b)
+True
+```
+
 ## 对象内置函数
 
 包括`__name__` `__call__` `__init__` `__main__` `__file__` `__exit__` `__enter__` `__getattr__` `__setattr__`  `__str__` `__new__` `__del__` `__repr__` `__all__`

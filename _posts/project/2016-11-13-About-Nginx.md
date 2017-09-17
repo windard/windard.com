@@ -31,6 +31,15 @@ service nginx restart
 nginx -t                // 测试现在的配置文件是否有效
 ```
 
+或者使用
+
+```
+systemctl start nginx.service
+systemctl stop nginx.service
+systemctl status nginx.service
+systemctl restart nginx.service
+```
+
 配置文件位置 `/etc/nginx/nginx.conf`
 
 ## 配置文件详解
@@ -179,7 +188,7 @@ include /usr/share/nginx/modules/*.conf;
 
 `worker_rlimit_nofile` 用来指定一个 Nginx 的进程可以打开的最多文件描述符数目，默认是 65535 ， 同时需要在 cent OS 中使用 `ulimit -n 65535` 设置，这里没有设置。
 
-`include` 导入其他的配置文件，这里值导入 `/usr/share/nginx/modules` 目录下所有的配置文件。 
+`include` 导入其他的配置文件，这里值导入 `/usr/share/nginx/modules` 目录下所有的配置文件。
 
 ### events 模块
 
@@ -395,7 +404,7 @@ server {
 }
 ```
 
-使用 
+使用
 
 ```
 nginx -t
@@ -520,7 +529,7 @@ Nginx 也提供了强大而又简单的负载均衡功能，Nginx 的主要四�
 
 - url_hash 按照 URL 的 hash 结果来分配请求，每一个 URL 对应一个后端服务器，可以有效利用后端缓存服务器。Nginx 本身是不支持这种调度算法，需要加载 Nginx 的  upstream_hash 来使用这种调度算法。
 
-### 环境配置 
+### 环境配置
 
 在 Cent OS 7 中装好 Docker ，使用 Docker-compose 构建 3 个 Nginx 容器，容器与主机采用网桥连接，自动分配 IP，在 Cent OS 中使用 Docker 的话需要注意 SELinux 。
 
@@ -532,17 +541,17 @@ services:
     web1:
         image: nginx
         working_dir: /usr/share/nginx/html
-        volumes: 
+        volumes:
             - ./web1/html:/usr/share/nginx/html
     web2:
         image: nginx
         working_dir: /usr/share/nginx/html
-        volumes: 
+        volumes:
             - ./web2/html:/usr/share/nginx/html
     web3:
         image: nginx
         working_dir: /usr/share/nginx/html
-        volumes: 
+        volumes:
             - ./web3/html:/usr/share/nginx/html
 ```
 
@@ -739,7 +748,7 @@ This is web 2
 
 好吧，仍然是 web2。
 
-## HTTPS 
+## HTTPS
 
 其实 HTTPS 也还是一个 server ，配置端口为 443，配置证书文件即可，可以查看我的另一篇博客 [在 Nginx 上配置 HTTPS](https://windard.com/project/2016/09/22/Use-HTTPS-In-Nginx)
 
@@ -765,6 +774,33 @@ server {
     rewrite ^(.*) https://$server_name$1 permanent;
 }
 ```
+
+## CORS
+
+前端跨域请求时，需要后端响应头中携带允许跨域的值，称为 CORS 。
+
+```
+    location / {
+        proxy_pass http://localhost:11120;
+
+        proxy_set_header Host $host;
+        proxy_set_header X-Forwarded-Host $host;
+        proxy_set_header X-Forwarded-Server $host;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Real-IP $remote_addr;
+
+        add_header 'Access-Control-Allow-Origin' "$http_origin";
+        add_header 'Access-Control-Allow-Credentials' 'true';
+        add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS, PUT, DELETE';
+        add_header 'Access-Control-Allow-Headers' 'DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type';
+    }
+```
+
+1. 以前的教程中 `Access-Control-Allow-Origin` 是可以设置为 `*` ，但是在新版的浏览器中已经不再支持这种写法，需要清晰明确的设置允许的域，而且如果允许任意请求跨域的话，也不安全，所以一般还是对所需域名进行限制。
+2. 只有在浏览器中请求会出现跨域问题，并不影响数据的传输，客户端实际上已经接收到数据，只是浏览器拒绝接受而已，所以如果作为 restful API 接口可以不用考虑跨域问题，跨域问题只出现在浏览器前端请求。
+3. 在 Nginx 中，只有当返回状态码为 `200, 201, 204, 206, 301, 302, 303, 304, 307` 时才会加上 CORS 的信息，如果是 40x 或者 50x 的响应码，则不会添加 CORS 信息，此时如果 Nginx 版本大于 1.7.5 的话，可以在所有的 CORS 设置信息最后加上 `always` 字段，为所有响应加上 CORS。
+4. Apache 成功设置之后，会对任意返回响应都会自动加 CORS 信息，
+
 
 ## HTTP Basic Auth
 
@@ -810,7 +846,7 @@ def authenticate():
     return Response(
     'Could not verify your access level for that URL.\n'
     'You have to login with proper credentials', 401,
-    {'WWW-Authenticate': 'Basic realm="Python Auth"'})   
+    {'WWW-Authenticate': 'Basic realm="Python Auth"'})
 
 def requires_auth(f):
     @wraps(f)

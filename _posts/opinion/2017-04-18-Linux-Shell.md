@@ -58,7 +58,9 @@ category: opinion
 
 - `-type f` : 仅显示文件
 - `-name `  : 匹配文件名
+- `-type`   : 匹配文件夹
 - `-user `  : 匹配用户
+- `-ls`     : 对搜索结果使用 `ls` 显示
 - `"regex"` : 使用引号匹配正则表达式
 
 常用命令 `find |grep <name>`, `find / -name <name>`, `find -user <user>`, `find -type f|wc`, `find ./ -name "*.md" |xargs cat|wc`
@@ -411,4 +413,18 @@ LOGS_PATH=/var/log/nginx
 yesterday=`date  +"%F" -d  "-1 days"`
 mv ${LOGS_PATH}/nginx.log  ${LOGS_PATH}/nginx-${yesterday}.log
 kill -USR1 $(cat /var/logs/nginx.pid)
+```
+
+## 删除当前目录下的 python 运行脏数据
+
+```
+find . -name '*.pyc' -delete
+find . -name __pycache__  -type d | xargs rm -rf
+echo clean done
+```
+
+## 寻找当前目录下文件大小最大的 md 文件
+
+```
+find . -name "*.md" -ls | sort -n -k7 | tail -n 1
 ```
