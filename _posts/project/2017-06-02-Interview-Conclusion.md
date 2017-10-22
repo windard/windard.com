@@ -13,6 +13,11 @@ description: 在 Python 方面和工作方面的面试总结
 
 数据库设计需要符合第一范式和第二范式，为了性能可以违反第三范式。
 
+## 数据库使用推荐
+- 数据库中最好不要写nullable=True 的字段，最好是所有的都 nullable=False，然后再设一个默认值 default=0
+- 数据库中最好不要删数据，只需要再加一个 is_valid 的字段，这样每次需要删除的时候改这个字段就好
+- 数据库中最好加一个 create_at 的字段，你以后会发现很有必要的，字段可以是biginteger，使用时间戳，或者是 timestamp 或者是 datetime
+
 ## redis 使用优化
 
 redis 典型的数据类型有 字符串，数组，集合，字典（哈希），有序集合。
@@ -246,6 +251,42 @@ Speeds 16.947642 S.
 ```
 
 所以单线程变快了，多线程变慢了，但是基本一致了，我选择多进程。
+
+## python 中的 global
+
+如果在函数中不改变全局变量的值，可以直接使用全局变量，如果需要修改全局变量的值，需要先使用 `global` 引入全局变量。
+
+在局部变量中是会自动引入全局变量的，但是在如果在局部变量中修改全局变量，就需要手动将全局变量引入，因为在局部作用域中修改变量，不知道是全局变量还是本地变量，会触发 UnboundLocalError 异常
+
+```
+>>> a = 1
+>>> def print_a():
+...     print a
+...
+>>> print_a()
+1
+>>> def print_a_fail():
+...     print a
+...     a = 2
+...
+>>> print_a_fail()
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+  File "<stdin>", line 2, in print_a_fail
+UnboundLocalError: local variable 'a' referenced before assignment
+>>> def print_a_success():
+...     global a
+...     print a
+...     a = 3
+...
+>>> a
+1
+>>> print_a_success()
+1
+>>> a
+3
+```
+
 
 ## 协程
 

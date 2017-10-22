@@ -144,7 +144,7 @@ False
 |int(x=0[,base=10])     |将其他进制的字符串或数转化为十进制整数，若为十进制浮点数，则表示取整|
 |long(x=0[,base=10])    |将其他进制的字符串或数转化为长型数               |
 |float(x=0)             |将其他进制的字符串或数转化为浮点数               |
-|round(x)               |将一个浮点数四舍五入进行取整                     |
+|round(x)               |将一个浮点数转换为取整，并不是四舍五入，而是`ROUND_HALF_EVEN` 策略，取最近的偶数  |
 |complex(real [,imag ]) |创建一个复数                                     |
 |str()                  |将对象转换为对 用户 友好的字符串                 |
 |repr()                 |将对象转换为对 Python 友好的字符串               |
@@ -161,11 +161,11 @@ False
 
 ##### 与数学有关的内置函数
 
-- abs(x) 返回 x 的绝对值
-- coerce(x, y) 将 x,y 强制类型转换为两者中更精确的一种
-- divmod() = ((x-x%y)/y, x%y) 返回商和余数
-- round(number[, ndigits=1]) 四合五入，返回一个 ndigits 位的浮点数
-- pow(x, y[, z]) = (x**y) % z
+- `abs(x)` 返回 x 的绝对值
+- `coerce(x, y)` 将 x,y 强制类型转换为两者中更精确的一种
+- `divmod() = ((x-x%y)/y, x%y)` 返回商和余数
+- `round(number[, ndigits=1])` 将一个浮点数转换为取整，并不是四舍五入，而是`ROUND_HALF_EVEN` 策略，取最近的偶数，返回一个 ndigits 位的浮点数
+- `pow(x, y[, z]) = (x**y) % z` 求幂
 
 #### id和del
 查看变量位置和删除变量。
@@ -1640,7 +1640,7 @@ True
 
 @classmethod @staticmethod @property __metaclass__
 
-_XXX 私有类 __XXX 私有变量
+`_XXX` 私有类 `__XXX` 私有变量
 
 - `__all__` 定义模块中对外显示的类和函数
 - `__name__` 当前函数，类，模块，库名
