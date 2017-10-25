@@ -88,8 +88,8 @@ make && make install
 停止和重启
 
 ```
-./nginx stop
-./nginx restart
+./nginx -s stop
+./nginx -s reload
 ```
 
 指定配置文件不重启重新载入
@@ -145,6 +145,48 @@ configure arguments: --prefix=/usr/share/nginx --sbin-path=/usr/sbin/nginx --mod
 在 nginx 中只有版本大于 `1.7.5 ` 的才能在 cors 的设置中使用 `always` 字段，来在每一种返回状态中都带上 cors 跨域的响应头，在 nginx 版本还不到 `1.7.5` 的版本只能使用其他的扩展模块来实现添加 cors 请求头，比如 [headers-more-nginx-module](https://github.com/openresty/headers-more-nginx-module)
 
 如果能够动态的加载第三方模块的话，就不用每次都需要重新编译 nginx 了，原生的 nginx 并不支持这样的功能，但是淘宝改良的 [tengine](http://tengine.taobao.org/) 则很早就支持 [动态加载模块](http://tengine.taobao.org/document_cn/dso_cn.html)
+
+### 使用 dso 编译动态链接库
+
+- 在编译 nginx 时某些官方模块暂时不需要，将其编译为动态加载库，以备后面需要。或者后续需要某些官方的模块，将其编译为独立的动态加载库。
+
+  ```
+  ./configure --prefix=/usr/local/tengine --with-http_trim_filter_module=shared
+  make
+  ```
+
+  编译之后生成的动态库文件在 `objs/modules` 中。
+
+  继续安装 nginx `make install` ，或者是安装官方库 `make dso_install`
+
+- 编译安装某些第三方库
+
+  ```
+  cd /usr/local/tengine/sbin
+  ./dso_tool --add-module=/home/dso/lua-nginx-module
+  ```
+
+  生成的编译文件已经为你放好在 `/usr/local/tengine/modules`，功能同 `make dso_install` , 也可以使用 `--dst` 参数指定生成库文件存放位置
+
+### 配置使用 dos 动态链接库
+
+无论是怎样获得的动态链接库，在放到指定位置之后，就可以配置使用了。
+
+```
+server {
+
+  dso {
+       load ngx_http_headers_more_filter_module.so;
+  }
+
+
+  more_set_headers "Access-Control-Allow-Credentials: true";
+  more_set_headers "Access-Control-Allow-Origin: http://127.0.0.1:7890";
+  more_set_headers 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS';
+  more_set_headers 'Access-Control-Allow-Headers' 'Keep-Alive,User-Agent,X-Requested-With,X-Shard,Cache-Control,Content-Type';
+
+}
+```
 
 ## 参考链接
 
