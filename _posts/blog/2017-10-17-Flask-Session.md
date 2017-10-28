@@ -135,3 +135,12 @@ Token 是能够多次使用的，使用后不会变的，再次生成原来的�
 ## 多点登录，任意下线
 
 Flask-redis 真实坑吖，flask-cache 设置缓存为 redis 的时候存进去str，取出来 str ，但是 flask-Redis，存进去 str ，取出来 bytes，python 3 中。
+
+
+## 一点补充
+
+在 flask 的 cookie 中存储的 session 是只要在过期时间之内的都可以使用，虽然是每次都更新，但是以前的 cookie 也还是可以使用的，这一点在使用 session_id 如果每次只能使用一次的话，虽然保证了安全，但是在现代网站架构中并不实用。
+
+现代网站中肯定是使用 session_id,不可能会在 cookie 中存大量的数据，即时是加密的也不行。那么将数据存在 Redis 中之后，如果每次使用将 原来的 session_id 删除，将新的 session_id 写入，那么 Redis 中间的同步都是一个问题，而且在首页等大型的站点，一般会有多个请求同时发出，如果 session_id 只能使用一次的话，那么岂不能发出大量的异步请求，只能同步一个一个轮流发出，会等待较长时间。
+
+所以使用 session_id 之后，其实 session_id 是当做 token 来使用，能够在一段时间内有效，且保持不变。
