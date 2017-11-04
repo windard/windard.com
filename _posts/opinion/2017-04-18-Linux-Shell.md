@@ -47,7 +47,7 @@ category: opinion
 - `-P` : 使用 Perl 语法正则表达式
 - `-i` : 忽略大小写
 - `-A` : 找到匹配之后，多输出匹配下 n 行
-- `-n` : 找到匹配之后，输出匹配所在行数
+- `-n` : 找到匹配之后，输出匹配所在行数，使用 `-n5` 的话输出上下 5 行
 - `-v` : 找到不匹配的值
 
 常用命令 `ls -al|grep -i <name>`, `grep -P '^[\d]{3} [\w]{3} [\w]{5}' data.txt`, `grep <data> * -r`, `find $PWD -name "*.py"|grep -v ".venv"`

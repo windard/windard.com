@@ -777,7 +777,9 @@ server {
 
 ## CORS
 
-前端跨域请求时，需要后端响应头中携带允许跨域的值，称为 CORS 。
+前端请求后端接口，二级域名不同也算跨域，不用的端口也算跨域，不同的协议也算跨域。
+
+前端跨域请求时，需要后端响应头中携带允许跨域的值，称为 CORS (Cross-origin sharing stander) 跨域资源共享标准。
 
 ```
     location / {
@@ -789,7 +791,7 @@ server {
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header X-Real-IP $remote_addr;
 
-        add_header 'Access-Control-Allow-Origin' "$http_origin";
+        add_header 'Access-Control-Allow-Origin' '$http_origin';
         add_header 'Access-Control-Allow-Credentials' 'true';
         add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS, PUT, DELETE';
         add_header 'Access-Control-Allow-Headers' 'DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type';

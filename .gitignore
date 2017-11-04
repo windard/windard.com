@@ -5,3 +5,4 @@ _site
 .bash_history
 .bundle
 .gem/
+.DS_Store
