@@ -144,4 +144,106 @@ PermitRootLogin no  		# 禁止 root 登录 ssh
 
 如果想在服务器端配置客户端的公钥的话，也可以在客户端生成好了之后使用 `ssh-copy-id -i ~/.ssh/id_rsa.pub windard@centos.com` 来为服务器端配置，就可以免去手动配置。
 
-最后重启服务 `service sshd restart` 。
+最后重启服务 `service sshd restart` , 一般情况下不用重启就可以使用。
+
+## 为 git 使用 gpg
+
+gpg 即 Gnupg ，赫赫有名的加密软件，可以用来加密传输信息，为什么要在 git 上使用呢？github 上的 commit 如果使用 gpg 验证过的话会带一个 `Verified` 的小尾巴。
+
+gpg 的教程可以看 [廖一峰的 GPG 入门教程](http://www.ruanyifeng.com/blog/2013/07/gpg.html)
+
+### 生成签名
+
+安装 gpg
+
+- Mac `brew install gpg`
+- Ubuntu `apt-get install gpg`
+- CentOS `yum install gpg`
+
+生成签名，根据提示，生成密钥对
+
+```
+gpg --gen-key
+```
+
+查看所有的签名公钥
+
+```
+gpg --list-keys
+```
+
+比如我的公钥
+
+```
+pub   2048R/6F91B0E2 2017-11-04 [expires: 2018-11-04]
+uid       [ultimate] windard (Windard Yang) <windard@qq.com>
+sub   2048R/59D9687E 2017-11-04 [expires: 2018-11-04]
+```
+
+`6F91B0E2` 为我的公钥指纹，`59D9687E` 是我的私钥指纹。
+
+查看所有的签名私钥
+
+```
+gpg --list-secret-keys --keyid-format LONG
+```
+
+比如我的私钥
+
+```
+sec   2048R/640F4E5C6F91B0E2 2017-11-04 [expires: 2018-11-04]
+uid                          windard (Windard Yang) <windard@qq.com>
+ssb   2048R/7BF77EBE59D9687E 2017-11-04
+```
+
+这个其实是和上面是一样的，都是一个列表展示所有的指纹，这里的指纹是以长形式展示的，短形式的指纹是它的后一半。
+
+导出自己的公钥内容
+
+```
+gpg --armor --export 6F91B0E2
+```
+
+公钥是以 `-----BEGIN PGP PUBLIC KEY BLOCK-----` 开头，以 `-----END PGP PUBLIC KEY BLOCK-----` 结尾的一段字符串，将其导入 github setting 中的 GPG Keys 中即可
+
+### 配置 git
+
+使用公钥指纹来配置你自己的 git
+
+```
+git config --global user.signingkey 6F91B0E2
+```
+
+在某个仓库中设置 commit 时开启 GPG 签名
+
+```
+git config commit.gpgsign true
+```
+
+也可以关闭
+
+```
+git config commit.gpgsign false
+```
+
+或者全局设置开启 commit 时签名
+
+```
+git config --global commit.gpgsign true
+```
+
+查看 git 的所有配置
+
+```
+git config -l
+```
+
+现在就可以看到 commit 上的 `Verified` 标志了
+
+![Verified](/images/gpg_verified.png)
+
+## 参考链接
+
+![git-使用GPG签名你的commit](http://www.cnblogs.com/xueweihan/p/5430451.html)
+
+![使用 GPG 加密 Github Commits](https://teddysun.com/496.html)

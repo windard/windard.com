@@ -188,6 +188,200 @@ server {
 }
 ```
 
+## nginx 配置文件
+
+nginx 的配置博大精深，学一分有一分的收获，进一寸有一寸的欢喜。
+
+### location 路由匹配
+
+nginx 配置中每个 server 作为一个虚拟主机，每一个 location 作为一个路由匹配。
+
+匹配所有的路由请求
+
+```
+location / {
+    index index.html;
+    try_files $uri /index.html;
+}
+```
+
+或者匹配静态文件
+
+```
+location ^~ /static/ {
+    root /webroot/static/;
+}
+location ~* \.(gif|jpg|jpeg|png|css|js|ico)$ {
+    root /webroot/res/;
+}
+```
+
+匹配的规则是有优先级的
+
+1. 全匹配 ( 也就是前缀  `=`) 表示精确匹配，不支持正则。
+2. 路径匹配 （ 也就是前缀 `^~`）开头表示uri以某个常规字符串开头，不支持正则，理解为匹配url路径即可。
+3. 正则匹配 （ 也就是前缀 `~` 或者 `~*`）表示区分大小写的和不区分大小写的正则匹配。`!~` 和 `!~* `开头表示区分大小写不匹配及不区分大小写不匹配的正则匹配。
+4. 字符串匹配 （也就是前缀为 空）使用 `/` 的时候表示通用匹配，任何请求都会匹配，通常放着配置的最后。
+
+> 需要注意 `^~ /333/` 表示匹配开头 ， `~ ^/333/$` 表示正则匹配开头结尾, `~ ^(/222/|/44/)` 表示匹配以 `/222/` 或者以 `/44/` 开头
+
+示例
+
+```
+# 字符串匹配
+location /static {
+    alias  /home/www/static;
+    access_log off;
+}
+# 路径匹配，此时proxy_pass的结束 / 决定是否带上匹配的路径
+location ^~ /333/ {
+    proxy_pass http://106.185.48.229/;
+}
+# 正则匹配，此时proxy_pass不能带结束 /
+location ~ ^/(xxx|yyy)/ {
+    proxy_pass http://106.185.48.229;
+}
+# 字符串匹配，此时proxy_pass的结束 / 决定是否带上匹配得路径
+location /zzz/ {
+    proxy_pass http://106.185.48.229/;
+}
+# 默认匹配
+location / {
+    proxy_pass http://127.0.0.1:8080;
+}
+
+location  = / {
+  # 精确匹配 / ，主机名后面不能带任何字符串
+  [ configuration A ]
+}
+location  / {
+  # 因为所有的地址都以 / 开头，所以这条规则将匹配到所有请求
+  # 但是正则和最长字符串会优先匹配
+  [ configuration B ]
+}
+location /documents/ {
+  # 匹配任何以 /documents/ 开头的地址，匹配符合以后，还要继续往下搜索
+  # 只有后面的正则表达式没有匹配到时，这一条才会采用这一条
+  [ configuration C ]
+}
+location ~ /documents/Abc {
+  # 匹配任何以 /documents/Abc 开头的地址，匹配符合以后，还要继续往下搜索
+  # 只有后面的正则表达式没有匹配到时，这一条才会采用这一条
+  [ configuration CC ]
+}
+location ^~ /images/ {
+  # 匹配任何以 /images/ 开头的地址，匹配符合以后，停止往下搜索正则，采用这一条。
+  [ configuration D ]
+}
+location ~* \.(gif|jpg|jpeg)$ {
+  # 匹配所有以 gif,jpg或jpeg 结尾的请求
+  # 然而，所有请求 /images/ 下的图片会被 config D 处理，因为 ^~ 到达不了这一条正则
+  [ configuration E ]
+}
+location /images/ {
+  # 字符匹配到 /images/，继续往下，会发现 ^~ 存在
+  [ configuration F ]
+}
+location /images/abc {
+  # 最长字符匹配到 /images/abc，继续往下，会发现 ^~ 存在
+  # F与G的放置顺序是没有关系的
+  [ configuration G ]
+}
+location ~ /images/abc/ {
+  # 只有去掉 config D 才有效：先最长匹配 config G 开头的地址，继续往下搜索，匹配到这一条正则，采用
+    [ configuration H ]
+}
+```
+
+### rewrite 路由重写
+
+常见的路由重写有反向代理和 HTTP 转 HTTPS, 但是第一种是使用 `proxy_pass` ，对用户无感知，第二种是使用 `rewrite` ，可以对用户有感知，返回 302 ，也可以无感知。
+
+反向代理，对用户透明
+
+```
+location / {
+    proxy_pass http://127.0.0.01:8080/
+}
+```
+
+HTTP 转 HTTPS，返回 302 跳转到 HTTPS 的站点
+
+```
+rewrite ^(.*) https://$server_name$1 permanent;
+```
+
+rewrite 语法规则 `rewrite 请求地址正则匹配 替换地址规则模型 标志位`，一般 rewrite 也多是写在 server 里面，location 外面。
+
+```
+server {
+    root /var/www/php;
+    index index.php;
+
+    rewrite ^/api/(.*)+ /index.php?app=api&method=$1 break;
+    rewrite ^/index.php/(.*)+ /old_api_warning.html break;
+
+    location / {
+        return 200 "index";
+    }
+
+    location = /index.php {
+        return 200 "index.php";
+    }
+}
+
+```
+
+或者是将请求路由的互换位置
+
+```
+rewrite ^/(.*)/(.*)$ /$2/$1;
+# 注：用括号括起来的参数为后面的 $1 $2 变量
+```
+
+或者是去掉请求中的 `v2`
+
+```
+location ^~ /v2/ {
+  rewrite ^/v2/(.*)$ /$1 last;
+}
+```
+
+标志位共有以下四种, 如果替换之后的地址是一个 URL ， 则会返回 302 ，不会受标志位的影响。
+
+1. `last`   last是不会再受其他 rewrite 影响,但会继续重试 server 中的其他 location 模块，用户无感知,地址栏不改变。
+2. `break`  break是不会再受其他 rewrite 影响,而且不再进行 location 匹配，用户无感知，地址栏不变。
+3. `redirect`  返回302临时重定向，浏览器地址会显示跳转后的URL地址。
+4. `permanent`  返回301永久重定向，浏览器地址会显示跳转后的URL地址。
+
+## 全局变量
+
+nginx 配置中的全局变量
+
+- `$args` : 这个变量等于请求行中的参数，同$query_string
+- `$content_length` : 请求头中的Content-length字段
+- `$content_type` : 请求头中的Content-Type字段
+- `$document_root` : 当前请求在root指令中指定的值。
+- `$host` : 请求主机头字段，否则为服务器名称。
+- `$http_user_agent` : 客户端agent信息
+- `$http_cookie` : 客户端cookie信息
+- `$http_origin` : 客户端请求来源，即请求头中的 `Origin`
+- `$http_host` : 客户端请求的源地址，即请求头中的 `Host`
+- `$limit_rate` : 这个变量可以限制连接速率。
+- `$request_method` : 客户端请求的动作，通常为GET或POST。
+- `$remote_addr` : 客户端的IP地址。
+- `$remote_port` : 客户端的端口。
+- `$remote_user` : 已经经过Auth Basic Module验证的用户名。
+- `$request_filename` : 当前请求的文件路径，由root或alias指令与URI请求生成。
+- `$scheme` : HTTP方法（如http，https）。
+- `$server_protocol` : 请求使用的协议，通常是HTTP/1.0或HTTP/1.1。
+- `$server_addr` : 服务器地址，在完成一次系统调用后可以确定这个值。
+- `$server_name` : 服务器名称。
+- `$server_port` : 请求到达服务器的端口号。
+- `$request_uri` : 包含请求参数的原始URI，不包含主机名，”/foo/bar.php?arg=baz”。
+- `$uri` : 不带请求参数的当前URI，$uri不包含主机名，如”/foo/bar.html”。
+- `$document_uri` : 与$uri相同。
+
 ## 参考链接
 
 [CentOS 7.0下编译安装Nginx 1.10.0](https://segmentfault.com/a/1190000005180585)
