@@ -434,6 +434,29 @@ Python 集合是无序的，没有重复元素，元组不能通过序号查找�
 
 快速创建列表 `[1,2,3]`，快速创建元组 `(1,2,3)`，快速创建集合 `{1,2,3}`
 
+## python 中的与或非操作
+
+python 中的与或非操作需要依靠 set 的并交叉集来完成
+
+```
+>>> a = [1,2,3]
+>>> b=[3,4,5]
+>>> list(set(a) & set(b))
+[3]
+>>> list(set(a).intersection(set(b)))
+[3]
+>>> list(set(a) | set(b))
+[1, 2, 3, 4, 5]
+>>> list(set(a).union(set(b)))
+[1, 2, 3, 4, 5]
+>>> list(set(a) ^ set(b))
+[1, 2, 4, 5]
+>>> list(set(a).symmetric_difference(set(b)))
+[1, 2, 4, 5]
+>>> list(set(a).difference(set(b)))
+[1, 2]
+```
+
 ## 可迭代对象和迭代器对象
 
 可迭代对象不一定是迭代器对象，迭代器对象一定是可迭代对象。

@@ -18,85 +18,86 @@ Docker，Vagrant，VirtualBox，VMware 都曾在我的低端笔记本的垃圾 W
 临时关闭 SELinux `setenforce 0` ，或者使用特权模式运行 Docker `--privileged=true`，或者使用 `chcon `更改文件安全语境。
 
 ```
-chcon -Rt svirt_sandbox_file_t /data/share/master #绝对路径 
+chcon -Rt svirt_sandbox_file_t /data/share/master #绝对路径
 ```
 
-在国内使用默认的 Docker 源下载镜像比较慢，可以使用 DaoCloud, 阿里云等进行加速。 
+在国内使用默认的 Docker 源下载镜像比较慢，可以使用 DaoCloud, 阿里云等进行加速。
 
-## Dockerfile 
+## Dockerfile
 
 Dockerfile 是由一系列命令和参数构成的脚本，这些命令应用于基础镜像并最终创建一个新的镜像。
 
 ### 常用参数
 
 ```
-FROM <image>:<tag> 
+FROM <image>:<tag>
 ```
 
 指定基础 image，基础镜像可以是 Ubuntu 或者 cent OS 等这种按照 Linux 发行版本区分，也有 MySQL ， Nginx 等按照特定服务划分，或者docker 提供的一个最小的基础镜像 alpine ，还有他人制作发布的镜像，使用 Dockerfile 也就是为了制作一个 Docker 镜像。
 
-```
-MAINTAINER <name>  
-```
-
 指定镜像制作者信息。
 
 ```
-RUN <command> (the command is run in a shell - `ls -al`)  
-RUN ["executable", "param1", "param2" ... ]  (commsnd split by space - `ls` `-al`)  
+MAINTAINER <name>
 ```
 
 两种不同的写法，在镜像创建时所进行的操作。
 
 ```
-ADD <src> <dest>  
+RUN <command> (the command is run in a shell - `ls -al`)
+RUN ["executable", "param1", "param2" ... ]  (commsnd split by space - `ls` `-al`)
 ```
 
 从本地的文件系统中复制文件到镜像中
 
 ```
-ENV <key> <value>  
+ADD <src> <dest>
 ```
 
 用来设定环境变量，如 $PATH
 
 ```
-VOLUME <src> <dest>  
+ENV <key> <value>
 ```
 
 持久化挂载，与文件复制不同，这是讲本地文件夹挂载到镜像中，实现文件的相互传输与共享。
 
 ```
-WORKDIR /path/to/workdir  
+VOLUME <src> <dest>
 ```
 
 在镜像中切换目录，指定其为工作目录。
 
 ```
-EXPOSE <port> [<port>...]  
+WORKDIR /path/to/workdir
 ```
 
 指定向外暴露的的端口，在使用镜像时即可将容器中的端口映射到宿主机的端口。
 
 ```
-USER <username>
+EXPOSE <port> [<port>...]
 ```
 
 设置启动容器的用户，默认为 root
 
 ```
-CMD ["executable","param1","param2"] (like an exec, this is the preferred form)  
-CMD command param1 param2 (as a shell)  
+USER <username>
 ```
 
 类似于 RUN 命令，但是这个是在 镜像 启动时执行，如果有多条指令，则只指定最后一条，RUN 是有多条指定则全部执行。
 
 ```
-ENTRYPOINT ["executable", "param1", "param2"] (like an exec, the preferred form)  
-ENTRYPOINT command param1 param2 (as a shell)
+CMD ["executable","param1","param2"] (like an exec, this is the preferred form)
+CMD command param1 param2 (as a shell)
 ```
 
 在 容器 启动时执行的命令，功能与 CMD 有部分的重合，同样的只有最后一条指定有效。
+
+```
+ENTRYPOINT ["executable", "param1", "param2"] (like an exec, the preferred form)
+ENTRYPOINT command param1 param2 (as a shell)
+```
+
 
 ### 使用 Dockerfile 创建一个 Python flask 镜像
 
@@ -151,7 +152,7 @@ redis
 └── requirements.txt
 ```
 
-在当前目录下构建一个仓库为 `registry.cn-hangzhou.aliyuncs.com/windard/firsttry` ，Tag 为默认值 `latest` 的镜像。 
+在当前目录下构建一个仓库为 `registry.cn-hangzhou.aliyuncs.com/windard/firsttry` ，Tag 为默认值 `latest` 的镜像。
 因为制作镜像就是为了分发出去，如果你不通过网络分发，则 仓库名 可以随便取，如果通过网络分发，则需要按照分发商的仓库名书写，常见的 Docker 运营商有 Docker.io (官方 Docker 仓库), DaoCloud, Aliyun 等。
 
 ```
@@ -259,6 +260,6 @@ redis:
 - `docker-compose build` 重新创建当前目录下 `docker-compose.yml` 中的镜像
 - `docker-compose logs ` 查看容器日志，也可以指定容器名查看日志
 - `docker-compose ps`    查看容器运行状态
-- `docker-compose restart nginx` 仅重启 Nginx 容器 
+- `docker-compose restart nginx` 仅重启 Nginx 容器
 
 
