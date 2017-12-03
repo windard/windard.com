@@ -56,14 +56,15 @@ category: opinion
 
 `find` 默认打印当前路径下的所有文件和文件夹
 
-- `-type f` : 仅显示文件
 - `-name `  : 匹配文件名
-- `-type`   : 匹配文件夹
+- `-type`   : 匹配文件夹 `-type f` 即为 file 文件，`-type d` 即为 dir 文件夹
 - `-user `  : 匹配用户
 - `-ls`     : 对搜索结果使用 `ls` 显示
 - `"regex"` : 使用引号匹配正则表达式
+- `-exec`: 对匹配的内容做 shell 命令
+- `-delete`: 删除匹配到的内容
 
-常用命令 `find |grep <name>`, `find / -name <name>`, `find -user <user>`, `find -type f|wc`, `find ./ -name "*.md" |xargs cat|wc`
+常用命令 `find |grep <name>`, `find / -name <name>`, `find -user <user>`, `find -type f|wc`, `find ./ -name "*.md" |xargs cat|wc` 或者 `find . -name "*.md" -exec cat {} +|wc`
 
 ### wc
 
