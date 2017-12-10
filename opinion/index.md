@@ -39,4 +39,4 @@ layout: home
     </div>
 </div>
 
-<a href="http://github.com/windard" class="forkme"><img id="github_url"  style="position: absolute; top: 0; right: 0; border: 0;" src="/images/forkme_right_red_aa0000.png" alt="Fork me on GitHub" /></a>
+<a href="https://github.com/windard" class="forkme"><img id="github_url"  style="position: absolute; top: 0; right: 0; border: 0;" src="/images/forkme_right_red_aa0000.png" alt="Fork me on GitHub" /></a>
