@@ -421,7 +421,7 @@ make install
 ss-server -c config.json -f /var/run/shadowsocks.pid
 ```
 
-或者 
+或者
 
 ```
 nohup ss-server -c config.json >shadowsocks.log 2>&1 &
@@ -442,6 +442,13 @@ nohup ss-server -c config.json >shadowsocks.log 2>&1 &
 }
 ```
 
+这样安装更简单
+
+```
+wget https://copr.fedoraproject.org/coprs/librehat/shadowsocks/repo/epel-7/librehat-shadowsocks-epel-7.repo -O /etc/yum.repos.d/librehat-shadowsocks-epel-7.repo
+yum update
+yum install shadowsocks-libev -y
+```
 
 ## 使用 锐速加速 ss
 

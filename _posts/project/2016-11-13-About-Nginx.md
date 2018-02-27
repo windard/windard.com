@@ -463,6 +463,8 @@ server {
 
 那么反向代理就是位于 `代理服务器` 与 `目标地址` 之间的，你正常访问代理服务器，然后服务器就去把目标地址的资源取来给你，你只能得到代理服务器给你的资源而没得选。你本来正常访问代理服务器，结果却得到了目标服务器的资源，这就是反向代理，比如说 Google 镜像网站。
 
+一般的负载均衡也常用反向代理，对外只展示一个服务，反向代理内部多台机器上的多个服务。
+
 如果想使用反向代理，需要设定服务器开启转发功能，查看 `/proc/sys/net/ipv4/ip_forward` 的值是否为 1，如果不是请改为 1 。
 
 比如说我们来搭建一个 Google 的镜像网站
@@ -510,6 +512,44 @@ server {
 ```
 iptables -t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to-ports 8000
 ```
+
+## 正向代理
+
+一般 nginx 做反向代理配置比较多，但是正向代理也是可以的，一般的代理网站都会提供很多的免费代理服务，大都是 HTTP 的正向代理。
+
+一般在当前客户端无法访问某些地址或者希望隐藏自己的信息的时候才会使用正向代理，一般也直接称之为代理，如爬虫抓取网站信息过于频繁被封 IP 的时候。
+
+```
+server {
+    # 配置DNS解析IP地址，比如 Google Public DNS，以及超时时间（5秒）
+    resolver 8.8.8.8;    # 必需
+    resolver_timeout 5s;
+
+    # 监听端口
+    listen 8080;
+    server_name _;
+
+    access_log  /var/log/nginx/front.proxy.access.log main;
+    error_log /var/log/nginx/front.proxy.error.log error;
+
+    location / {
+        # 配置正向代理参数
+        proxy_pass $scheme://$host$request_uri;
+        # 解决如果URL中带"."后Nginx 503错误
+        proxy_set_header Host $http_host;
+
+        # 代理连接超时时间
+        proxy_connect_timeout 30;
+
+    }
+}
+```
+
+在正向代理中，依然需要监听的端口和地址，新增的是 DNS 的地址，因为代理到其他网站上，需要 DNS 查询 IP，还有就是新增两个超时时间和请求头。
+
+因为 SSL 证书的原因，只能代理 HTTP 的请求而不能代理 HTTPS 的请求，如果想要 HTTPS 的请求也代理的话，需要给域名加上证书。
+
+即可使用 `curl --proxy 127.0.0.1:8080 httpbin.org/ip` 测试代理。
 
 ## 负载均衡
 

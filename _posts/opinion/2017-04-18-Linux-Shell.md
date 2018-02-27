@@ -215,6 +215,20 @@ function:
 
 常用命令 `curl -x 127.0.0.1:1080 http://httpbin.org/ip` `curl -X POST -d "username=username&password=password" http://127.0.0.1:5000/login` `curl -b "session=cookieinfo" http://127.0.0.1:5000/status`
 
+
+### netstat
+
+`netstat [option]` 查看服务及监听端口
+
+- `-t` : 指明显示 TCP 端口
+- `-u` : 指明显示 UDP 端口
+- `-l` : 仅显示监听套接字(所谓套接字就是使应用程序能够读写与收发通讯协议(protocol)与资料的程序)
+- `-p` : 显示进程标识符和程序名称，每一个套接字/端口都属于一个程序。
+- `-n` : 不进行DNS轮询(可以加速操作)
+- `-a` : 查看所有端口
+
+常用命令 `netstat -an|grep 8080` 查看占用端口的服务 `netstat -anp|grep 8080`
+
 ## 实际应用
 
 ### 去重
@@ -428,4 +442,25 @@ echo clean done
 
 ```
 find . -name "*.md" -ls | sort -n -k7 | tail -n 1
+```
+
+
+## 使用 UDP 请求数据
+
+```
+#!/bin/bash
+
+def_host=localhost
+def_port=43211
+
+HOST=${2:-$def_host}
+PORT=${3:-$def_port}
+
+echo -n "$1" | nc -4u -w1 $HOST $PORT
+```
+
+或者
+
+```
+echo "This is my data" > /dev/udp/127.0.0.1/3000
 ```
