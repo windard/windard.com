@@ -23,6 +23,8 @@ chcon -Rt svirt_sandbox_file_t /data/share/master #绝对路径
 
 在国内使用默认的 Docker 源下载镜像比较慢，可以使用 DaoCloud, 阿里云等进行加速。
 
+> 在 container (容器) 内，访问 host (主机)，Mac 下可以使用 `docker.for.mac.localhost` 来代替 host ip
+
 ## Dockerfile
 
 Dockerfile 是由一系列命令和参数构成的脚本，这些命令应用于基础镜像并最终创建一个新的镜像。

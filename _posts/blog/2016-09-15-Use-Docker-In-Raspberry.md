@@ -83,6 +83,8 @@ pass: hypriot
 - `docker inspect jekyll` 查看某个容器或者镜像的信息
 - `docker cp windard:/root/windard.com/index.md ./` 将容器内的文件复制到主机上
 - `docker cp ./index.md windard:/root/windard.com/` 将主机上的文件复制到容器内
+- `docker top <containerid>` 查看容器使用情况
+- `docker stats <containerid>` 动态的查看容器使用情况
 
 - `docker run -e MYSQL_ROOT_PASSWORD=123 -p 3306:3306 -t -i mysql` 创建并进入一个 MySQL 的容器
 

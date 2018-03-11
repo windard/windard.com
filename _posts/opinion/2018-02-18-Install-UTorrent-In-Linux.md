@@ -84,7 +84,7 @@ uTorrent Server 版本在服务器上不好用
 4. 不太稳定，token 返回400
 5. [存疑] tracker 主机查询不支持 ipv6
 
-不如用 qbittorrent-nox
+不如用 [qbittorrent-nox](https://github.com/qbittorrent/qBittorrent/wiki/Setting-up-qBittorrent-on-Ubuntu-server-as-daemon-with-Web-interface-(15.04-and-newer))
 
 ```
 yum[apt] install -y qbittorrent-nox
