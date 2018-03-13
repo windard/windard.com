@@ -430,7 +430,7 @@ mv ${LOGS_PATH}/nginx.log  ${LOGS_PATH}/nginx-${yesterday}.log
 kill -USR1 $(cat /var/logs/nginx.pid)
 ```
 
-## 删除当前目录下的 python 运行脏数据
+### 删除当前目录下的 python 运行脏数据
 
 ```
 find . -name '*.pyc' -delete
@@ -438,14 +438,21 @@ find . -name __pycache__  -type d | xargs rm -rf
 echo clean done
 ```
 
-## 寻找当前目录下文件大小最大的 md 文件
+### 寻找当前目录下文件大小最大的 md 文件
 
 ```
 find . -name "*.md" -ls | sort -n -k7 | tail -n 1
 ```
 
+### 查看登录失败用户和IP
 
-## 使用 UDP 请求数据
+```
+lastb|awk '{print $1"\t"$3}' |sort|uniq -c|sort -n
+```
+
+## 其他
+
+### 使用 UDP 请求数据
 
 ```
 #!/bin/bash
@@ -463,4 +470,131 @@ echo -n "$1" | nc -4u -w1 $HOST $PORT
 
 ```
 echo "This is my data" > /dev/udp/127.0.0.1/3000
+```
+
+## OpenSSL 使用
+
+### 生成随机随机字符串
+
+```
+> openssl rand 20
+ �yR�Z�&�����%                                                                                            > openssl rand 20 -out rand.out
+> openssl rand 20 -hex
+2c345e2e7989d699e1e87923675959960f1493eb
+> openssl rand 20 -base64
+A3UYiELJdZdvHKFKDuNShpaxPXg=
+```
+
+### 哈希算法
+
+```
+> openssl dgst -sha1 test.in
+SHA1(test.in)= 22596363b3de40b06f981fb85d82312e8c0ed511
+> echo "hello world"|openssl dgst -sha1
+(stdin)= 22596363b3de40b06f981fb85d82312e8c0ed511
+> openssl dgst -out test.out -sha1 test.in
+```
+
+可选的哈希算法有
+
+```
+-md4            to use the md4 message digest algorithm
+-md5            to use the md5 message digest algorithm
+-mdc2           to use the mdc2 message digest algorithm
+-ripemd160      to use the ripemd160 message digest algorithm
+-sha            to use the sha message digest algorithm
+-sha1           to use the sha1 message digest algorithm
+-sha224         to use the sha224 message digest algorithm
+-sha256         to use the sha256 message digest algorithm
+-sha384         to use the sha384 message digest algorithm
+-sha512         to use the sha512 message digest algorithm
+-whirlpool      to use the whirlpool message digest algorithm
+```
+
+### 对称加解密算法
+
+```
+openssl enc -des3 -k openssl -in test.in -out test.out
+openssl enc -des3 -d -k openssl -in test.out -out test.in
+```
+
+> 加上参数 `-a`, 表示输出结果经过 base64 编码
+
+对称加密的算法可选的有
+
+```
+-aes-128-cbc               -aes-128-ccm               -aes-128-cfb
+-aes-128-cfb1              -aes-128-cfb8              -aes-128-ctr
+-aes-128-ecb               -aes-128-ofb               -aes-192-cbc
+-aes-192-ccm               -aes-192-cfb               -aes-192-cfb1
+-aes-192-cfb8              -aes-192-ctr               -aes-192-ecb
+-aes-192-ofb               -aes-256-cbc               -aes-256-ccm
+-aes-256-cfb               -aes-256-cfb1              -aes-256-cfb8
+-aes-256-ctr               -aes-256-ecb               -aes-256-ofb
+-aes128                    -aes192                    -aes256
+-bf                        -bf-cbc                    -bf-cfb
+-bf-ecb                    -bf-ofb                    -blowfish
+-camellia-128-cbc          -camellia-128-cfb          -camellia-128-cfb1
+-camellia-128-cfb8         -camellia-128-ecb          -camellia-128-ofb
+-camellia-192-cbc          -camellia-192-cfb          -camellia-192-cfb1
+-camellia-192-cfb8         -camellia-192-ecb          -camellia-192-ofb
+-camellia-256-cbc          -camellia-256-cfb          -camellia-256-cfb1
+-camellia-256-cfb8         -camellia-256-ecb          -camellia-256-ofb
+-camellia128               -camellia192               -camellia256
+-cast                      -cast-cbc                  -cast5-cbc
+-cast5-cfb                 -cast5-ecb                 -cast5-ofb
+-des                       -des-cbc                   -des-cfb
+-des-cfb1                  -des-cfb8                  -des-ecb
+-des-ede                   -des-ede-cbc               -des-ede-cfb
+-des-ede-ofb               -des-ede3                  -des-ede3-cbc
+-des-ede3-cfb              -des-ede3-cfb1             -des-ede3-cfb8
+-des-ede3-ofb              -des-ofb                   -des3
+-desx                      -desx-cbc                  -id-aes128-CCM
+-id-aes128-wrap            -id-aes192-CCM             -id-aes192-wrap
+-id-aes256-CCM             -id-aes256-wrap            -id-smime-alg-CMS3DESwrap
+-idea                      -idea-cbc                  -idea-cfb
+-idea-ecb                  -idea-ofb                  -rc2
+-rc2-40-cbc                -rc2-64-cbc                -rc2-cbc
+-rc2-cfb                   -rc2-ecb                   -rc2-ofb
+-rc4                       -rc4-40                    -seed
+-seed-cbc                  -seed-cfb                  -seed-ecb
+-seed-ofb
+```
+
+### 非对称加解密算法
+
+```
+openssl genrsa -out pri.key 2048                                                    # 生成私钥
+openssl rsa -in pri.key -pubout -out pub.key                                        # 生成公钥
+openssl rsautl -in test.in -out test.out -inkey pub.key -pubin -encrypt             # 公钥加密
+openssl rsautl -in test.out -out test.in -inkey pri.key -decrypt                    # 私钥解密
+```
+
+生成私钥时，这是未带加密的密钥的对称密钥，如果想要加密，可以使用的加密方式有
+
+```
+ -des            encrypt the generated key with DES in cbc mode
+ -des3           encrypt the generated key with DES in ede cbc mode (168 bit key)
+ -idea           encrypt the generated key with IDEA in cbc mode
+ -seed
+                 encrypt PEM output with cbc seed
+ -aes128, -aes192, -aes256
+                 encrypt PEM output with cbc aes
+ -camellia128, -camellia192, -camellia256
+                 encrypt PEM output with cbc camellia
+```
+
+使用加密的私钥
+
+```
+openssl genrsa -aes256 -out pri.key 2048
+```
+
+非对称加密算法还有 `dsa`
+
+### 签名和验签
+
+```
+openssl rsautl -in test.in -out test.sig -inkey pri.key -sign
+openssl rsautl -in test.sig -out test.in -inkey pub.key -pubin -verify
 ```
