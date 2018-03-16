@@ -5,6 +5,8 @@ description: 学习使用一些 Linux 高级命令。
 category: opinion
 ---
 
+在网上发现一本在线手册挺好的， [ Linux Tools Quick Tutorial](http://linuxtools-rst.readthedocs.io/zh_CN/latest/index.html)
+
 ## Linux 高级命令
 
 ### cat
@@ -50,7 +52,7 @@ category: opinion
 - `-n` : 找到匹配之后，输出匹配所在行数，使用 `-n5` 的话输出上下 5 行
 - `-v` : 找到不匹配的值
 
-常用命令 `ls -al|grep -i <name>`, `grep -P '^[\d]{3} [\w]{3} [\w]{5}' data.txt`, `grep <data> * -r`, `find $PWD -name "*.py"|grep -v ".venv"`
+常用命令 `ls -al|grep -i <name>`, `grep -P '^[\d]{3} [\w]{3} [\w]{5}' data.txt`, `grep <data> * -r`, `find $PWD -name "*.py"|grep -v ".venv"`, `ps -ef |grep flag |grep -v "grep" |wc -l`
 
 ### find
 
@@ -448,6 +450,20 @@ find . -name "*.md" -ls | sort -n -k7 | tail -n 1
 
 ```
 lastb|awk '{print $1"\t"$3}' |sort|uniq -c|sort -n
+```
+
+### 判断程序是否运行
+
+```
+#!/bin/bash
+
+COUNT=$(ps -ef |grep flag |grep -v "grep" |wc -l)
+echo $COUNT
+if [ $COUNT -eq 0 ]; then
+        echo NOT RUN
+else
+        echo is RUN
+fi
 ```
 
 ## 其他
