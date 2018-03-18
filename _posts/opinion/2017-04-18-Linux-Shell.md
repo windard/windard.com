@@ -440,7 +440,7 @@ find . -name __pycache__  -type d | xargs rm -rf
 echo clean done
 ```
 
-### 寻找当前目录下文件大小最大的 md 文件
+### 寻找当前目录下文件大小最大的文件
 
 ```
 find . -name "*.md" -ls | sort -n -k7 | tail -n 1
@@ -486,6 +486,34 @@ echo -n "$1" | nc -4u -w1 $HOST $PORT
 
 ```
 echo "This is my data" > /dev/udp/127.0.0.1/3000
+```
+
+### 在内网中逃出生天
+
+使用 反向 SSH 使外网服务器可以直接操纵内网服务器
+
+内网主机，此处用户名密码和远程地址均为外网机器
+
+```
+ssh -f -N -R 2022:localhost:22 username@remote.freePC.com
+```
+
+在内网中，也可以使用 `autossh` ，可以保持连接，在断掉时自动重连，和监控连接情况。
+
+```
+autossh -M 33333 -NR 33334:localhost:22 ServerUser@Cloud_Server_IP -p [Server_port]
+```
+
+外网主机，此处用户名密码为内网机器
+
+```
+ssh username@localhost -p2022
+```
+
+也可以开启 socks5 转发，用来访问内网其他资源
+
+```
+ssh -g -D 33335 -p 33334 innerUser@localhost
 ```
 
 ## OpenSSL 使用

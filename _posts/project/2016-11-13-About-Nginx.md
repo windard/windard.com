@@ -457,6 +457,35 @@ server {
 
 同一服务器，也可以通过 Nginx 来让不同的端口访问不同的内容，当然你的防火墙 firewalld 或者 iptables 需要开放对应端口或关闭防火墙。
 
+## 静态文件展示
+
+```
+server {
+    listen 80;
+    server_name _;
+
+    root /usr/share/nginx/downloads;
+    index index.php index.html index.htm;
+
+    location / {
+        autoindex on;
+    }
+}
+```
+
+错误整理
+ - `directory index of "/xxx/" is forbidden` 未设置 index
+ - `opendir() "/root/xxx" failed (13: Permission denied)` 可能是无权限或者未关闭 SELinux
+
+使用 `getenforce` 查看是否开启 SELinux, 显示 `Disabled` 未开启，显示 `Enforcing` 即为开启。
+
+在根目录在 `/root` 下时， SELinux 会有影响。
+ - 使用 `setenforce Permissive` 或者 `setenforce 0` 暂时关闭 SELinux ，机器重启即失效。
+ - 使用 `chcon -Rt httpd_sys_content_t /path/to/www` 赋予权限。
+ - 使用 `setenforce Enforcing` 开启 SELinux
+
+ > 阿里云 1M 带宽的小服务器，上传不受限，下载只有 1Mb/s，即只有 125K 左右 ...
+
 ## 反向代理
 
 代理，如果你用过其他的代理软件，比如说 shadowsocks ，就会知道什么是正向代理，即它的功能就像一个跳板。假设你需要访问 Google ，但是在中国大陆没法直接访问 Google ，不过你可以访问这个代理服务器，那你就先到这个代理服务器上，然后通过代理服务器访问 Google 。其实到了代理服务器上你访问哪里都可以，目标地址，如 Google，还以为是代理服务器访问的。这就是正向代理，它是位于 `客户端` 与 `代理服务器` ，到了代理服务器之后，你想去哪去哪，代理服务器管不着，也不知道。
