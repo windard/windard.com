@@ -5,8 +5,10 @@ description: 数字，字符串和元组是不可变的，而列表，字典和�
 category: blog
 ---
 
+> 关于此文的部分内容有些混乱与错误，请看 [python 函数调用是值传递还是引用传递](/blog/2018/04/08/Python-Call-By-Value-Or-reference)
+
 **可变参数 (可变对象)**: 列表，字典，集合 <br>
-**不可变参数 (不可变对象)**: 数字，字符串，元祖
+**不可变参数 (不可变对象)**: 数字，字符串，元组
 
 **可变参数**: 引用调用 <br>
 **不可变参数**: 值调用
@@ -135,7 +137,7 @@ category: blog
 # print 'a'.__base__                        # AttributeError
 # print [].__base__                         # AttributeError
 # print ().__base__                         # AttributeError
-# print {}.__base__                         # AttributeError  
+# print {}.__base__                         # AttributeError
 # print 1.__class__                         # SyntaxError
 type(1) 									# <type 'int'>
 print 'a'.__class__                         # <type 'str'>
