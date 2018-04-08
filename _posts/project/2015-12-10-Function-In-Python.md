@@ -1038,6 +1038,12 @@ def filter(func,seq):
   return filtered_seq
 ```
 
+过滤列表
+
+```
+print filter(None, [0, 1, 2, 3, None, 4, False])
+```
+
 例如我们现在随机产生10个100以内的整数，然后返回其中的所有奇数。
 
 ```python

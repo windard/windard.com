@@ -74,3 +74,26 @@ Unicode 与 ASCII 与 gbk 也是同一个等级的，三者是对不同的文字
 在写入到文件中时，除非使用二进制格式打开，否则都是只能写入字符串，所以在 Python 2 中由 Unicode 编码为字符串，在 Python 3 中由字节流解码为字符串 (Unicode) 。
 
 在网络文件接收到的数据，一般都是采用 Unicode 格式编辑，在 Python 2 中可以由字符串解码为 Unicode ，在 Python 3 中可以由字节流解码为 Unicode (字符串)。
+
+## Unicode 二三事
+
+在 python2 中的 Unicode 是类似于 `u"\uxxxx"` , 但是其实这只能表示 `\u0000-\uFFFF` 的 Unicode 编码，而实际上 Unicode 编码不只是这些内容，如果有更大的 Unicode ，比如说 emoji 😊 . 那就需要通过 `u"\Uxxxxxxxx"` 来表示, 使用大U 可以表示 `\U00010000-\UFFFFFFFF` 的 Unicode 编码, 即 小u 表示 2byte 16bit 的字符，大U 表示 4byte 32 bit 的字符。
+
+```
+>>> a  = u'😊'
+>>> a
+u'\U0001f60a'
+>>> print u'\U0001f60a'
+😊
+>>> print u'\u0001f60a'
+f60a
+```
+
+Unicode 中文的编码范围在 `\u4E00-\u9FA5`, 但是常用的是包含中日韩各种表意文字范围 `\u2E80-\uFE4F`
+
+[汉字 Unicode 编码范围](http://www.qqxiuzi.cn/zh/hanzi-unicode-bianma.php)
+
+[Unicode中文和特殊字符的编码范围](https://gist.github.com/shingchi/64c04e0dd2cbbfbc1350)
+
+Unicode 格式是 `u"\uxxxxxx"`，如果编码为 utf-8 或者 gbk ，使用 decode 即可转换为 Unicode ，但是有时候会遇到 `"\uxxxx"` 形式的字符串，如果再次进行解码则会变成 `u"\\uxxxx"`, 这个时候则需要使用 `decode("unicode-escape")` ，才能够变成正常的 Unicode 字符。
+> 或者非常恶心的方式使用 `eval("u\"" + "\uxxxx" + "\"")` 得到 `u"\uxxxx"`
