@@ -1080,11 +1080,13 @@ print a is b
 
 在其他语言中常见的模式方法 `setter()` 和 `getattr` ，在 Python 中是 `__setattr__` 和 `__getattr__` ，设置和获得对象属性，还有一个 `__delattr__` 用来删除对象属性，在使用 Python 关键字 `del ` 时调用。
 
-但是并不是像其他语言中，`setter` 设置的属性使用 `getattr` 获取就好，`__setattr__` 确实是设置属性的，但是 `__getattr__` 并不是真正设置属性的，而是在没有找到属性时才被调用，它用来捕获错误和返回默认值。
+但是并不是像其他语言中，`setter` 设置的属性使用 `getattr` 获取就好，`__setattr__` 确实是设置属性的，但是 `__getattr__` 并不是真正获得属性的，而是在没有找到属性时才被调用，它用来捕获错误和返回默认值。
 
 真正获取属性的方法是 `__getattribute__` ，用来查找获取属性，定义属性被访问时的行为，所以在访问属性的过程中，先调用 `__getattribute__` 然后调用 `__getattr__`，但是因为属性定义域的原因，并不建议尝试实现 `__getattribute__` 。
 
 设置对象的属性的方法有两种，可以使用 `setattr()` 函数来为对象设置属性，也可以使用 `self.attr=name` 来为对象设置属性，所以在 `__setattr__` 函数内部不能使用以上两种方式来设置属性，会造成递归调用，其实同样的，在使用 `__getattr__` 和 `__getattribute__` 和 `__delattr__` 的时候都需要注意循环调用的问题。
+
+所以，实际上真正的一对是 `__setattr__` 和 `__getattribute__`，并没有 `__setattribute__`，`__getattr__` 只是在错误的时候，未找到的时候才被调用。
 
 ```
 # coding=utf-8
@@ -1132,6 +1134,8 @@ not found
 
 可以看到，给对象增加了属性之后，在对象的属性列表中，不但有实例属性，类属性，还出现了我们为对象新定义的属性，虽然在定义时是将属性定义在 `__dict__` 的字典中，但是在也会出现在对象的属性列表中。
 
+新增加的属性都是在 `__dict__` 字典中。
+
 使用 `__getattribute__` 的效果
 
 ```
@@ -1155,47 +1159,76 @@ not found
 
 class Computer(object):
     def __setattr__(self, name, value):
+        print '__setattr__', name
         self.__dict__[name] = value
+
     def __getattr__(self, name):
-        print '__getattr__'
+        print '__getattr__', name
         return 'not found'
+
     def __getattribute__(self, name):
-        print '__getattribute__'
+        print '__getattribute__', name
         return super(Computer, self).__getattribute__(name)
 
 c = Computer()
 c.name = 'dell'
-
+print '------'
 print c.name
+print '------'
 print getattr(c, 'name')
+print '------'
 print dir(c)
+print '------'
 print c.__dict__
+print '------'
 print c.price
+print '------'
+
 ```
 
 结果是
 
 ```
-__getattribute__
-__getattribute__
+__setattr__ name
+__getattribute__ __dict__
+------
+__getattribute__ name
 dell
-__getattribute__
+------
+__getattribute__ name
 dell
-__getattribute__
-__getattribute__
-__getattr__
-__getattribute__
-__getattr__
-__getattribute__
+------
+__getattribute__ __dict__
+__getattribute__ __members__
+__getattr__ __members__
+__getattribute__ __methods__
+__getattr__ __methods__
+__getattribute__ __class__
 ['__class__', '__delattr__', '__dict__', '__doc__', '__format__', '__getattr__', '__getattribute__', '__hash__', '__init__', '__module__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__sizeof__', '__str__', '__subclasshook__', '__weakref__', 'name']
-__getattribute__
+------
+__getattribute__ __dict__
 {'name': 'dell'}
-__getattribute__
-__getattr__
+------
+__getattribute__ price
+__getattr__ price
 not found
+------
 ```
 
 可以看到 `__getattribute__` 在很多地方被调用了很多次。
+
+```
+    def __getattribute__(self, name):
+        print '__getattribute__', name
+        if name.startswith('__'):
+            return getattr(self, name)
+        try:
+            self.__dict__[name]
+        except KeyError:
+            self.__getattr__(name)
+```
+
+但是这样也是不行的，会循环调用。在取 `self.__dict__` 的时候就是调用自己的 `self.__getattribute__`
 
 ### 容器自定义相关
 

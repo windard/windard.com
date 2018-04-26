@@ -66,7 +66,7 @@ category: opinion
 - `-exec`: 对匹配的内容做 shell 命令
 - `-delete`: 删除匹配到的内容
 
-常用命令 `find |grep <name>`, `find / -name <name>`, `find -user <user>`, `find -type f|wc`, `find ./ -name "*.md" |xargs cat|wc` 或者 `find . -name "*.md" -exec cat {} +|wc`
+常用命令 `find |grep <name>`, `find / -name <name>`, `find -user <user>`, `find -type f|wc`, `find ./ -name "*.md" |xargs cat|wc` 或者 `find . -name "*.md" -exec cat {} +|wc`, `find .  -path ./.git -prune -o  -name "*" -type f -print|xargs cat|wc -l`
 
 ### wc
 
@@ -465,6 +465,47 @@ else
         echo is RUN
 fi
 ```
+
+### 解压缩所有格式
+
+```
+ex ()
+{
+  if [ -f $1 ] ; then
+    case $1 in
+      *.tar.bz2)   tar xjf $1   ;;
+      *.tar.gz)    tar xzf $1   ;;
+      *.bz2)       bunzip2 $1   ;;
+      *.rar)       unrar x $1     ;;
+      *.gz)        gunzip $1    ;;
+      *.tar)       tar xf $1    ;;
+      *.tbz2)      tar xjf $1   ;;
+      *.tgz)       tar xzf $1   ;;
+      *.zip)       unzip $1     ;;
+      *.Z)         uncompress $1;;
+      *.7z)        7z x $1      ;;
+      *)           echo "'$1' cannot be extracted via ex()" ;;
+    esac
+  else
+    echo "'$1' is not a valid file"
+  fi
+}
+
+```
+
+### 爬取全站
+
+```
+wget -c -r -npH -k https://windard.com
+```
+
+- c：断点续传
+- r：递归下载
+- np：递归下载时不搜索上层目录
+- nd：递归下载时不创建一层一层的目录,把所有文件下载当前文件夹中
+- p：下载网页所需要的所有文件(图片,样式,js文件等)
+- H：当递归时是转到外部主机下载图片或链接
+- k：将绝对链接转换为相对链接,这样就可以在本地脱机浏览网页了
 
 ## 其他
 
