@@ -63,6 +63,14 @@ docker info
 所以总结就是在 Mac 上，使用 Docker for Mac 是无法访问到容器的 IP 的，但是可以在容器内访问主机，如果想要主机访问容器，只能通过端口映射的方式访问其服务。
 
 
+## 存储位置
+
+在 docker for Mac 中，所有的 images 都存储在以下文件中
+
+```
+/Users/{YourUserName}/Library/Containers/com.docker.docker/Data/com.docker.driver.amd64-linux/Docker.qcow2
+```
+
 ## 参考文档
 
 [Docker for Mac vs. Docker Toolbox](https://docs.docker.com/docker-for-mac/docker-toolbox/)

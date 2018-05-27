@@ -167,6 +167,30 @@ False
 - `round(number[, ndigits=1])` 将一个浮点数转换为取整，并不是四舍五入，而是`ROUND_HALF_EVEN` 策略，取最近的偶数，返回一个 ndigits 位的浮点数
 - `pow(x, y[, z]) = (x**y) % z` 求幂
 
+##### 关于除法取整
+
+默认的除法都是下取整的，比如 / 和 //
+
+如何进行上取整
+
+###### 使用负数
+
+  ```
+  def ceildiv(a, b):
+      return -(-a // b)
+  ```
+
+###### 使用 `__future__`
+
+  ```
+  from __future__ import division
+
+  import math
+
+  def ceildiv(a, b):
+      return math.ceil(a / b)
+  ```
+
 #### id和del
 查看变量位置和删除变量。
 id()用来查看变量在内存中的位置，在深拷贝和浅拷贝的区别的时候就是通过查看在内存中的位置来判断的。

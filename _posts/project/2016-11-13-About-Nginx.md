@@ -180,7 +180,7 @@ include /usr/share/nginx/modules/*.conf;
 
 `user` 用来指定 Nginx worker 进程运行用户及用户组，一般使用 `user nobody nobody;`
 
-`worker_processes` 指定 Nginx 开启的子进程数，一般使用 CPU 核数*2 就可以，Nginx 是多线程服务器，对每个连接开启一个线程，Apache 则是多进程服务器。
+`worker_processes` 指定 Nginx 开启的子进程数，一般使用 CPU 核数\*2 就可以，Nginx 是多线程服务器，对每个连接开启一个线程，Apache 则是多进程服务器。
 
 `error_log` 定义全局错误日志，日志输出额级别有 `debug` `info` `notice` `warn` `error` `crit` 可选，其中 `debug` 输出最为详细，`crit` 输出最少。
 
@@ -469,6 +469,7 @@ server {
 
     location / {
         autoindex on;
+        try_files $uri $uri/ =404;
     }
 }
 ```
@@ -476,6 +477,9 @@ server {
 错误整理
  - `directory index of "/xxx/" is forbidden` 未设置 index
  - `opendir() "/root/xxx" failed (13: Permission denied)` 可能是无权限或者未关闭 SELinux
+ - `nginx: [emerg] bind() to 0.0.0.0:19980 failed (13: Permission denied)` SELinux 不仅关于文件夹，还有管着端口
+ - 在使用静态文件托管的时候， nginx 默认不支持大于 1G 的文件，需要在 location 中加上 `proxy_max_temp_file_size 0;`
+ - 仍然对大文件报错 `Permission denied` ，但是小文件可以展示，不止何故
 
 使用 `getenforce` 查看是否开启 SELinux, 显示 `Disabled` 未开启，显示 `Enforcing` 即为开启。
 
@@ -483,6 +487,8 @@ server {
  - 使用 `setenforce Permissive` 或者 `setenforce 0` 暂时关闭 SELinux ，机器重启即失效。
  - 使用 `chcon -Rt httpd_sys_content_t /path/to/www` 赋予权限。
  - 使用 `setenforce Enforcing` 开启 SELinux
+ - 使用 `semanage port -l | grep http_port_t` 查看可用的端口
+ - 使用 `semanage port -a -t http_port_t  -p tcp 8090` 新增端口进 SELinux
 
  > 阿里云 1M 带宽的小服务器，上传不受限，下载只有 1Mb/s，即只有 125K 左右 ...
 

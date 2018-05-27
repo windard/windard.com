@@ -120,7 +120,8 @@ twistd web --wsgi myproject.app
 twistd -n web --port 8080 --wsgi myproject.app
 ```
 
-> 关于 Twist ，这是 Flask 官方提供的运行方式，然而我并没有将其运行起来。。。
+> 关于 Twist ，这是 Flask 官方提供的运行方式，然而我并没有将其运行起来。。。<br>
+> 需要将当前路径加入 $PYTHONPATH, `export PYTHONPATH=${PYTHONPATH}:${PWD}`
 
 虽然上面的这些使用 WSGI 程序能监听外网，但是为了防止 DDOS 攻击或其他危害，一般都是监听内网，然后使用一个反向代理来监听对外端口，一般采用 Nginx 或者 Apache。
 
@@ -178,7 +179,7 @@ threads = 2
 
 stats = 127.0.0.1:9091
 
-``` 
+```
 
 然后使用 `uwsgi uwsgi.ini` 来运行。
 
@@ -203,7 +204,7 @@ socket = 127.0.0.1:3031     // 启动程序时所使用的地址和端口，通�
                             // 也就是说启动了uwsgi，也就启动了项目。
 chdir = /home/www/          // 项目目录
 
-wsgi-file = manage.py       // flask程序的启动文件，通常在本地是通过运行  
+wsgi-file = manage.py       // flask程序的启动文件，通常在本地是通过运行
                             // python manage.py runserver 来启动项目的
 
 callable = app              // 程序内启用的application变量名
@@ -334,7 +335,7 @@ server {
 
 那么接下来我们就来试一下上面的那些的性能吧。
 
-测试命令 `siege -c 1000 -r 100 -b http://127.0.0.1:8090` 
+测试命令 `siege -c 1000 -r 100 -b http://127.0.0.1:8090`
 
 ### 纯原生
 
@@ -501,7 +502,7 @@ Shortest transaction:           0.00
 
 不过还是可以看到 uwsgi + Nginx 是最强组合。
 
-使用 Nginx + PHP 
+使用 Nginx + PHP
 
 ```
 Transactions:                  25478 hits

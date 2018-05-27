@@ -84,7 +84,9 @@ pass: hypriot
 - `docker cp windard:/root/windard.com/index.md ./` 将容器内的文件复制到主机上
 - `docker cp ./index.md windard:/root/windard.com/` 将主机上的文件复制到容器内
 - `docker top <containerid>` 查看容器使用情况
-- `docker stats <containerid>` 动态的查看容器使用情况
+- `docker stats <containerid>` 动态的查看容器使用情况,不带容器ID则查看所有运行中容器
+- `docker system df` 查看 docker 占用空间大小
+- `docker system prune` 删除未使用的 images 和 container
 
 - `docker run -e MYSQL_ROOT_PASSWORD=123 -p 3306:3306 -t -i mysql` 创建并进入一个 MySQL 的容器
 
