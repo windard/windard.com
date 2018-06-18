@@ -80,6 +80,8 @@ VLAN （Virtual Local Area Network）虚拟局域网，是在同一物理局域�
 
 ## openwrt 配置 ipv6
 
+在网上一开始找到的 ipv6 配置都很复杂，后来才知道在Openwrt 14.07或者更新版本有简单的方式。
+
 安装 kmod-ipt-nat6
 
 ```
@@ -94,7 +96,7 @@ ip6tables -t nat -I POSTROUTING -s `uci get network.globals.ula_prefix` -j MASQU
 route -A inet6 add 2000::/3 `route -A inet6 | grep ::/0 | awk 'NR==1{print "gw "$2" dev "$7}'`
 ```
 
-后面再 luci 后台界面配置即可。
+最后在 luci 后台界面配置即可。
 
 在 "网络" -> "接口"
 
@@ -110,7 +112,14 @@ route -A inet6 add 2000::/3 `route -A inet6 | grep ::/0 | awk 'NR==1{print "gw "
 
 ![openwrt_ipv6_dhcp](/images/openwrt_ipv6_dhcp.png)
 
-这时应该在路由器中的设备都能够获得可用的 ipv6 地址。
+
+这时应该在路由器中的设备都能够获得可用的 ipv6 地址,可以在 `https://test-ipv6.com/` 确定 ipv6 的可用性。
+
+![ipv6_mac](/images/ipv6_mac.png)
+
+![ipv6_phone](/images/ipv6_phone.png)
+
+或者使用工具。
 
 ```
 $ ifconfig
