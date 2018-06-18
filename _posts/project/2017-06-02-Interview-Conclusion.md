@@ -557,5 +557,8 @@ Keep-Alive不会永久保持连接，它有一个保持时间，可以在不同�
 
 ## 参考链接
 
+[taizilongxu/interview_python](https://github.com/taizilongxu/interview_python)
+
 [Python 2.7.x 和 Python 3.x 的主要区别](https://segmentfault.com/a/1190000000618286)
-[Default_Parameter.md](https://github.com/acmerfight/insight_python/blob/master/Default_Parameter.md)
+
+[acmerfight/insight_python](https://github.com/acmerfight/insight_python)

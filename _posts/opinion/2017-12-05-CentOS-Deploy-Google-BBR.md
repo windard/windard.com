@@ -9,6 +9,8 @@ category: opinion
 
 使用过锐速等方式来加速，但是效果都不太理想，很早就听说过 BBR 算法，[Linux Kernel 4.9 中的 BBR 算法与之前的 TCP 拥塞控制相比有什么优势](https://www.zhihu.com/question/53559433/answer/135903103)，终于试了一把，确实不同凡响。
 
+简单的说就是 BBR 算法放弃了原来的TCP连接的窗口重传算法，使用新的流量控制算法，尽可能的占满网络请求带宽。
+
 BBR 算法需要 Linux 4.9 及以上的内核支持，所以想要使用该方式的需要先升级内核版本。
 
 在 Cent OS 7 上的 Linux 内核是 3.10, 使用 `uname -r` 查看内核版本
