@@ -1662,6 +1662,63 @@ print result
 True
 ```
 
+#### dict
+
+dict 有几个方法以前都没有注意到
+
+```
+In [4]: a = {'name':'windard', 'school':'xidian'}
+
+In [5]: a.keys()
+Out[5]: ['school', 'name']
+
+In [6]: a.viewkeys()
+Out[6]: dict_keys(['school', 'name'])
+
+In [7]: a.items()
+Out[7]: [('school', 'xidian'), ('name', 'windard')]
+
+In [8]: a.viewitems()
+Out[8]: dict_items([('school', 'xidian'), ('name', 'windard')])
+
+In [9]: a.values()
+Out[9]: ['xidian', 'windard']
+
+In [10]: a.viewvalues()
+Out[10]: dict_values(['xidian', 'windard'])
+
+In [11]: a
+Out[11]: {'name': 'windard', 'school': 'xidian'}
+
+In [12]: a.has_key('age')
+Out[12]: False
+
+In [13]: a.setdefault('age', 21)
+Out[13]: 21
+
+In [14]: a
+Out[14]: {'age': 21, 'name': 'windard', 'school': 'xidian'}
+
+In [15]: a.setdefault('name', 'jellent')
+Out[15]: 'windard'
+
+In [16]: a
+Out[16]: {'age': 21, 'name': 'windard', 'school': 'xidian'}
+```
+
+#### dir
+
+dir 不仅能表达某个对象所有的属性，如果不带主语，表示整个命名空间内的所有变量。
+
+#### 表达式执行顺序
+
+以下表达式效果相同
+
+```
+key = a and b or c
+key = b if a else c
+```
+
 ## 对象内置函数
 
 包括`__name__` `__call__` `__init__` `__main__` `__file__` `__exit__` `__enter__` `__getattr__` `__setattr__`  `__str__` `__new__` `__del__` `__repr__` `__all__`
@@ -1691,3 +1748,5 @@ True
 - `__str__`  使用 `str()` 将对象转换为字符串函数
 - `__repr__` 使用 `repr()` 将对象转化为格式化字符串函数
 - `__unciode__` 使用 `unicode()` 将对象转换为 Unicode 函数
+
+

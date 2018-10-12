@@ -63,7 +63,7 @@ if __name__ == '__main__':
 # coding=utf-8
 
 import os
-from flask import Flask, request, session, escape
+from flask import Flask, request, session
 from flask_redis import FlaskRedis
 
 app = Flask(__name__)
@@ -111,6 +111,62 @@ def login():
 if __name__ == '__main__':
     app.run(port=5067, host='0.0.0.0')
 
+```
+
+## 请求频率限制
+
+限制某 IP 在十分钟仅能请求五次，可以按照上面的登录错误五次的方案，但是上面的方案的做法是在首次登录后的十分钟内仅能请求五次，而不能保证在任意十分钟内的请求仅有五次。
+
+通过使用 sortedset 可以实现。
+
+```
+# -*- coding: utf-8 -*-
+
+import time
+from flask import Flask, request, abort
+from flask_redis import FlaskRedis
+
+app = Flask(__name__)
+app.config.update({
+    "REDIS_URL": "redis://127.0.0.1:6379/0"
+})
+
+redis_client = FlaskRedis(app)
+
+
+@app.before_request
+def before_request():
+    recent_request = redis_client.zrange(request.remote_addr, -5, -1)
+    if recent_request:
+        last_five_request = int(recent_request[0])
+        if len(recent_request) >= 5 and last_five_request > int(time.time()) - 10 * 60:
+            abort(403)
+    # setattr(request, 'view_times', redis_client.get(request.url) or 0)
+
+
+@app.after_request
+def after_request(f):
+    redis_client.zadd(request.remote_addr, time.time(), int(time.time()))
+    return f
+
+
+@app.route('/')
+def index():
+    return "This is the index paga"
+
+
+@app.route('/page')
+def page():
+    return "this is page"
+
+
+@app.route('/login')
+def login():
+    return "this is login page"
+
+
+if __name__ == '__main__':
+    app.run(port=5267, host='0.0.0.0', debug=True)
 ```
 
 

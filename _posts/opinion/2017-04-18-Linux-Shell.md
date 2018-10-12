@@ -557,6 +557,12 @@ ssh username@localhost -p2022
 ssh -g -D 33335 -p 33334 innerUser@localhost
 ```
 
+设置本地与远端连接隧道,将远程端口映射到本地
+
+```
+ssh -L5984:127.0.0.1:5984 remote_user@remote_server
+```
+
 ## OpenSSL 使用
 
 ### 生成随机随机字符串
