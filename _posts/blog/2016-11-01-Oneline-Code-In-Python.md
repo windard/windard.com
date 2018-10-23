@@ -187,6 +187,15 @@ print(list(itertools.chain(*a_list)))
 # Output: [1, 2, 3, 4, 5, 6]
 ```
 
+更强的 flatten
+
+```
+>>> flatten = lambda x: [y for l in x for y in flatten(l)] if type(x) in (list, set, tuple) else [x]
+>>> c = [set([('122343', 'dsfcsd')]), set([('243443', 'xascsd'), ('cdscd', 'csdcsd')])]
+>>> flatten(c)
+['122343', 'dsfcsd', '243443', 'xascsd', 'cdscd', 'csdcsd']
+```
+
 #### 矩阵转置
 
 ```

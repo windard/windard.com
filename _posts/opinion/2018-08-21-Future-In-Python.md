@@ -93,6 +93,45 @@ print 10.0 // 3
 
 ## Import
 
+关于引用，我们先解释 python 中的两个概念
+- module 库 ， 通常是单个的 python 文件
+- package 包， 通常是整个文件目录，目录中必须含有 `__init__.py` 文件
+
+假设有两个包，`pkg_demo` 和 `pkg_hope`
+
+```
+pkg_demo
+├── __init__.py
+├── mud_one.py
+└── mud_two.py
+pkg_hope
+├── __init__.py
+└── content.py
+```
+
+在同一个包中的两个库之间的相互引用，有以下几种方式
+
+```
+# -*- coding: utf-8 -*-
+# from __future__ import absolute_import
+# from mud_one import print_one
+# from pkg_demo.mud_one import print_one
+# from .mud_one import print_one
+
+import string
+# from . import string
+from pkg_demo import string
+# import mud_one
+# from . import mud_one
+# from pkg_demo import mud_one
+
+# mud_one.print_one()
+print string.letters
+
+```
+
+但是很奇怪，和网上看到的不一样、
+
 关于 python 的包引用方式,python 2 中是相对路径引入，python 3 中是绝对路径引入。
 
 ```

@@ -62,7 +62,7 @@ TypeError: vars() argument must have __dict__ attribute
 
 函数库有 144 个函数或变量,上面提到的 `globals`, `locals`, `vars` 都在此列，算作内置函数。
 
-> 不在此列还能直接使用的即为特殊关键字，比如说 `import`, `print`, `exec` <br>
+> 不在此列还能直接使用的即为特殊关键字，比如说 `import`, `print`, `exec`, `del` <br>
 > 关键字与内建函数的区别是内建函数可以给重新赋值，而关键字不能改变
 
 ```
@@ -302,6 +302,18 @@ True
 'hello world'
 >>> 'hello {}'.format('windard!')
 'hello windard!'
+>>>
+```
+
+format 默认使用 `str` 如果需要展示特殊字符，使用 `!r` 表示 `repr` 格式化展示输出
+
+```
+>>> print "{}".format(b'\x01\x02')
+
+>>> '{}'.format('\x01\x02')
+'\x01\x02'
+>>> print "{!r}".format(b'\x01\x02')
+'\x01\x02'
 ```
 
 ## iter
