@@ -488,6 +488,7 @@ python 中的与或非操作需要依靠 set 的并交叉集来完成
 > 列表推导不再支持 [... for var in item1, item2, ...] 这样的语法。使用 [... for var in (item1, item2, ...)] 代替。
 8. 在 Python 2 中比较不可比较的类型时，如数组和字符串，竟然是可以比较的。Python 3 中的另外一个变化就是当对不可排序类型做比较的时候，会抛出一个类型错误。
 9. `zip()`, `map()`, `filter()`, `dictionary's .keys()`, `dictionary's .values()`, `dictionary's .items()` 返回的是可以迭代器对象，而不是直接的列表。
+10. python3 中没有 long 类型
 
 判断 py2 还是 py3
 
