@@ -404,11 +404,23 @@ Python 字典是一个键值映射关系的集合，底层实现是一个哈希�
 
 字典是无序的，索引是对键的哈希，故字典中顺序不一定是写入的顺序，也不一定是按照键的大小顺序。
 
+不，字典是完全无序的，并不是按照键值的哈希排序，字段的索引是完全无序的，和写入删除顺序也有关。所以同样的字典值，写入顺序不一样，使用 `dict.items()` 的的结果也是不一样的。
+
+> [CPython implementation detail: Keys and values are listed in an arbitrary order which is non-random, varies across Python implementations, and depends on the dictionary’s history of insertions and deletions.](https://docs.python.org/2/library/stdtypes.html#dict.items)
+
+但是字典可以保证，在没有其他操作的情况下,`dict.items()`  和 `item.keys()` 和 `item.values()`  的顺序是相同的。
+
 因为需要对键值进行索引，所以并非所有的 Python 对象都可以作为键，只有可哈希的对象才能作为键值，即实现了 `__hash__` 方法的对象。 如不可变类型数字，字符串和元组可以作为键值，但是元组的元素必须为数字或者字符串，如果元组的元组有字典或者其他可变数据类型也不可以。
 
-但是在 Python 3.6 及以后，字典的哈希表修改了，在字典中是按照键的大小顺序存储。
+如果想要自己重载 `__hash__` 方法的话，注意返回值是 整型，而不是字符串。
 
-如果想使用按照写入的顺序存储的话，可以使用 collections 里的 OrderDict
+但是在 Python 3.7 及以后，字典的哈希表修改了，在字典中是按照插入顺序存储。
+
+> [Changed in version 3.7: Dictionary order is guaranteed to be insertion order.](https://docs.python.org/3/library/stdtypes.html#dict-views)
+
+如果想使用按照写入的顺序存储的话，还可以使用 collections 里的 OrderDict
+
+在 python3 中还有一个很大的修改，在 python2 中的 `dict.items()` 或者 `dict.keys()` 或者 `dict.items()` 得到的都是一个拷贝，是一个新建的对象。在生成对象之后，字典中的元素操作与它无关了。在 python3 中，这些方法得到的是一个动态指针，也是可以随着字典的值变化的。
 
 ## Python 列表 list
 

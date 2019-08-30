@@ -298,6 +298,12 @@ True
 '0xb'
 >>> format(11, '#o')
 '0o13'
+>>> format(38, '08b')
+'00100110'
+>>> format(38, 'b')
+'100110'
+>>> format(38, 'd')
+'38'
 >>> 'hello {}'.format('world')
 'hello world'
 >>> 'hello {}'.format('windard!')

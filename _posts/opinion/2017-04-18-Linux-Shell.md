@@ -507,6 +507,14 @@ wget -c -r -npH -k https://windard.com
 - H：当递归时是转到外部主机下载图片或链接
 - k：将绝对链接转换为相对链接,这样就可以在本地脱机浏览网页了
 
+### 仅打印出文件第十行
+
+```
+awk  -F: 'BEGIN {count=0;} {name[count] = $1;count++;}; END{for (i = 0; i < NR; i++) if( i == 9) print name[i]}' file.txt
+awk NR==10 file.txt
+sed -n '10p' file.txt
+```
+
 ## 其他
 
 ### 使用 UDP 请求数据
