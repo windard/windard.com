@@ -14,9 +14,9 @@
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
 title: Simple and Interesting
-email: 1106911190@qq.com
+email: windard@qq.com
 moto: 但行好事，莫问前程
-description: Windard's simple Blog web
+description: Windard's simple blog web
 baseurl: "" # the subpath of your site, e.g. /blog
 url: https://windard.com # the base hostname & protocol for your site
 enforce_ssl: windard.com
