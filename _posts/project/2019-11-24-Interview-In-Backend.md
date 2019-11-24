@@ -527,7 +527,7 @@ if __name__ == '__main__':
 - 阻塞
 - 终止
 
-![thread](https://user-gold-cdn.xitu.io/2017/2/23/bf6b2b85deddca81e32d0583513c543e?imageView2/0/w/1280/h/960/format/webp/ignore-error/1)
+![thread](/images/thread.jpg)
 
 ## select/poll/epoll
 
