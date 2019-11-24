@@ -2,7 +2,7 @@
 layout: post
 title: 后端面试总结
 description:  2019 后端面试相关准备和总结
-category: opinion
+category: project
 ---
 
 ## 常见面试题
