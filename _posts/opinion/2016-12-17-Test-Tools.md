@@ -115,6 +115,11 @@ Options are:
 ab -n 255 -c 100 http://127.0.0.1:8090/
 ```
 
+参数解析
+
+- c 有多少个并发连接请求
+- n 总请求个数，不能少于并发数
+
 结果
 
 ```
@@ -167,4 +172,7 @@ Percentage of the requests served within a certain time (ms)
  100%    107 (longest request)
 ```
 
-主要参看参数 `Requests per second`
+参数解析
+- `Requests per second` 请求 QPS
+- `Time per request`    请求响应时间
+
