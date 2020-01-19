@@ -9,6 +9,8 @@ description: 真正的所有内置函数总结
 
 本文执行环境 Mac python 2.7.
 
+官方文档 [Built-in Functions](https://docs.python.org/2.7/library/functions.html) 年轻人还是要多看看文档，简单易懂好理解。
+
 ## 开始的开始
 
 ### globals

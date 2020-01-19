@@ -491,6 +491,10 @@ python 中的与或非操作需要依靠 set 的并交叉集来完成
 
 ## py2 和 py3 的主要区别
 
+要不然说 Python 为什么这么强，因为文档真的非常详细。[Python 3.8 有什么新变化](https://docs.python.org/zh-cn/3.8/whatsnew/index.html)
+
+上面那个文档太细碎了，看这个，2到3的大变换 [What’s New In Python 3.0](https://docs.python.org/3.0/whatsnew/3.0.html)
+
 1. `print` 由关键字变为函数
 2. `xrange` 被取消合并入 `range`，`raw_input` 被取消合并入 `input`
 > Python 3 中的 `range` 对象增加了 `__contains__` 方法，即可以使用 `in` 来做判断
