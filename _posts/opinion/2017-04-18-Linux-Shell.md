@@ -515,6 +515,12 @@ awk NR==10 file.txt
 sed -n '10p' file.txt
 ```
 
+### shell 中 FOR 循环
+
+```
+for i in `seq 10`; do echo "hello $i"+$i; done
+```
+
 ## 其他
 
 ### 使用 UDP 请求数据

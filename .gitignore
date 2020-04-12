@@ -6,3 +6,4 @@ _site
 .bundle
 .gem/
 .DS_Store
+.jekyll-cache
