@@ -87,9 +87,9 @@ code.highlighter-rouge{margin:0 5px;}
 
 .index-content .artical-list { width:70%; margin:0 auto; }
 .index-content .artical-list li { margin-bottom:50px; }
-.index-content h2 { font-size:20px; margin-bottom:15px; word-break: break-all;}
-.index-content h2 a { color:#444 }
-.index-content h2 a:hover { color:#E50053; text-decoration:none; }
+.index-content #post-article { font-size:20px; margin-bottom:15px; word-break: break-all;}
+.index-content #post-article a { color:#444 }
+.index-content #post-article a:hover { color:#E50053; text-decoration:none; }
 .index-content .title-desc {color:#999;font-size:14px;line-height:1.6em;}
 
 .index-content .artical-cate { width:70%; margin:0 auto; }

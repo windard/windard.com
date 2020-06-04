@@ -15,9 +15,9 @@ layout: home
         <ul class="artical-list">
         {% for post in site.categories.opinion %}
             <li>
-                <h2>
+                <h1 id="post-article">
                     <a href="{{ post.url }}">{{ post.title }}</a>
-                </h2>
+                </h1>
                 <div class="title-desc">{{ post.description }}</div>
             </li>
         {% endfor %}
