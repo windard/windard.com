@@ -221,6 +221,10 @@ html::-webkit-scrollbar-thumb{
 pre.highlighter-rouge{
     padding-top: 15px;
 }
+.highlighter-rouge {
+    margin-top: 30px;
+    margin-bottom: 10px;
+}
 table{
     margin: 20px 0;
     border: 1px solid #ccc;

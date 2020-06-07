@@ -3,6 +3,7 @@ layout: default
 ---
 
 <link rel="stylesheet" href="/js/prettify/prettify.css" />
+<link rel="stylesheet" href="/css/tomorrow-night-eighties.min.css" />
 <style type="text/css">
     body { background:#fff; }
     @media screen and (max-width: 750px){
@@ -78,21 +79,21 @@ layout: default
     <div class="sidenav">
         <h2>Blog</h2>
         <ul class="artical-list">
-        {% for post in site.categories.blog %}
+        {% for post in site.categories.blog limit:15 %}
             <li><a href="{{ post.url }}">{{ post.title }}</a></li>
         {% endfor %}
         </ul>
 
         <h2>Opinion</h2>
         <ul class="artical-list">
-        {% for post in site.categories.opinion %}
+        {% for post in site.categories.opinion limit:15 %}
             <li><a href="{{ post.url }}">{{ post.title }}</a></li>
         {% endfor %}
         </ul>
 
         <h2>Project</h2>
         <ul class="artical-list">
-        {% for post in site.categories.project %}
+        {% for post in site.categories.project limit:15 %}
             <li><a href="{{ post.url }}">{{ post.title }}</a></li>
         {% endfor %}
         </ul>
@@ -100,6 +101,7 @@ layout: default
 </div>
 
 <script src="/js/post.js" type="text/javascript"></script>
+<script src="/js/prettify.js" type="text/javascript"></script>
 <script>
 //     $(document).ready(function(){
 //         $('#disqus_container .comment').on('click',function(){
@@ -110,10 +112,10 @@ layout: default
 //         });
 //     })
 
-    $(document).ready(function(){
-        $('.artical-list li:nth-child(n+15)').each(function(i,item){
-            $(item).hide();
-        });
-    })
+    // $(document).ready(function(){
+    //     $('.artical-list li:nth-child(n+15)').each(function(i,item){
+    //         $(item).hide();
+    //     });
+    // })
 
 </script>

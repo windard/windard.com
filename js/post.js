@@ -21,7 +21,7 @@ $(document).ready(function(){
         }
     };
 
-    $('pre').addClass('prettyprint linenums'); //添加Google code Hight需要的class
+    // $('pre').addClass('linenums'); //添加Google code Hight需要的class
 
     $('.entry a').each(function(index,element){
         var href = $(this).attr('href');
@@ -189,9 +189,9 @@ $(document).ready(function(){
         }
     })();
 
-    $.getScript('/js/prettify/prettify.js',function(){
-        prettyPrint();
-    });
+    // $.getScript('/js/prettify/prettify.js',function(){
+    //     prettyPrint();
+    // });
 
     if(/\#comment/.test(location.hash)){
         $('#disqus_container .comment').trigger('click');
