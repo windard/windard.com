@@ -36,20 +36,20 @@
     // link.media = "all";
     // document.getElementsByTagName('head').item(0).appendChild(link);
     /*初始化prettyPrint*/
-    if(typeof jQuery != 'undefined'){
-        jQuery(window).load(function(){
-            jQuery("pre").addClass("prettyprint");
-             prettyPrint();
-        })
-    }else{
-        //IE暂时只支持到IE10
-        window.onload = function(){
-            var pres = document.getElementsByTagName('pre');
-            //这个其实是执行forEach方法，只不过那个数组的this变成了pres而已，可以看成换了数组元素
-            //由于forEach原本接受的参数就是函数，所以这里第二个参数可以是函数。
-            [].forEach.call(pres, function(item, i) {
-                item.classList.add('prettyprint', 'linenums');
-            });
-            prettyPrint();
-        }
-    }
+    // if(typeof jQuery != 'undefined'){
+    //     jQuery(window).load(function(){
+    //         jQuery("pre").addClass("prettyprint");
+    //          prettyPrint();
+    //     })
+    // }else{
+    //     //IE暂时只支持到IE10
+    //     window.onload = function(){
+    //         var pres = document.getElementsByTagName('pre');
+    //         //这个其实是执行forEach方法，只不过那个数组的this变成了pres而已，可以看成换了数组元素
+    //         //由于forEach原本接受的参数就是函数，所以这里第二个参数可以是函数。
+    //         [].forEach.call(pres, function(item, i) {
+    //             item.classList.add('prettyprint', 'linenums');
+    //         });
+    //         prettyPrint();
+    //     }
+    // }

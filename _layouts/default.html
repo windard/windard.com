@@ -21,7 +21,7 @@
         "name": "Windard Yang"
       },
       "datePublished": "{{ page.date|date:"%Y-%m-%d" }}",
-      "description": "{{ page.description }}",
+      "description": "{% if page.description %} {{ page.description }} {% else %}{{ site.description }}{% endif %}",
     }
     </script>
 </head>
