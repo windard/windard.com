@@ -175,6 +175,33 @@ mysql> select @@autocommit;
 
 如果为 0 的话需要开启 `set global autocommit=1;`
 
+## MySQL 字段长度
+
+以 int 为例，tinyint 是 1个字节，smallint 是 2个字节，int 是 4个字段，bigint 是 8个字节。所以其存储的数据大小是根据其存储空间决定的。
+
+
+|Type    |  Storage (Bytes) |Minimum Value Signed | Minimum Value Unsigned | Maximum Value Signed | Maximum Value Unsigned |
+|------------| -----------------|------------------| --------------------------| -------------------| ---------------- |
+|TINYINT   |1         |-128     |0                |127        |255      |
+|SMALLINT  |2         |-32768     |0                |32767        |65535      |
+|MEDIUMINT   |3         |-8388608   |0                |8388607      |16777215   |
+|INT       |4         |-2147483648  |0                |2147483647     |4294967295   |
+|BIGINT    |8         |-2^63     |0                |2^63-1       |2^64-1      |
+
+以 smallint 为例，如果你在创建表的时候，未指定是 unsigned 字段，那么如果存入 65535 的值，就会报错。
+
+```
+> UPDATE xxxx_table_name t SET t.yyyy_cloum_name = 65535 WHERE t.id = 1
+Data truncation: Out of range value for column 'yyyy_cloum_name' at row 1
+```
+
+如果需要更大的字段范围，需要创建时指定
+
+```
+alter table xxxx_table_name 
+add column yyyy_cloum_name smallint unsigned NOT NULL DEFAULT 0 ;
+```
+
 ## 参考链接
 
 [MySQL事务锁等待超时 Lock wait timeout exceeded; try restarting transaction](https://juejin.im/post/5e5b7935518825492d4de463) <br>

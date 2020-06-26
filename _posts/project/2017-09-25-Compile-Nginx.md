@@ -311,7 +311,7 @@ HTTP 转 HTTPS，返回 302 跳转到 HTTPS 的站点
 rewrite ^(.*) https://$server_name$1 permanent;
 ```
 
-rewrite 语法规则 `rewrite 请求地址正则匹配 替换地址规则模型 标志位`，一般 rewrite 也多是写在 server 里面，location 外面。
+rewrite 语法规则 `rewrite [请求地址正则匹配] [替换地址规则模型] [标志位]`，一般 rewrite 也多是写在 server 里面，location 外面。
 
 ```
 server {
@@ -358,17 +358,20 @@ location ^~ /v2/ {
 
 nginx 配置中的全局变量
 
-- `$args` : 这个变量等于请求行中的参数，同$query_string
-- `$content_length` : 请求头中的Content-length字段
-- `$content_type` : 请求头中的Content-Type字段
+- `$query_string` : URL 中的请求参数
+- `$args` : 这个变量等于请求地址中的参数，同$query_string
+- `$arg_name` : 请求中的的参数名，即“?”后面的arg_name=arg_value形式的arg_name
+- `$content_length` : 请求头中的 `Content-length` 字段
+- `$content_type` : 请求头中的 `Content-Type` 字段
 - `$document_root` : 当前请求在root指令中指定的值。
 - `$host` : 请求主机头字段，否则为服务器名称。
+- `$hostname` : 请求主机名
 - `$http_user_agent` : 客户端agent信息
 - `$http_cookie` : 客户端cookie信息
-- `$http_origin` : 客户端请求来源，即请求头中的 `Origin`
-- `$http_host` : 客户端请求的源地址，即请求头中的 `Host`
+- `$http_origin` : 客户端请求来源，即请求头中的 `Origin` 字段
+- `$http_host` : 客户端请求的源地址，即请求头中的 `Host` 字段
 - `$limit_rate` : 这个变量可以限制连接速率。
-- `$request_method` : 客户端请求的动作，通常为GET或POST。
+- `$request_method` : 客户端请求的动作， 如 GET或POST。
 - `$remote_addr` : 客户端的IP地址。
 - `$remote_port` : 客户端的端口。
 - `$remote_user` : 已经经过Auth Basic Module验证的用户名。
@@ -381,6 +384,73 @@ nginx 配置中的全局变量
 - `$request_uri` : 包含请求参数的原始URI，不包含主机名，”/foo/bar.php?arg=baz”。
 - `$uri` : 不带请求参数的当前URI，$uri不包含主机名，如”/foo/bar.html”。
 - `$document_uri` : 与$uri相同。
+- `$msec` : 当前 Unix 时间戳
+- `$nginx_version` : nginx 版本
+- `$pid` : nginx 工作进程号
+- `$proxy_protocol_addr` : 获取代理访问服务器的客户端地址
+- `$http_xxxx` : xxxx 可以替换为任意 请求headers 中的值
+- `$request` : 客户端的请求地址
+- `$https` : 是否开启 HTTPS，如果开启就是 on
+- `$request_body` : 客户端的请求主体
+- `$proxy_add_x_forwarded_for` : 如果经过代理，则客户端的真实ip和代理ip
+- `$status` : 服务器响应码
+
+
+不太清晰，实践一下
+
+```
+    server {
+        listen       8091;
+          location / {
+            proxy_pass http://127.0.0.1:5098;
+            proxy_set_header Nginx-args $args;
+            proxy_set_header Nginx-content_length $content_length;
+            proxy_set_header Nginx-content_type $content_type;
+            proxy_set_header Nginx-document_root $document_root;
+            proxy_set_header Nginx-host $host;
+            proxy_set_header Nginx-http_user_agent $http_user_agent;
+            proxy_set_header Nginx-http_cookie $http_cookie;
+            proxy_set_header Nginx-http_origin $http_origin;
+            proxy_set_header Nginx-http_host $http_host;
+            proxy_set_header Nginx-limit_rate $limit_rate;
+            proxy_set_header Nginx-request_method $request_method;
+            proxy_set_header Nginx-remote_addr $remote_addr;
+            proxy_set_header Nginx-remote_port $remote_port;
+            proxy_set_header Nginx-remote_user $remote_user;
+            proxy_set_header Nginx-request_filename $request_filename;
+            proxy_set_header Nginx-scheme $scheme;
+            proxy_set_header Nginx-server_protocol $server_protocol;
+            proxy_set_header Nginx-server_addr $server_addr;
+            proxy_set_header Nginx-server_name $server_name;
+            proxy_set_header Nginx-server_port $server_port;
+            proxy_set_header Nginx-request_uri $request_uri;
+            proxy_set_header Nginx-uri $uri;
+            proxy_set_header Nginx-document_uri $document_uri;
+            proxy_set_header Nginx-query_string $query_string;
+            proxy_set_header Nginx-arg_name $arg_name;
+            proxy_set_header Nginx-hostname $hostname;
+            proxy_set_header Nginx-msec $msec;
+            proxy_set_header Nginx-nginx_version $nginx_version;
+            proxy_set_header Nginx-proxy_protocol_addr $proxy_protocol_addr;
+            proxy_set_header Nginx-pid $pid;
+            proxy_set_header Nginx-request $request;
+            proxy_set_header Nginx-request_body $request_body;
+            proxy_set_header Nginx-status $status;
+            proxy_set_header Nginx-http_connection $http_connection;
+            proxy_set_header Nginx-proxy_add_x_forwarded_for $proxy_add_x_forwarded_for;
+            proxy_set_header Nginx-https $https;
+
+          }
+    }
+```
+
+查看效果,发现展示的字段比实际的少一些，因为空值的字段就没有返回
+
+![Nginx-Builtin-Args](/images/Nginx-Builtin-Args.png)
+
+其中 Host 字段，NGINX 拿到的 http_host 是真实请求的 host ，但是代码中拿到的是 nginx 的地址，所以一般这个字段需要修改为正确的地址。
+
+还有 `X-Forwarded-For` 如果经过了多层代理也需要重新设置。
 
 ## 参考链接
 

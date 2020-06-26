@@ -820,7 +820,9 @@ set key value [ex seconds] [px milliseconds] [nx|xx]
 
 所以一般在释放锁的时候会使用 LUA 脚本来实现原子性的释放。
 
-setnx 只能在 Redis 上单击上实现分布式锁，但是现代的 Redis 都是集群部署，而且单机的 Redis 稳定性也不可靠。
+setnx 只能在 Redis 上单机上实现分布式锁，但是现代的 Redis 都是集群部署，而且单机的 Redis 稳定性也不可靠。
+
+因为在集群上的 setnx ，然后在同步至 slave 机器时故障，则主动切换，然后从节点无锁信息，所以需要用 redlock 在多个机器上都获取成功。
 
 在集群的模式下，使用 RedLock 的实现分布式锁，在[ Redis 文档](https://redis.io/topics/distlock)中有详细的介绍。
 

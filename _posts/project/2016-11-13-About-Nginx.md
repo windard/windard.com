@@ -170,7 +170,7 @@ http        {
 }
 ```
 
-这留个部分分别是 `main(全局配置)` `events(Nginx 工作模式)` `http(HTTP 设置)` `server(主机设置)` `location(URL 匹配)` `upstream(负载均衡设置)`
+这六个部分分别是 `main(全局配置)` `events(Nginx 工作模式)` `http(HTTP 设置)` `server(主机设置)` `location(URL 匹配)` `upstream(负载均衡设置)`
 
 ### main 模块
 
@@ -206,7 +206,7 @@ events {
 }
 ```
 
-`use` 指定 Nginx 的工作模式，Nginx 支持的工作模式有 `select` `poll` `kqueue` `epoll` `rtsig` 和 `/dev/poll` ，后两种使用的不多，`select` 和 `poll` 是传统的标准工作模式，`queueu` 是高效的工作模式，不同的是 `epoll` 只支持 Linux 平台上，`kqueue` 只支持 BSD 平台，对于 Cent OS 系统，在这里可以加上 `use epoll` 来提高工作效率。
+`use` 指定 Nginx 的工作模式，Nginx 支持的工作模式有 `select` `poll` `kqueue` `epoll` `rtsig` 和 `/dev/poll` ，后两种使用的不多，`select` 和 `poll` 是传统的标准工作模式，`epoll` 和 `queueu` 是高效的工作模式，不同的是 `epoll` 只支持 Linux 平台上，`kqueue` 只支持 BSD 平台，对于 Cent OS 系统，在这里可以加上 `use epoll` 来提高工作效率。
 
 `worker_connections` 最大连接数，最大连接客户数由 `worker_processes` 和 `worker_connections` 共同决定 `Max_clients = worker_processes * worker_connections`
 
@@ -246,6 +246,8 @@ http {
 
 `sendfile` 开启高效文件传输，同时将 `tcp_nopush` 和 `tcp_nodelay` 开启来防止网络阻塞。
 
+> 开始扣细节了，`sendfile` 实际上是使用了 Linux 的 零拷贝函数，与之相关的还有Copy On Write 等优化技术。
+
 `keepalive_timeout` 设置客户端的保持连接活动的超时时间。
 
 `include` 设置文件的 mime 格式，可以在 `/etc/nginx/mime.types` 中查看 Nginx 支持的网络传输文件格式。
@@ -253,6 +255,30 @@ http {
 `default_type` 设置默认的文传输格式为二进制流，这样可以有效防止文件上传漏洞，以及在未配置好 PHP 或 ASP 等配置环境时，一切不认识的文件都不会被执行，而是被默认下载。
 
 `include` 又有一个 `include` 这里还是配置文件的，在 `/etc/nginx/conf.d` 文件夹下的配置文件也会被包含进来。
+
+`client_max_body_size` 这里没有写，但是 nginx 默认允许的最大上传文件是 1M，有点小。
+
+在 http 模块中，可以开启 gzip 压缩。
+
+```
+    ##
+    # Gzip Settings
+    ##
+
+    gzip on;
+    gzip_disable "msie6";
+
+    gzip_comp_level 6;
+    gzip_types text/plain text/css text/xml application/xml text/javascript application/x-javascript application/json "application/octet-stream; ssmix=a";
+    gzip_proxied any;
+    gzip_vary on;
+    gzip_http_version 1.1;
+    proxy_http_version 1.1;
+
+    # add header
+    add_header Vary Accept-Encoding;
+
+```
 
 ### server 模块
 
@@ -1010,3 +1036,5 @@ if __name__ == '__main__':
 [nginx的配置、虚拟主机、负载均衡和反向代理 (一)](https://www.zybuluo.com/phper/note/89391)
 
 [nginx的配置、虚拟主机、负载均衡和反向代理 (二)](https://www.zybuluo.com/phper/note/90310)
+
+[nginx-tutorial](https://github.com/jaywcjlove/nginx-tutorial)
