@@ -81,6 +81,7 @@ category: opinion
 ### awk
 
 `awk [-F  field-separator]  'commands'  input-file(s)` 强大的文本分析工具
+> 注意，输入的命令 commands 只能用单引号，不能用双引号 😂
 
 - `-F ` : 修改分割符，默认分割符为空格或者 Tab
 - `$0`  : 所有域，类似的 `$1` 第一个域
@@ -97,6 +98,8 @@ category: opinion
 - 查看日志并找出异常请求 `cat access.log |awk '{if($9!=200) print $0}'`
 - 查看日志并找出所有请求 IP 和总请求次数 `cat access.log |awk '{count++; print $1;} END{printf "Totally %4d requests\n", count}'`
 - 查看日志并找出所有请求 IP 和其请求次数 `cat access.log |awk '{data[$1]++} END{for(i in data) print data[i],i}'`
+- 查看 nginx 日志，并统计 HTTP code，根据 code 聚合 `cat access.log*|awk -F " " 'BEGIN {} {name[$11] ++}END{for(i in name) {printf "%s %d\n", i, name[i]}}'`
+- 查看 nginx 日志，并统计 HTTP code，根据 code 聚合 `cat access.log*|awk -F " " '{print $11}'|sort|uniq -c` 
 
 - 统计目录下所有文件的大小，不包括文件夹 `ls -al|awk 'BEGIN {size=0} {if($1!~/^d/){size=size+$5}} END{print "Totally ", size, " bytes" }'`
 
@@ -230,6 +233,86 @@ function:
 - `-a` : 查看所有端口
 
 常用命令 `netstat -an|grep 8080` 查看占用端口的服务 `netstat -anp|grep 8080`
+
+### nslookup
+
+dig, host, nslookup 都是 DNS 查询工具。nslookup 是最久远的，也是过时的。
+
+`nslookup -type=type domain [dns-server]` 
+
+一般常用的就是 `nslookup online.windard.com` 或者 `nslookup online.windard.com 8.8.8.8`
+
+### host
+
+根据域名查询 ip 的参数是和 nslookup 一样的 `host -t type domain [dns-server]`
+
+常用命令示例 `host -t aaaa www.windard.com`, `host windard.com 8.8.8.8`, `host -t cname status.windard.com`
+
+不过，它还可以根据 ip 查询域名 `host ip`
+
+比如 `host 8.8.8.8`
+
+### dig
+
+常用的 DNS 类型
+
+| 类型      | 目的          |
+|----------|---------------|
+|A          |域名对应的 IPv4 地址|
+|AAAA       |域名对应的 IPv6 地址|
+|CNAME      |如果需要将域名指向另一个域名，可以做 CNAME 指定，并不会做真实跳转，只是作为替代|
+|MX         |如果需要设置邮箱，需要设置 MX 记录|
+|NS         |如果需要将子域名交给其他 DNS 服务器解析，需要设置 NS 记录|
+|TXT        |一般 TXT 作为SPF，反垃圾邮件|
+|SOA        |查找域内的SOA地址|
+
+dig 是最常用的 DNS 记录查询工具，主要参数也还是 DNS 类型和指定的 DNS 服务器 `dig [type] domain [dns-server]`
+
+但是它的返回值就非常的详细了,可以加上 `+short` 来获取简化记录，只有结果。
+
+如果想要更详细的记录，可以加上 `+trace` 返回查询链路上的每一步。
+
+在 CentOS 中通过 `yum install bind-utils` 安装，😭，竟然默认没有带。
+
+常用命令 `dig status.windard.com @8.8.8.8 +short`, `dig  +short chatroom.windard.com`, `dig status.windard.com`, `dig aaaa windard.com`
+
+也可以根据 ip 查询域名 `dig +x ip`
+
+比如 `dig -x 202.182.110.237`
+
+#### dig 返回信息
+
+```
+$ dig status.windard.com
+
+; <<>> DiG 9.10.6 <<>> status.windard.com
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 30897
+;; flags: qr rd ra; QUERY: 1, ANSWER: 2, AUTHORITY: 0, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 4096
+;; QUESTION SECTION:
+;status.windard.com.    IN  A
+
+;; ANSWER SECTION:
+status.windard.com. 99  IN  CNAME stats.uptimerobot.com.
+stats.uptimerobot.com.  99  IN  A 192.169.82.114
+
+;; Query time: 68 msec
+;; SERVER: 10.93.192.1#53(10.93.192.1)
+;; WHEN: Tue Jun 30 14:56:26 CST 2020
+;; MSG SIZE  rcvd: 95
+```
+
+返回结果中主要分为五个部分
+
+1. 第一部分显示 dig 命令的版本和输入的参数。即返回值的前两行
+2. 第二部分显示服务返回的一些技术详情，比较重要的是 status。如果 status 的值为 NOERROR 则说明本次查询成功结束。返回值第一段的后三行。
+3. 第三部分中的 "QUESTION SECTION" 显示我们要查询的域名。 
+4. 第四部分的 "ANSWER SECTION" 是查询到的结果。这里查询到两个结果，递归溯源，从 CNAME 查到了 A 记录。
+5. 第五部分则是本次查询的一些统计信息，比如用了多长时间，查询了哪个 DNS 服务器，在什么时间进行的查询等等。
 
 ## 实际应用
 

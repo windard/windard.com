@@ -641,11 +641,31 @@ SOA 流程
 
 [用户数据报协议](https://zh.wikipedia.org/wiki/用户数据报协议)
 
-## tcp
+## TCP
+
+TCP 协议是在 IP 协议之上的，在 TCP/IP 协议族中属于传输层。
+
+TCP 协议是 面向连接的，提供可靠传输的，全双工通信，面向字节流的传输层协议。
+
+![tcp_ip_protocol_family](/images/tcp_ip_protocol_family.png)
+
+ip 协议和 tcp 协议头，固定大小都是20字节，在传输过程中被层层打包。
+
+ip 头20字节，tcp 头20字节，所以一个 tcp 请求最少需要40字节。
+
+具体看下 TCP 协议的头
+
+![tcp_protocol_header](/images/tcp_protocol_header.png)
+
+可以看到其实有一个 seq 序号， ack 确认号，还有一个 ACK 确认标志和一堆其他的标志位。所以 20 字节的TCP 协议头，包括2字节的源端口，2字节的目标端口，4字节的序号，4字节的确认号，2字节的标志位，2字节的窗口大小，2字节的校验和，2字节的紧急指针。
+
+序列号 seq 是自己和上一次的请求序列号相比加一。确认号 ack 是和对方请求过来的序列号加一。
 
 ### TCP 三次握手
 
 TCP 建立连接需要三次握手
+
+![three_open_handshake_in_tcp](/images/three_open_handshake_in_tcp.png)
 
 1. client -> target: syn=1, seq=x,进入 SYN_SENT 状态
 2. target -> client: ack=x+1, syn=1, seq=y, 进入 SYN_RCVD 状态
@@ -656,16 +676,45 @@ SYN_SENT 和 SYN_RCVD 都是半打开状态，其中 SYN_SENT 是主动打开的
 - SYN_SENT syn package has been sent
 - SYN_RCVD syn package has been received
 
+SYN Flood 泛洪攻击，即大量的攻击者假装建立 TCP 连接，发送 SYN 请求之后，服务器端返回 ACK ，然后就会将连接放入 syn 连接池中，等待下一步 ack ，但是攻击者不再继续发送下一步请求。
+
+服务器端最多会为此次连接握手等待 63秒，所以当大量的无效连接占满 syn 连接池时，正常请求就无法访问。
+
+处理
+1. 缩短 SYN 等待时间
+2. 增加 syn 连接池大小
+3. syn cookie 技术
+
 ### TCP 四次握手
 
 TCP 断开连接需要四次握手
+
+![four_close_handshake_tcp](/images/four_close_handshake_tcp.png)
 
 1. client -> server: fin client 进入 Fin Wait 1
 2. server -> client: ack server 进入 Close Wait，client 进入 Fin Wait 2
 3. server -> client: fin server 进入 Last Ack
 4. client -> server: ack client 进入 Time Wait，等待两个2msl，server 进入 close
 
-tcp 断开连接的四次握手不是你来我往的依次轮回，而是服务器端中间有两次确认。
+tcp 断开连接的四次握手不是你来我往的依次轮回，而是服务器端和客户端都需要确认，两次分别确认。
+
+所以服务器端的第二步和第三步不能合并，需要发一个 ACK，表示确认可以断开连接，当服务器端准备好之后再发送 SYN ，表示准备断开连接。
+
+也有人说可以二三步合并。。。四次挥手合并为三次。
+
+所以客户端和服务器端可以同时开启发起 SYN ，同时结束连接。
+
+![从 TCP 三次握手说起 -- 浅析 TCP 协议中的疑难杂症](https://www.infoq.cn/article/sF6CgHVC20rH635NvjNW) <br>
+![漫画：一招学会TCP的三次握手和四次挥手](https://segmentfault.com/a/1190000018918988) <br>
+![HTTP报文格式、TCP、IP报头，以及连接过程总结](https://segmentfault.com/a/1190000013817312) <br>
+![TCP的报文格式与连接](https://qinnsang.github.io/2019/09/09/TCP%E7%9A%84%E6%8A%A5%E6%96%87%E6%A0%BC%E5%BC%8F%E4%B8%8E%E8%BF%9E%E6%8E%A5/)
+
+### 流量控制和拥塞控制
+
+流量控制：滑动窗口
+拥塞控制：慢启动，快重传，快恢复
+
+![TCP可靠传输的实现](https://qinnsang.github.io/2019/09/09/TCP%E5%8F%AF%E9%9D%A0%E4%BC%A0%E8%BE%93%E7%9A%84%E5%AE%9E%E7%8E%B0/)
 
 ## MySQL 和 PostgreSQL
 
@@ -999,12 +1048,24 @@ python 实现的话，使用一个双端队列，将每次读取的key从队列�
 
 ### 缓存穿透
 
-缓存穿透，也称为缓存击穿。请求访问一个无效值，这是一个不存在的key，会直接请求到数据库，数据库没有返回记录，并没有设置缓存。在大量无效数据的请求下，会打挂数据库。
+三大 Redis 问题
+
+缓存穿透。请求访问一个无效值，这是一个不存在的key，会直接请求到数据库，数据库没有返回记录，并没有设置缓存。在大量无效数据的请求下，会打挂数据库。
 
 解决方案
 1. 过滤无效请求数据
 2. 为空值也设置缓存
 3. 布隆过滤器
+
+
+### 缓存击穿
+
+缓存击穿，高并发系统，大量查询同一个 key，刚好失效，大量请求到数据上。
+
+解决方案
+1. 数据库查询加互斥锁。
+
+这。。。不太好吧。
 
 ### 缓存雪崩
 
@@ -1211,10 +1272,6 @@ java 的线程池 Executor 创建 有六个参数
 答案
 1. 执行新的任务
 2. 会复用
-
-## TCP
-
-ip 头20字节，tcp 头20字节，所以一个 tcp 请求最少需要40字节。
 
 ## 消息队列
 
@@ -1638,6 +1695,12 @@ Google的Guava包中的RateLimiter类就是令牌桶算法的解决方案。
 请求放到漏桶里，漏桶的大小是固定的，可以容忍一定量的突发请求。漏桶以固定流速出水，即固定速率处理请求，强行限制请求速率。
 
 不太能突发，服务的请求速率是固定，削峰限流。
+
+## http
+
+### http2
+
+### https
 
 ## java 内存模型
 

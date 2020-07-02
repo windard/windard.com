@@ -220,6 +220,11 @@ status 的输出
 - TimeoutSec: 同时设置 TimeoutStartSec 和 TimeoutStopSec
 - RuntimeMaxSec: 程序运行运行的最大时间，默认是 `infinity` 不限。如果超过时间，程序会被强制终止，并被认为是失败状态。
 
+#### 用户组
+
+- User: 程序运行的 user
+- Group: 程序运行的 user group，所属的用户组
+
 ### Install
 
 安装部分，如何配置开机启动
@@ -469,10 +474,7 @@ $ sudo journalctl --vacuum-time=1years
 
 ## 参考文档
 
-[Systemd 入门教程：命令篇](http://www.ruanyifeng.com/blog/2016/03/systemd-tutorial-commands.html)
-
-[Systemd 入门教程：实战篇](https://www.ruanyifeng.com/blog/2016/03/systemd-tutorial-part-two.html)
-
-[systemd.service 中文手册](http://www.jinbuguo.com/systemd/systemd.service.html)
-
-[]()
+[Systemd 入门教程：命令篇](http://www.ruanyifeng.com/blog/2016/03/systemd-tutorial-commands.html) <br>
+[Systemd 入门教程：实战篇](https://www.ruanyifeng.com/blog/2016/03/systemd-tutorial-part-two.html) <br>
+[systemd.service 中文手册](http://www.jinbuguo.com/systemd/systemd.service.html) <br>
+[How To Set Up Django with Postgres, Nginx, and Gunicorn on Ubuntu 16.04](https://www.digitalocean.com/community/tutorials/how-to-set-up-django-with-postgres-nginx-and-gunicorn-on-ubuntu-16-04) <br>

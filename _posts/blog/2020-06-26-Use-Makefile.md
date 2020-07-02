@@ -167,8 +167,6 @@ calc:
 
 ## 参考链接
 
-[Make 命令教程](https://www.ruanyifeng.com/blog/2015/02/make.html)
-
-[跟我一起写Makefile](https://seisman.github.io/how-to-write-makefile/overview.html)
-
+[Make 命令教程](https://www.ruanyifeng.com/blog/2015/02/make.html) <br>
+[跟我一起写Makefile](https://seisman.github.io/how-to-write-makefile/overview.html) <br>
 [Bash 脚本教程](https://wangdoc.com/bash/)

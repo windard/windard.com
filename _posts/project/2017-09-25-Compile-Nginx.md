@@ -452,8 +452,87 @@ nginx 配置中的全局变量
 
 还有 `X-Forwarded-For` 如果经过了多层代理也需要重新设置。
 
+## Nginx 超时配置
+
+Nginx 所处的位置，是一个中间代理层, 从浏览器发起请求到 Nginx ，然后经过转发到 应用层， `client ---> nginx ---> upstream` 。
+
+所以在 request 的时候，nginx 先 read from client ，然后 send to upstream 。
+
+所以在 response 的时候，nginx 先 read from upstream ，然后 send to client 。
+
+### proxy_connect_timeout
+
+默认 `proxy_connect_timeout 60s;`
+
+连接后端服务的 连接超时时间，即发起握手，等待响应的超时时间。
+
+### proxy_read_timeout
+
+默认 `proxy_read_timeout 60s;`
+
+在返回响应的时候，在读取后端应用的响应数据超时时间，就是在指定时间内需要返回所有数据。如果超过这段时间都没有任何数据返回，就会断开连接。
+
+使用 nginx 代理 websocket 的时候，需要设置返回时间,否则就会断开连接，但是主要还是客户端需要保持心跳。
+
+使用 nginx 代理 http 的时候，如果 upstream 在指定时间内无返回的话，就会报 504 (Gateway Time-out)
+
+所以一般遇到 504 问题，就是调整这个时间。
+
+```
+Defines a timeout for reading a response from the proxied server. The timeout is set only between two successive read operations, not for the transmission of the whole response. If the proxied server does not transmit anything within this time, the connection is closed.
+```
+
+### proxy_send_timeout time;
+
+默认 `proxy_send_timeout 60s;`
+
+这个不知道是干什么用的，就是说即使长连接没有数据，也没有关系，不知道是啥超时。理论上说应该是 request 和 response 对应的，但是实践下来并非这样。
+
+在请求的时候，nginx 从 client 读到数据之后，发送给后端应用的超时时间，理论上说，如果 nginx 只做转发，那这就是客户端请求的超时时间。
+
+但是只要建立起请求，在连接之内再次发起请求的间隔时间不计？但是找不到这个到底表示什么的时间。
+
+如果这个是 nginx 到 upstream 的那一小段，在拿到数据之后，nginx 理论上应该没有其他操作，那这个时间应该是可以小到忽略不计的。
+
+```
+Sets a timeout for transmitting a request to the proxied server. The timeout is set only between two successive write operations, not for the transmission of the whole request. If the proxied server does not receive anything within this time, the connection is closed.
+```
+
+### keepalive_timeout
+
+默认 `keepalive_timeout 75s;`
+
+Keep-Alive 超时时间，在 HTTP/1.1 之后，Connection 都是默认使用 Keep-Alive ，保持连接默认。但是如果在保持连接之后，一定时间内客户端都没有请求过来，那么 nginx 也会主动断开连接。
+
+如果设置为 0，就禁止了 keepalive 连接。
+
+### client_header_timeout
+
+默认 `client_header_timeout 60s;`
+
+客户端请求 headers 传输时间，即已经发送 HTTP 头的那一行之后，都是 headers ，如果在指定时间内 headers 没有发送完成，即返回 408 (Request Timeout)异常。
+
+实际测试，并没有返回 408 ，只是 nginx 自己说返回 408，客户端啥都没收到，直接被断开连接了。
+
+### client_body_timeout
+
+默认 `client_body_timeout 60s;`
+
+客户端请求 body 传输超时时间，在发送完 headers 之后，需要一个空行，然后开始发送 body 数据，如果在指定时间内 body 没有发送完成，即返回 408 (Request Timeout) 异常。
+
+实际测试，并没有返回 408 ，只是 nginx 自己说返回 408，客户端啥都没收到，直接被断开连接了。
+
+### send_timeout
+
+默认 `send_timeout 60s;`
+
+服务器端返回数据的超时时间，如果超过 60秒还未返回，nginx 断开连接。
+
+但是它应该是只表示从 nginx 到 client 的那一小段，理论上 nginx 没有操作，这个时间小到可以忽略不计, 客户端怎么会收不到呢，客户端有问题？。
+
 ## 参考链接
 
-[CentOS 7.0下编译安装Nginx 1.10.0](https://segmentfault.com/a/1190000005180585)
-
-[手动编译安装Nginx](https://xiaozhou.net/compile-nginx-manually-2015-07-23.html)
+[CentOS 7.0下编译安装Nginx 1.10.0](https://segmentfault.com/a/1190000005180585) <br>
+[手动编译安装Nginx](https://xiaozhou.net/compile-nginx-manually-2015-07-23.html) <br>
+[Module ngx_http_proxy_module](http://nginx.org/en/docs/http/ngx_http_proxy_module.html) <br>
+[Module ngx_http_core_module](http://nginx.org/en/docs/http/ngx_http_core_module.html)
