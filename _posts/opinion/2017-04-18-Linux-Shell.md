@@ -100,6 +100,7 @@ category: opinion
 - 查看日志并找出所有请求 IP 和其请求次数 `cat access.log |awk '{data[$1]++} END{for(i in data) print data[i],i}'`
 - 查看 nginx 日志，并统计 HTTP code，根据 code 聚合 `cat access.log*|awk -F " " 'BEGIN {} {name[$11] ++}END{for(i in name) {printf "%s %d\n", i, name[i]}}'`
 - 查看 nginx 日志，并统计 HTTP code，根据 code 聚合 `cat access.log*|awk -F " " '{print $11}'|sort|uniq -c` 
+- 查看 nginx 日志，过滤 504 的异常请求，查看请求时间和接口 `cat access.log|awk '$11==504'|awk '{print $1,$9, $15}'`
 
 - 统计目录下所有文件的大小，不包括文件夹 `ls -al|awk 'BEGIN {size=0} {if($1!~/^d/){size=size+$5}} END{print "Totally ", size, " bytes" }'`
 
