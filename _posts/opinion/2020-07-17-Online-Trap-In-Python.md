@@ -50,6 +50,22 @@ category: blog
 [5, 4, 3]
 ```
 
-这里的时间复杂度是 O(m*n) 
+这里的时间复杂度是 `O(m*n)`
 
 会对迭代器做 m 次循环，但实际上只有第一次循环的时候迭代器中有值，剩下的 m-1 次循环都是空
+
+
+## 整形类型转换
+
+```
+>>> int('12')
+12
+>>> int('12.0')
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+ValueError: invalid literal for int() with base 10: '12.0'
+>>> int(float('12.0'))
+12
+```
+
+int 整型不能强行转换浮点数
