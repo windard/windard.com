@@ -140,6 +140,119 @@ configure arguments: --prefix=/usr/share/nginx --sbin-path=/usr/sbin/nginx --mod
 
 如果在后续的重新编译安装的时候，如果想保留原来的配置文件的话，仅 `make` 而不 `make install` ，然后将当前目录下生成的 nginx 可执行文件 `./objs/nginx` 替换原来的 nginx 文件即可
 
+## 替换已安装nginx
+
+虽然可以编译安装，但是一般正常情况下，大部分人使用的时候，都是直接使用 `yum install -y nginx` 来自动安装 nginx 的吧。
+
+那么在自动安装完 nginx 后，如果需要再次编辑部分模块，那么如何做编译替换呢？
+
+### 安装编译工具、依赖包
+
+```
+sudo yum -y install gcc gcc-c++ autoconf automake
+sudo yum -y install zlib zlib-devel openssl openssl-devel pcre-devel
+```
+
+### 下载指定版本
+
+查看已安装 nginx 版本，然后下载该版本源代码
+
+```bash
+$ nginx -v
+nginx version: nginx/1.16.1
+$ wget http://nginx.org/download/nginx-1.16.1.tar.gz
+$ tar -xzvf nginx-1.16.1.tar.gz
+```
+
+### 下载待安装模块
+
+以安装 [ngx_http_proxy_connect_module](https://github.com/chobits/ngx_http_proxy_connect_module) 为例，可以实现 nginx 反向代理 HTTPS 请求。
+
+```bash
+$ wget https://github.com/chobits/ngx_http_proxy_connect_module/archive/master.zip
+$ unzip master.zip
+```
+
+### 打入patch
+
+根据模块说明，找到所需 patch 并打入。
+
+```
+$ cd nginx-1.16.1
+$ patch -p1 < ../ngx_http_proxy_connect_module-master/patch/proxy_connect_rewrite_101504.patch
+```
+
+### 配置编译nginx
+
+根据 `nginx -V` 查看 nginx 原始编译命令，再其基础上再加上本次所需的模块所在目录 ` --add-module=/root/nginx/ngx_http_proxy_connect_module-master`
+
+```
+$ nginx -V
+nginx version: nginx/1.16.1
+built by gcc 4.8.5 20150623 (Red Hat 4.8.5-39) (GCC)
+built with OpenSSL 1.0.2k-fips  26 Jan 2017
+TLS SNI support enabled
+configure arguments: --prefix=/usr/share/nginx --sbin-path=/usr/sbin/nginx --modules-path=/usr/lib64/nginx/modules --conf-path=/etc/nginx/nginx.conf --error-log-path=/var/log/nginx/error.log --http-log-path=/var/log/nginx/access.log --http-client-body-temp-path=/var/lib/nginx/tmp/client_body --http-proxy-temp-path=/var/lib/nginx/tmp/proxy --http-fastcgi-temp-path=/var/lib/nginx/tmp/fastcgi --http-uwsgi-temp-path=/var/lib/nginx/tmp/uwsgi --http-scgi-temp-path=/var/lib/nginx/tmp/scgi --pid-path=/run/nginx.pid --lock-path=/run/lock/subsys/nginx --user=nginx --group=nginx --with-file-aio --with-ipv6 --with-http_ssl_module --with-http_v2_module --with-http_realip_module --with-stream_ssl_preread_module --with-http_addition_module --with-http_xslt_module=dynamic --with-http_image_filter_module=dynamic --with-http_sub_module --with-http_dav_module --with-http_flv_module --with-http_mp4_module --with-http_gunzip_module --with-http_gzip_static_module --with-http_random_index_module --with-http_secure_link_module --with-http_degradation_module --with-http_slice_module --with-http_stub_status_module --with-http_perl_module=dynamic --with-http_auth_request_module --with-mail=dynamic --with-mail_ssl_module --with-pcre --with-pcre-jit --with-stream=dynamic --with-stream_ssl_module --with-google_perftools_module --with-debug --with-cc-opt='-O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector-strong --param=ssp-buffer-size=4 -grecord-gcc-switches -specs=/usr/lib/rpm/redhat/redhat-hardened-cc1 -m64 -mtune=generic' --with-ld-opt='-Wl,-z,relro -specs=/usr/lib/rpm/redhat/redhat-hardened-ld -Wl,-E'
+$ ./configure --prefix=/usr/share/nginx --sbin-path=/usr/sbin/nginx --modules-path=/usr/lib64/nginx/modules --conf-path=/etc/nginx/nginx.conf --error-log-path=/var/log/nginx/error.log --http-log-path=/var/log/nginx/access.log --http-client-body-temp-path=/var/lib/nginx/tmp/client_body --http-proxy-temp-path=/var/lib/nginx/tmp/proxy --http-fastcgi-temp-path=/var/lib/nginx/tmp/fastcgi --http-uwsgi-temp-path=/var/lib/nginx/tmp/uwsgi --http-scgi-temp-path=/var/lib/nginx/tmp/scgi --pid-path=/run/nginx.pid --lock-path=/run/lock/subsys/nginx --user=nginx --group=nginx --with-file-aio --with-ipv6 --with-http_ssl_module --with-http_v2_module --with-http_realip_module --with-stream_ssl_preread_module --with-http_addition_module --with-http_xslt_module=dynamic --with-http_image_filter_module=dynamic --with-http_sub_module --with-http_dav_module --with-http_flv_module --with-http_mp4_module --with-http_gunzip_module --with-http_gzip_static_module --with-http_random_index_module --with-http_secure_link_module --with-http_degradation_module --with-http_slice_module --with-http_stub_status_module --with-http_perl_module=dynamic --with-http_auth_request_module --with-mail=dynamic --with-mail_ssl_module --with-pcre --with-pcre-jit --with-stream=dynamic --with-stream_ssl_module --with-google_perftools_module --with-debug --with-cc-opt='-O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector-strong --param=ssp-buffer-size=4 -grecord-gcc-switches -specs=/usr/lib/rpm/redhat/redhat-hardened-cc1 -m64 -mtune=generic' --with-ld-opt='-Wl,-z,relro -specs=/usr/lib/rpm/redhat/redhat-hardened-ld -Wl,-E' --add-module=/root/nginx/ngx_http_proxy_connect_module-master
+```
+
+编译的时候可能会遇到依赖缺失的问题,以下是一些速查
+
+```
+./configure: error: the HTTP XSLT module requires the libxml2/libxslt
+yum install libxslt-devel -y
+
+./configure: error: the HTTP image filter module requires the GD library.
+ yum install gd-devel -y
+ 
+ ./configure: error: perl module ExtUtils::Embed is required
+ yum -y install perl-devel perl-ExtUtils-Embed
+ 
+./configure: error: the GeoIP module requires the GeoIP library.
+ yum -y install GeoIP GeoIP-devel GeoIP-data
+ 
+./configure: error: the Google perftools module requires the Google perftools
+yum install gperftools -y
+
+./configure: error: SSL modules require the OpenSSL library.
+yum -y install openssl openssl-devel
+
+checking for --with-ld-opt="-Wl,-z,relro -specs=/usr/lib/rpm/redhat/redhat-hardened-ld -Wl,-E" ... not found
+./configure: error: the invalid value in --with-ld-opt="-Wl,-z,relro -specs=/usr/lib/rpm/redhat/redhat-hardened-ld -Wl,-E"
+yum install redhat-rpm-config -y
+
+./configure: error: perl module ExtUtils::Embed is required
+yum -y install perl-devel perl-ExtUtils-Embed
+
+在执行make时候的报错：
+/root/nginx-auth-ldap/ngx_http_auth_ldap_module.c:33:18: fatal error: ldap.h: No such file or directory
+ #include <ldap.h>
+yum install -y openldap-devel
+```
+
+配置完成之后，开始编译 `make`
+
+***注意，这里只需 `make` 无需 `make install` ；只要编译，不要安装***
+
+```
+$ make
+```
+
+查看编译产物
+
+```
+$ ./objs/nginx -V
+```
+
+### 替换原 nginx 
+
+```
+$ which nginx
+/usr/sbin/nginx
+$ mv /usr/sbin/nginx /usr/sbin/nginx.bak
+$ ln -s /root/nginx/nginx-1.16.1/objs/nginx /usr/sbin/nginx
+```
+
 ## 动态引入模块
 
 在 nginx 中只有版本大于 `1.7.5 ` 的才能在 cors 的设置中使用 `always` 字段，来在每一种返回状态中都带上 cors 跨域的响应头，在 nginx 版本还不到 `1.7.5` 的版本只能使用其他的扩展模块来实现添加 cors 请求头，比如 [headers-more-nginx-module](https://github.com/openresty/headers-more-nginx-module)
@@ -216,7 +329,7 @@ location ~* \.(gif|jpg|jpeg|png|css|js|ico)$ {
 }
 ```
 
-匹配的规则是有优先级的
+匹配的规则是有 **优先级** 的，就是说，同时正则和字符串都匹配上了的话，会先匹配正则。
 
 1. 全匹配 ( 也就是前缀  `=`) 表示精确匹配，不支持正则。
 2. 路径匹配 （ 也就是前缀 `^~`）开头表示uri以某个常规字符串开头，不支持正则，理解为匹配url路径即可。
@@ -530,9 +643,45 @@ Keep-Alive 超时时间，在 HTTP/1.1 之后，Connection 都是默认使用 Ke
 
 但是它应该是只表示从 nginx 到 client 的那一小段，理论上 nginx 没有操作，这个时间小到可以忽略不计, 客户端怎么会收不到呢，客户端有问题？。
 
+## 日志归档
+
+nginx 在使用 yum 或者 apt 安装之后是自动安装了 logrotate，用来压缩切割日志文件，如果是手动编译安装就没有。
+
+nginx 的 logrotate 配置文件位于 `/etc/logrotate.d/nginx` ,内容如下
+
+```
+/var/log/nginx/*log {
+    create 0664 nginx root
+    daily
+    rotate 10
+    missingok
+    notifempty
+    compress
+    sharedscripts
+    postrotate
+        /bin/kill -USR1 `cat /run/nginx.pid 2>/dev/null` 2>/dev/null || true
+    endscript
+}
+```
+
+它会处理 `/var/log/nginx/` 下的所有 log 文件，压缩之后，用 nginx 的用户身份权限重新创建一个同名文件。
+> 所以不要将你的业务日志文件放在这里，新建的日志文件你的服务用不了，😂，说多了都是泪,可能是用户权限的问题，也有可能是文件句柄的问题，没有重启服务。
+
+然后 logrotate 只是处理日志的，你自己写一个日志处理的脚本， 也可以用 logrotate 配置。
+
+写好 logrotate 后，使用 `logrotate -f /etc/logrotate.d/gunicorn` 运行。
+
+logrotate 配置在 `/etc/cron.daily/logrotate` 中，会被每日执行。可以查看 `/var/lib/logrotate/logrotate.status` 中的日志归档状态。
+
+> 正常情况下的 crontab 定时任务配置是在 `/etc/crontab` 中。
+
 ## 参考链接
 
-[CentOS 7.0下编译安装Nginx 1.10.0](https://segmentfault.com/a/1190000005180585) <br>
-[手动编译安装Nginx](https://xiaozhou.net/compile-nginx-manually-2015-07-23.html) <br>
-[Module ngx_http_proxy_module](http://nginx.org/en/docs/http/ngx_http_proxy_module.html) <br>
-[Module ngx_http_core_module](http://nginx.org/en/docs/http/ngx_http_core_module.html)
+[CentOS 7.0下编译安装Nginx 1.10.0](https://segmentfault.com/a/1190000005180585)   
+[手动编译安装Nginx](https://xiaozhou.net/compile-nginx-manually-2015-07-23.html)   
+[Module ngx_http_proxy_module](http://nginx.org/en/docs/http/ngx_http_proxy_module.html)    
+[Module ngx_http_core_module](http://nginx.org/en/docs/http/ngx_http_core_module.html)   
+[自动切割 Nginx 日志](https://ethendev.github.io/2019/01/10/roate-nginx-log/)   
+[nginx认证走LDAP](https://blog.51cto.com/13520772/2434076)   
+[Nginx做代理服务器代理支持HTTPS请求](https://www.jianshu.com/p/b1b5ef4636dd)
+

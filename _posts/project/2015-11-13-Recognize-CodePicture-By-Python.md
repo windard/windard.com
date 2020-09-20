@@ -70,11 +70,59 @@ ubuntu的软件库，关于[OCR Tesseract ](https://ubuntu.flowconsult.at/linux/
 
 tesseract-ocr转移到github上了，[代码仓库](https://github.com/tesseract-ocr/tesseract)
 
+## 2020-09-14 
 
-关于中文
+虽然没有想象中那么好用，但是也还是可以用的吧。
 
-参考链接：       
-[python利用pytesser模块实现图片文字识别](http://www.jinglingshu.org/?p=9281)      
+![20190612103809200.png](/images/20190612103809200.png)
+
+```
+> pytesseract -l chi_sim 20190612103809200.png
+
+
+风急天高猿啸衷. 渚清沙*弓飞巩
+无边落木萧萧下, 不尽长江滚滚来.
+万 悲秋常作害. 尸多病独登台恩
+艰难苦恨擎霜鬓. 潦倒新停浊酒杯恩
+```
+
+可以识别汉字和验证码，你还想要什么飞机✈️
+
+![29316.png](/images/29316.png)
+
+```
+> pytesseract 29316.png
+29316
+
+
+```
+
+然后可以在 python 代码中调用
+
+```
+# -*- coding: utf-8 -*-
+
+from PIL import Image
+import pytesseract
+
+text = pytesseract.image_to_string(Image.open('29316.png'))
+print(type(text))
+print(repr(text))
+print(repr(text.strip()))
+print(repr(int(text.strip())))
+
+```
+
+在 python 中直接安装即可
+
+```
+pip install PIL
+pip install pytesseract
+```
+
+## 参考链接：      
+
+[python利用pytesser模块实现图片文字识别](http://www.jinglingshu.org/?p=9281)       
 [ wxPython利用pytesser模块实现图片文字识别](http://blog.csdn.net/hk_jh/article/details/8961449)      
 [Python 利用pytesser模块识别图像文字](http://www.cnblogs.com/chenbjin/p/4147564.html)      
 [python验证码识别](http://www.ahlinux.com/python/10193.html)     

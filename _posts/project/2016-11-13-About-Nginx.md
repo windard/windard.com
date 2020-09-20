@@ -618,6 +618,44 @@ server {
 
 即可使用 `curl --proxy 127.0.0.1:8080 httpbin.org/ip` 测试代理。
 
+### 使用 nginx 进行 HTTPS 的正向代理
+
+> 2020-09-20 更新
+
+使用上面的 HTTP 正向代理配置，如果是请求 HTTPS 的网址的话，会报 400 的异常。`CONNECT 400`
+
+可以加载 [ngx_http_proxy_connect_module](https://github.com/chobits/ngx_http_proxy_connect_module) 模块，来实现 HTTPS 的正向代理。
+
+1. 参照 [Nginx 的深入学习](https://windard.com/project/2017/09/25/Compile-Nginx) 重新编译 nginx 。
+2. HTTPS 的正向代理配置
+
+```nginx
+server {
+    resolver 114.114.114.114;
+    resolver_timeout 5s;
+
+    listen 8080;
+    server_name _;
+
+    proxy_connect;
+    proxy_connect_allow            443 563;
+    proxy_connect_connect_timeout  10s;
+    proxy_connect_read_timeout     10s;
+    proxy_connect_send_timeout     10s;
+
+    access_log  /var/log/nginx/front.proxy.access.log main;
+    error_log /var/log/nginx/front.proxy.error.log error;
+
+    location / {
+        proxy_pass $scheme://$host$request_uri;
+        proxy_set_header Host $http_host;
+
+        proxy_connect_timeout 30;
+
+    }
+}
+```
+
 ## 负载均衡
 
 一般常用的负载均衡的办法
