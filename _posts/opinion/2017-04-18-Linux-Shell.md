@@ -315,6 +315,13 @@ stats.uptimerobot.com.  99  IN  A 192.169.82.114
 4. 第四部分的 "ANSWER SECTION" 是查询到的结果。这里查询到两个结果，递归溯源，从 CNAME 查到了 A 记录。
 5. 第五部分则是本次查询的一些统计信息，比如用了多长时间，查询了哪个 DNS 服务器，在什么时间进行的查询等等。
 
+### set
+
+一般的 shell 脚本中， 经常看到在头部会加一个 `set -eux` 的命令，这行代码表示什么意思呢？
+- `-x` 是调试用的，加了这个，就会把脚本中的每条命令都打印出来
+- `-u` shell 默认遇到不存在的变量就认为其实空，但我们实际需要报错，停止运行。
+- `-e` shell 脚本只要发生任意异常，就停止运行。默认是会异常继续的。
+
 ## 实际应用
 
 ### 去重
@@ -787,3 +794,7 @@ openssl genrsa -aes256 -out pri.key 2048
 openssl rsautl -in test.in -out test.sig -inkey pri.key -sign
 openssl rsautl -in test.sig -out test.in -inkey pub.key -pubin -verify
 ```
+
+## 参考链接
+
+[Bash 脚本 set 命令教程](http://www.ruanyifeng.com/blog/2017/11/bash-set.html)

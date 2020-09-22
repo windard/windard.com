@@ -1031,6 +1031,58 @@ print(id(b))
 print a is b
 ```
 
+`__new__` 的参数有哪些呢？主要有三个参数，类名，基类和类属性和方法,其函数定义如下
+
+```
+def __new__(self, name:str, bases:Tuple[type], attrs:dict):
+```
+
+有三种方法使用 
+
+```
+# -*- coding: utf-8 -*-
+
+
+class A(type):
+
+    # def __new__(cls, *args, **kwargs):
+    #     print(args)
+    #     print(kwargs)
+    #     return super(cls, A).__new__(cls, *args, **kwargs)
+
+    # def __new__(cls, name, bases, attrs):
+    #     return type.__new__(cls, name, bases, attrs)
+
+    def __new__(cls, name, bases, attrs):
+        print(attrs)
+        return type(name, bases, attrs)
+
+
+class B(object):
+    __metaclass__ = A
+    location = "x"
+
+    def __init__(self, name):
+        self.name = name
+
+    def __repr__(self):
+        return "B<name={}>".format(self.name)
+
+    __str__ = __repr__
+
+    def get_name(self):
+        return self.name
+
+
+if __name__ == '__main__':
+    b = B("bb")
+    print(b)
+
+```
+
+在 `__new__` 方法中，必须返回一个新的实例，否则生成的就是 None，返回新的实例，可以通过继承，或者直接用 `type` 方法动态生成。
+
+
 `__init__` 和 `__del__` 分别是构造方法和析构方法，和其他的面向对象编程语言一致，不再赘述。
 
 ### 对象转换和基本运算相关

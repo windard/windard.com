@@ -194,8 +194,8 @@ python 中支持位运算(Bitwise Operation) , 主要有六种操作
 ## 逻辑运算
 
 位运算和逻辑运算是不一样的。逻辑运算只有三种
-- `and` 与
-- `or`  或
+- `and` 与，结果是第一个运算结果为假的值，或者最后一个值
+- `or`  或，结果是第一个运算结果为真的值，或者最后一个值
 - `not` 非
 
 正常的逻辑运算符返回的都是布尔值，但是 Python 的运算法返回的是运算结果，而且是短路运算结果。
@@ -209,7 +209,7 @@ python 中支持位运算(Bitwise Operation) , 主要有六种操作
 3
 ```
 
-[Python 运算符](https://www.runoob.com/python/python-operators.html) <br>
+[Python 运算符](https://www.runoob.com/python/python-operators.html)  
 [一篇读懂Python中的位运算](https://www.cnblogs.com/Neeo/articles/10536202.html)
 
 ## 尾递归优化
@@ -342,6 +342,8 @@ HashMap 与 HashTable 的区别，主要有两点
 ConcurrentHashMap 的线程安全实现不是通过 synchronized 关键字实现的。
 
 简而言之，是通过将哈希表分段，通过分段锁来实现的。默认是将其分成16个桶，并发性能提高16倍，而且只有在写的时候才会锁，读取的时候并不会锁。
+
+Java 1.7 的版本是通过 Segment 分段锁实现，而 Java 1.8 是采用了 CAS + synchronized 来保证并发安全性。
 
 ## List
 
@@ -750,17 +752,17 @@ tcp 断开连接的四次握手不是你来我往的依次轮回，而是服务�
 
 所以客户端和服务器端可以同时开启发起 SYN ，同时结束连接。
 
-![从 TCP 三次握手说起 -- 浅析 TCP 协议中的疑难杂症](https://www.infoq.cn/article/sF6CgHVC20rH635NvjNW) <br>
-![漫画：一招学会TCP的三次握手和四次挥手](https://segmentfault.com/a/1190000018918988) <br>
-![HTTP报文格式、TCP、IP报头，以及连接过程总结](https://segmentfault.com/a/1190000013817312) <br>
-![TCP的报文格式与连接](https://qinnsang.github.io/2019/09/09/TCP%E7%9A%84%E6%8A%A5%E6%96%87%E6%A0%BC%E5%BC%8F%E4%B8%8E%E8%BF%9E%E6%8E%A5/)
+[从 TCP 三次握手说起 -- 浅析 TCP 协议中的疑难杂症](https://www.infoq.cn/article/sF6CgHVC20rH635NvjNW)  
+[漫画：一招学会TCP的三次握手和四次挥手](https://segmentfault.com/a/1190000018918988)  
+[HTTP报文格式、TCP、IP报头，以及连接过程总结](https://segmentfault.com/a/1190000013817312)  
+[TCP的报文格式与连接](https://qinnsang.github.io/2019/09/09/TCP%E7%9A%84%E6%8A%A5%E6%96%87%E6%A0%BC%E5%BC%8F%E4%B8%8E%E8%BF%9E%E6%8E%A5/)
 
 ### 流量控制和拥塞控制
 
 流量控制：滑动窗口
 拥塞控制：慢启动，快重传，快恢复
 
-![TCP可靠传输的实现](https://qinnsang.github.io/2019/09/09/TCP%E5%8F%AF%E9%9D%A0%E4%BC%A0%E8%BE%93%E7%9A%84%E5%AE%9E%E7%8E%B0/)
+[TCP可靠传输的实现](https://qinnsang.github.io/2019/09/09/TCP%E5%8F%AF%E9%9D%A0%E4%BC%A0%E8%BE%93%E7%9A%84%E5%AE%9E%E7%8E%B0/)
 
 ## MySQL 和 PostgreSQL
 
@@ -1656,6 +1658,27 @@ InnoDB 采用的是聚簇索引，主键索引的叶子节点上挂载数据，�
 
 ## 数据库引擎
 
+使用 `show engines` 查看数据库支持的引擎列表，详细指出了不同数据库引擎的优劣。
+> 比如 InnoDB 支持事务，有行级锁，支持外键，是 MySQL 的默认存储引擎。
+
+```
+
+mysql> show engines;
++--------------------+---------+----------------------------------------------------------------+--------------+------+------------+
+| Engine             | Support | Comment                                                        | Transactions | XA   | Savepoints |
++--------------------+---------+----------------------------------------------------------------+--------------+------+------------+
+| ARCHIVE            | YES     | Archive storage engine                                         | NO           | NO   | NO         |
+| BLACKHOLE          | YES     | /dev/null storage engine (anything you write to it disappears) | NO           | NO   | NO         |
+| MRG_MYISAM         | YES     | Collection of identical MyISAM tables                          | NO           | NO   | NO         |
+| FEDERATED          | NO      | Federated MySQL storage engine                                 | NULL         | NULL | NULL       |
+| MyISAM             | YES     | MyISAM storage engine                                          | NO           | NO   | NO         |
+| PERFORMANCE_SCHEMA | YES     | Performance Schema                                             | NO           | NO   | NO         |
+| InnoDB             | DEFAULT | Supports transactions, row-level locking, and foreign keys     | YES          | YES  | YES        |
+| MEMORY             | YES     | Hash based, stored in memory, useful for temporary tables      | NO           | NO   | NO         |
+| CSV                | YES     | CSV storage engine                                             | NO           | NO   | NO         |
++--------------------+---------+----------------------------------------------------------------+--------------+------+------------+
+```
+
 ### MyISAM
 
 1. 事务上，MyISAM 不提供事务支持，查询速度比 InnoDB 更快。
@@ -1670,7 +1693,7 @@ InnoDB 采用的是聚簇索引，主键索引的叶子节点上挂载数据，�
 1. 事务上，提供事务支持，还有各种事务隔离等级。
 2. InnoDB 支持外键，虽然一般也不用
 3. 支持表锁和行锁，默认是行锁，行锁大幅度增加了多用户并发操作的性能。InnoDB 适用于插入和更新更多的情况。
-4. InnoDB 不支持全文索引，在 5.6 之后的版本才开始支持全文索引
+4. InnoDB 不支持全文索引，在 5.6 之后的版本才开始支持全文索引 (fulltext)
 5. InnoDB 如果没有设定主键，会自动生成一个六字节的主键，用户不可见
 6. InnoDB 没有存储表的行数，会扫描全表来计算行数。
 

@@ -622,7 +622,9 @@ server {
 
 > 2020-09-20 更新
 
-使用上面的 HTTP 正向代理配置，如果是请求 HTTPS 的网址的话，会报 400 的异常。`CONNECT 400`
+一般正向代理的服务器，用 HTTP 的代理请求 HTTP 的域名，用 HTTPS 的代理请求 HTTPS 的域名。
+
+如果使用上面的 HTTP 正向代理配置，强行请求 HTTPS 的网址的话，会报 400 的异常。`HTTP CONNECT 400`
 
 可以加载 [ngx_http_proxy_connect_module](https://github.com/chobits/ngx_http_proxy_connect_module) 模块，来实现 HTTPS 的正向代理。
 
@@ -1079,8 +1081,6 @@ if __name__ == '__main__':
 
 ## 参考链接
 
-[nginx的配置、虚拟主机、负载均衡和反向代理 (一)](https://www.zybuluo.com/phper/note/89391)
-
-[nginx的配置、虚拟主机、负载均衡和反向代理 (二)](https://www.zybuluo.com/phper/note/90310)
-
-[nginx-tutorial](https://github.com/jaywcjlove/nginx-tutorial)
+[nginx的配置、虚拟主机、负载均衡和反向代理 (一)](https://www.zybuluo.com/phper/note/89391)   
+[nginx的配置、虚拟主机、负载均衡和反向代理 (二)](https://www.zybuluo.com/phper/note/90310)     
+[nginx-tutorial](https://github.com/jaywcjlove/nginx-tutorial)      
