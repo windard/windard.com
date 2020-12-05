@@ -65,7 +65,7 @@ but long time
 
 比如上面的 Makefile 中，如果当前文件夹下已经存在 `clean` 这个文件的话，执行是就会提示 `make: 'clean' is up to date.`
 
-这时可以将其设置伪目标，表示我们其实并不是想要这个文件。
+这时可以使用 `PHONY` 将其设置伪目标，表示我们其实并不是想要这个文件。
 
 
 ```
@@ -164,6 +164,41 @@ calc:
 - 在原来 shell 命令中需要使用 `$` 的地方，需要用两个 `$$` 来替换
 
 在 命令中的其他规则 和 shell 一样，变量，循环都可以使用。
+
+### 使用自定义变量
+
+```
+
+ifeq ("${GOOS}", "")
+	GOOS:=darwin
+endif
+
+ifeq ("${GOARCH}", "")
+	GOARCH:=amd64
+endif
+
+ifeq ("${OUTPUT_FILE}", "")
+	OUTPUT_FILE:=godown
+endif
+
+ifneq ("${VERSION}", "")
+	VERSION:=_${VERSION}
+endif
+
+
+build: prepare
+	go build -v -o ${OUTPUT_FILE} .
+
+prepare:
+	go get -v ./...
+
+test:
+	go test -v .
+
+package:
+	tar -czvf godown${VERSION}_${GOOS}_${GOARCH}.tar.gz ${OUTPUT_FILE} LICENSE README.md
+
+```
 
 ## 参考链接
 

@@ -461,15 +461,26 @@ $ sudo journalctl -b -u nginx.service -o json
 # 以 JSON 格式（多行）输出，可读性更好
 $ sudo journalctl -b -u nginx.serviceqq
  -o json-pretty
+```
 
+在 Linux 运行一段时间之后，journalctl 的日志占用会非常巨大，达到数G,日志文件在 `/var/log/journal` 下。可以查看日志文件大小，并做清理。
+
+```
 # 显示日志占据的硬盘空间
 $ sudo journalctl --disk-usage
+Archived and active journals take up 3.8G on disk.
 
 # 指定日志文件占据的最大空间
 $ sudo journalctl --vacuum-size=1G
 
 # 指定日志文件保存多久
 $ sudo journalctl --vacuum-time=1years
+
+# 仅保留最近两天的数据
+$ sudo journalctl --vacuum-time=2d
+
+# 对日志做校验
+$ sudo journalctl --verify
 ```
 
 ## 参考文档

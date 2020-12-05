@@ -70,7 +70,7 @@ code.highlighter-rouge{margin:0 5px;}
 .entry ol li{margin-bottom:5px;list-style:decimal;}
 .entry blockquote{margin-left:25px;font-size:14px;font-style:italic;padding-bottom: 20px;}
 .entry img{max-width:670px;display:block;margin:10px auto;}
-
+table td img{max-width: 100px !important;}
 
 .index-content .aside {
     position: fixed;

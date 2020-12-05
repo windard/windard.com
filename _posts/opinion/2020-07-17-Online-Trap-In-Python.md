@@ -54,6 +54,7 @@ category: blog
 
 会对迭代器做 m 次循环，但实际上只有第一次循环的时候迭代器中有值，剩下的 m-1 次循环都是空
 
+> 竟然是和 insgram 遇到一样的问题 [Python向来以慢著称，为啥Instagram却唯独钟爱它？](https://www.infoq.cn/article/instagram-pycon-2017/)
 
 ## 整形类型转换
 
@@ -69,3 +70,9 @@ ValueError: invalid literal for int() with base 10: '12.0'
 ```
 
 int 整型不能强行转换浮点数
+
+## 线程安全
+
+一般在 python 中不会遇到线程安全问题，说明见过的世面还不够。
+
+对于高并发的场景下，用类变量或者单例的实例变量，需要注意线程安全问题。

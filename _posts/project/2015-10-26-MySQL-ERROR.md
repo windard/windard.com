@@ -83,3 +83,17 @@ net start mysql
 
 >在Linux下基本一致，除了启动和关闭MySQL的方法有一些区别，和第一步以安全模式运行MySQL，在Linux下是`mysqld_safe --skip-grant-tables &  `
 
+
+最新版的修改密码
+
+```
+use mysql
+alter user 'root'@'localhost' identified by '123456';
+flush privileges;
+```
+
+然后在 MySQL8 和之前的 MySQL5 的密码加密方式也有改变，可以修改加密方式。
+
+```
+alter user 'root'@'localhost' identified with mysql_native_password by '123456';
+```

@@ -10,6 +10,26 @@ keywords: MySQL 事务
 
 首先介绍一下 MySQL 的事务，和事务的四大特性。一般 MySQL 正常使用，也不会出现什么问题，主要基本上都在 事务 造成的问题。
 
+### 事务
+
+事务，是指单个逻辑单元的一系列操作，需要符合 ACID 四大特性。
+- A(Atomic)       原子性，事务中的一系列操作必须符合原子性，要么全部成功，要么全部失败，不能一样一半。
+- C(Consist)      一致性，数据库在事务执行前是一致的，在事务执行后也必须是一致的，不能对账不平。
+- I(Isoland)      隔离性，多个事务之间，不会互相影响。
+- D(Duration)     持久性，事务完成后，如果服务器宕机，不会影响事务结果。
+
+其中隔离性是考的最多的，隔离性的几个等级
+- RU(Read Uncommited)     未提交读
+- RC(Read Commited)       已提交读
+- RR(Read Repeated)       可重复读
+- S(Serializable)         可串行化
+
+使用 MCVV(Multiply Version Concurrent Control) 多版本并发控制来实现不同的隔离等级。
+
+## 索引
+
+每次都要问候选人事务和索引，结果自己连索引是怎么建的都搞不清楚，这就是拎不清吖。
+
 ## 获取锁超时
 
 ### 异常现场
@@ -201,6 +221,18 @@ Data truncation: Out of range value for column 'yyyy_cloum_name' at row 1
 alter table xxxx_table_name 
 add column yyyy_cloum_name smallint unsigned NOT NULL DEFAULT 0 ;
 ```
+
+以 text 为例，我都不知道原来 text 有这么长，TEXT数据类型的最大长度。
+
+|Type| Storage | Size|
+|----|---------|-----|
+|TINYTEXT | 256 bytes |  |
+|TEXT | 65,535 bytes | ~64kb |
+|MEDIUMTEXT | 16,777,215 bytes | ~16MB |
+|LONGTEXT  |4,294,967,295 bytes| ~4GB |
+
+## 乐观锁和悲观锁
+
 
 ## 参考链接
 
