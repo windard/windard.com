@@ -169,6 +169,26 @@ gpgsig -----BEGIN PGP SIGNATURE-----
  -----END PGP SIGNATURE-----
 
 two blog
+# 指定 commit 类型查看
+$ git cat-file commit 9c1c73388c3e36c26acd1abfd30e3ec089396fd7
+tree 425b33f1db8ee8ff9e0cbf85768167cac2bee694
+parent b6b0982f634422905d295222a792b86ee7517323
+author windard <windard@qq.com> 1602247223 +0800
+committer windard <windard@qq.com> 1602247324 +0800
+gpgsig -----BEGIN PGP SIGNATURE-----
+
+ iQEzBAABCAAdFiEEQVM4nF5fpfq6j9nIPe0hn1v2TckFAl+AWpwACgkQPe0hn1v2
+ TckTBwf/eNziydtDx7sV7q+ir6P5t/+Tlyswue97ybmiifFXB8vKK49Yk0EnA7UY
+ xgy4UqfqQFDfWTU1Y+od56Hbec37oB3dBDgGHDAoZ3WzQHfW/Pesu1Nz42Q6Rkep
+ 5P4cspoNByxg3husdMlqcM4ldW9oi98DF7yQBkMy0gHBUxQ5hO3IqvNpiqxgBkzY
+ 5/c+Xvu9G4MjjUXUkmTixMxKYdHsq3onQjuG+rO/1ifLgx1kjlRwRPjMXpmfUy9c
+ 0kwcnhPtnyinUAWcPcW0DgmG6qtmBk36RpMAyMyV0ZSFHTiAbGYrQpiia6Gs2kK+
+ D0+hE5Sb/jrX1zfVBI7KbF101ttlNw==
+ =x4wX
+ -----END PGP SIGNATURE-----
+
+two blog
+
 ```
 
 所以，我们可以自己计算下哈希结果是否和哈希值一致。
@@ -176,6 +196,8 @@ two blog
 ```
 $ (printf "commit %s\0" $(git cat-file commit HEAD | wc -c); git cat-file commit HEAD) | shasum
 9c1c73388c3e36c26acd1abfd30e3ec089396fd7  -
+$ git cat-file commit 9c1c73388c3e36c26acd1abfd30e3ec089396fd7|git hash-object -t commit --stdin
+9c1c73388c3e36c26acd1abfd30e3ec089396fd7
 ```
 
 结果是一样的。
@@ -285,6 +307,24 @@ www.windard.com%                                                                
 040000 tree 88be3fea9c97e06b6f0a2c263a23534d94c2981f	blog
 040000 tree be454b9a455ed4fe8b9c232ca70ae5601d7837fd	opinion
 040000 tree 834c2d2102153a30c4ee2113b267be8b0541ac64	project
+```
+
+### 空树
+
+每个 Git 仓库中都有这个神秘的 empty tree `4b825dc642cb6eb9a060e54bf8d69288fbee4904` 它是其实是一个空的内容
+
+```
+$ git cat-file -t 4b825dc642cb6eb9a060e54bf8d69288fbee4904
+tree
+$ git cat-file -p 4b825dc642cb6eb9a060e54bf8d69288fbee4904
+$ git cat-file -s 4b825dc642cb6eb9a060e54bf8d69288fbee4904
+0
+$  echo -n '' | git hash-object -t tree --stdin
+4b825dc642cb6eb9a060e54bf8d69288fbee4904
+$ git hash-object -t tree /dev/null
+4b825dc642cb6eb9a060e54bf8d69288fbee4904
+$ git diff 4b825dc642cb6eb9a060e54bf8d69288fbee4904
+$ git show 4b825dc642cb6eb9a060e54bf8d69288fbee4904
 ```
 
 ## shell 编程

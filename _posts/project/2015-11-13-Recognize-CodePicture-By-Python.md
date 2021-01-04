@@ -120,6 +120,31 @@ pip install PIL
 pip install pytesseract
 ```
 
+## 2020-10-07
+
+仔细研究一下 `pytesseract` 这个Python 库，其实你会发现 pytesseract 其实是对 tesseract 的一个封装，底层调用的还是 tesseract 工具，他们的调用参数是不一样的。所以除了安装 `pytesseract` ，想要实现 OCR 识别还是需要安装 `tesseract`
+
+```
+$ tesseract -h
+Usage:
+  tesseract --help | --help-extra | --version
+  tesseract --list-langs
+  tesseract imagename outputbase [options...] [configfile...]
+
+OCR options:
+  -l LANG[+LANG]        Specify language(s) used for OCR.
+NOTE: These options must occur before any configfile.
+
+Single options:
+  --help                Show this help message.
+  --help-extra          Show extra help for advanced users.
+  --version             Show version information.
+  --list-langs          List available languages for tesseract engine.
+
+$ pytesseract
+Usage: pytesseract [-l lang] input_file
+```
+
 ## 参考链接：      
 
 [python利用pytesser模块实现图片文字识别](http://www.jinglingshu.org/?p=9281)       
