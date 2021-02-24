@@ -68,7 +68,12 @@ code.highlighter-rouge{margin:0 5px;}
 .entry ul li{margin-bottom:5px;list-style:disc;}
 .entry ol{margin-bottom:25px;margin-left:25px;}
 .entry ol li{margin-bottom:5px;list-style:decimal;}
-.entry blockquote{margin-left:25px;font-size:14px;font-style:italic;padding-bottom: 20px;}
+.entry blockquote{
+    padding-left: 8px;
+    background: #ccc;
+    font-size: 14px;
+    font-style: italic;
+}
 .entry img{max-width:670px;display:block;margin:10px auto;}
 table td img{max-width: 100px !important;}
 
@@ -206,8 +211,12 @@ h3.about {color:#777;margin-top:20px;font-size:22px;margin-bottom:10px}
     box-shadow: 5px 5px 15px #ccc;
     opacity: 1;
 }
-blockquote p{
-    margin-bottom: 10px;
+blockquote p {
+    background: #E9ECEF;
+    margin: 0;
+    padding: 10px 0;
+    padding-left: 10px;
+    padding-right: 5px;
 }
 html::-webkit-scrollbar{
     width:6px;
