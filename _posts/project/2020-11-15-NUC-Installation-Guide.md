@@ -58,9 +58,9 @@ HP 24MH 显示器               789
 |||||[NUC8i5BEH](https://ark.intel.com/content/www/cn/zh/ark/products/126148/intel-nuc-kit-nuc8i5beh.html)|i5-8259U|Intel Iris Plus 655|||||
 |||||[NUC8i7BEH](https://ark.intel.com/content/www/cn/zh/ark/products/126140/intel-nuc-kit-nuc8i7beh.html)|i7-8559U|Intel Iris Plus 655|||||
 |冥王峡谷 <br> Hades Canyon|![](https://windard-blog.oss-cn-beijing.aliyuncs.com/1607163921855.png)|第八代|2018|[NUC8i7HNK](https://ark.intel.com/content/www/cn/zh/ark/products/126141/intel-nuc-kit-nuc8i7hnk.html)|i7‑8705G|Intel® HD Graphics 630 & AMD Radeon RX Vega M GL|65W|32 GB<br>DDR4-2400|`M.2插槽 *2`|`USB3.0*5, USB3.1*1, Type-C*1, 千兆网口*2，无线网卡，蓝牙4.2`|
-|||||[NUC8i7HVK](https://ark.intel.com/content/www/cn/zh/ark/products/126143/intel-nuc-kit-nuc8i7hvk.html)|i7‑8809G|Intel® HD Graphics 630 & AMD Radeon RX Vega M GH|100W|32 GB|DDR4-2400|`M.2插槽 *2`||
+||![](https://windard-blog.oss-cn-beijing.aliyuncs.com/1614352694434.png)|||[NUC8i7HVK](https://ark.intel.com/content/www/cn/zh/ark/products/126143/intel-nuc-kit-nuc8i7hvk.html)|i7‑8809G|Intel® HD Graphics 630 & AMD Radeon RX Vega M GH|100W|32 GB|DDR4-2400|`M.2插槽 *2`||
 |幽冥峡谷<br>Ghost Canyon|![](https://windard-blog.oss-cn-beijing.aliyuncs.com/1607164690353.png)|第九代|2019|[NUC9i5QNX](https://ark.intel.com/content/www/cn/zh/ark/products/190104/intel-nuc-9-extreme-kit-nuc9i5qnx.html)|i5-9300H|Intel® UHD Graphics 630|45W|64 GB<br> DDR4-2400|`SATA盘位 *2, M.2插槽 *2`|`USB3.1*6, Type-C*2, 千兆网口，无线网卡，蓝牙5.0`|
-|||||[NUC9i7QNX](https://ark.intel.com/content/www/cn/zh/ark/products/190109/intel-nuc-9-extreme-kit-nuc9i7qnx.html)|i7-9750H|Intel® UHD Graphics 630|||||
+||![](https://windard-blog.oss-cn-beijing.aliyuncs.com/1614352502790.png)|||[NUC9i7QNX](https://ark.intel.com/content/www/cn/zh/ark/products/190109/intel-nuc-9-extreme-kit-nuc9i7qnx.html)|i7-9750H|Intel® UHD Graphics 630|||||
 |||||[NUC9i9QNX](https://ark.intel.com/content/www/cn/zh/ark/products/190107/intel-nuc-9-extreme-kit-nuc9i9qnx.html)|i9-9980HK|Intel® UHD Graphics 630||||
 |寒霜峡谷<br>Frost Canyon|![](https://windard-blog.oss-cn-beijing.aliyuncs.com/1607164008332.png)|第十代|2019|[NUC10i3FNH](https://ark.intel.com/content/www/cn/zh/ark/products/195506/intel-nuc-10-performance-kit-nuc10i3fnh.html)|i3-10110U|Intel® UHD Graphics|25W|64 GB <br>DDR4-2666|`SATA盘位 *1, M.2插槽 *1`|`USB3.1*3, Type-C*2, 千兆网口，无线网卡，蓝牙5.0`|
 |||||[NUC10i5FNH](https://ark.intel.com/content/www/cn/zh/ark/products/189239/intel-nuc-10-performance-kit-nuc10i5fnh.html)|i5-10210U|Intel® UHD Graphics||||||
@@ -165,4 +165,13 @@ NUC 其实主要就是安装内存和硬盘，其实非常简单。
 [Wiki-Next Unit of Computing](https://zh.wikipedia.org/wiki/Next_Unit_of_Computing)  
 [Wiki-酷睿](https://zh.wikipedia.org/wiki/%E9%85%B7%E7%9D%BF)  
 [科普讲堂——英特尔CPU的命名规则](https://zhuanlan.zhihu.com/p/46073302)  
-[2020台式电脑组装配置清单（总目录）](https://zhuanlan.zhihu.com/p/81012417)  
+[2020台式电脑组装配置清单（总目录）](https://zhuanlan.zhihu.com/p/81012417)      
+[2021台式电脑配置、配置清单推荐](https://zhuanlan.zhihu.com/p/268015836)         
+[强势来袭！一图看懂新品NUC，不止一款！](https://zhuanlan.zhihu.com/p/339536432)           
+[一图看懂英特尔NUC迷你主机（续集）](https://zhuanlan.zhihu.com/p/265109354)              
+[Intel NUC8i7BEH 评测](https://zhuanlan.zhihu.com/p/50415624)             
+[用Intel NUC8i7BEH6打造高性能“小钢炮”，Iris Plus 655 GT3e核显机使用体验](https://post.smzdm.com/p/av7kxegm/)             
+[MacBook Pro (13-inch Mid 2019)](https://browser.geekbench.com/v5/cpu/4801610)           
+[Intel(R) Client Systems NUC8i7BEH](https://browser.geekbench.com/v5/cpu/4786744)              
+[怎么让小白理解intel处理器（CPU）的分类？](https://www.zhihu.com/question/32669957)       
+[英特尔最强NUC评测：百瓦功耗能吃鸡](https://tech.sina.com.cn/n/t/2018-04-17/doc-ifzihnen7363863.shtml)              

@@ -426,5 +426,5 @@ Continuous user(       0):
 [redis-bitmap在签到和统计状态项目中的妙用](https://segmentfault.com/a/1190000023966711)          
 [Redis：Bitmaps使用场景-用户签到、统计活跃用户、用户在线状态](https://blog.csdn.net/fly910905/article/details/82629687)     
 [利用redis的bitmap实现用户签到功能](https://zhuanlan.zhihu.com/p/83604814)        
-
+[Redis中bitmap的妙用](https://segmentfault.com/a/1190000008188655)        
  
