@@ -48,7 +48,7 @@ https_proxy=23.45.122.54:8763 wget https://ifconfig.io
 如果需要长期使用，可以写入配置
 
 ```
-export use_proxy = on
+export use_proxy=on
 export http_proxy=http://your_ip_proxy:port/
 export https_proxy=$http_proxy
 export ftp_proxy=$http_proxy
@@ -171,4 +171,4 @@ if __name__ == '__main__':
 
 [How to set proxy for wget?](https://stackoverflow.com/questions/11211705/how-to-set-proxy-for-wget)    
 [How to make python Requests work via socks proxy](https://stackoverflow.com/questions/12601316/how-to-make-python-requests-work-via-socks-proxy)      
-[Python中Request 使用socks5代理的两种方法(个人推荐方法二)](https://doomzhou.github.io/coder/2015/03/09/Python-Requests-socks-proxy.html)       
+[Python中Request 使用socks5代理的两种方法(个人推荐方法二)](https://doomzhou.github.io/coder/2015/03/09/Python-Requests-socks-proxy.html)                

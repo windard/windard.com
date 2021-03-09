@@ -255,5 +255,6 @@ ffplay -window_title "播放测试" rtmp://up.v.test.com/live/stream
 [FFmpeg 视频处理入门教程](http://www.ruanyifeng.com/blog/2020/01/ffmpeg.html)     
 [视频格式那么多，MP4/RMVB/MKV/AVI 等，这些视频格式与编码压缩标准 mpeg4，H.264.H.265 等有什么关系？](https://www.zhihu.com/question/20997688)           
 [FFmpeg工具使用及参数说明](https://blog.csdn.net/DaveBobo/article/details/80685328)       
-[ffmpeg常用命令](https://blog.csdn.net/newchenxf/article/details/51384360)             
- 
+[ffmpeg常用命令](https://blog.csdn.net/newchenxf/article/details/51384360)       
+[ffmpeg视频合并、格式转换、截图](https://gist.github.com/ameizi/9d5572a25063790db5fb)      
+[MPEG-4与MP4：MPEG-4和MP4之间有什么区别](https://www.videosolo.com/zh-CN/tutorials/mpeg4-vs-mp4.html)      
