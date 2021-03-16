@@ -30,7 +30,10 @@ body .hide{display:none;}
 .left,.right{display:inline;}
 .left{float:left;}
 .right{float:right;}
-
+.remove_button:hover{
+    cursor: pointer;
+    box-shadow:1px 4px 8px #ccc;
+}
 
 /***********default settings**********/
 body {font-family: "MicroSoft YaHei","Arial","Helvetica","sans-serif";font-size:16px;}
@@ -66,7 +69,7 @@ code.highlighter-rouge{margin:0 5px;}
 .entry ul{margin-bottom:25px;margin-left:25px;}
 .entry p+ul {margin-top:-20px;}
 .entry ul li{margin-bottom:5px;list-style:disc;}
-.entry ol{margin-bottom:25px;margin-left:25px;}
+.entry ol{margin-left:25px;}
 .entry ol li{margin-bottom:5px;list-style:decimal;}
 .entry blockquote{
     padding-left: 8px;
@@ -74,6 +77,11 @@ code.highlighter-rouge{margin:0 5px;}
     font-size: 14px;
     font-style: italic;
 }
+.entry li blockquote > ol{
+    padding: 16px 10px;
+    line-height: 1.6;
+}
+
 .entry img{max-width:670px;display:block;margin:10px auto;}
 table td img{max-width: 100px !important;}
 

@@ -62,6 +62,12 @@ layout: default
 
     </div>
 
+    <div class="sidenav remove_button">
+        <div class="info" style="text-align:center">
+            <span>纯享阅读~ Click me</span>
+        </div>
+    </div>
+
     <div class="sidenav infopage">
         <div class="info" style="text-align:center">
             <img src="/images/headlogo.jpg" alt="headlogo">
@@ -117,4 +123,16 @@ layout: default
     //     });
     // })
 
+    $('.remove_button').click(function(){
+        $('.sidenav').animate({
+            'width':'0px'
+        },'slow', function(){
+            $('.sidenav').hide()
+        });
+        $('.entry').animate({
+            'width': '1080px'
+        },
+            'slow', function() {
+        });
+    })
 </script>
