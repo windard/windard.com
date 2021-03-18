@@ -218,3 +218,24 @@ Out[16]: 140658767337664
 In [17]: id(ee)
 Out[17]: 140658759614048
 ```
+
+## 序列化
+
+非常低级的错误，json 不能序列化 set 集合，当多线程或其他无法及时查看到报错日志的时候，很难发现集合竟然不能被序列化。
+
+```
+>>> data = {"/asdsf"}
+>>> import json
+>>> json.dumps(data)
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+  File "/Users/bytedance/miniconda/envs/byted/lib/python2.7/json/__init__.py", line 244, in dumps
+    return _default_encoder.encode(obj)
+  File "/Users/bytedance/miniconda/envs/byted/lib/python2.7/json/encoder.py", line 207, in encode
+    chunks = self.iterencode(o, _one_shot=True)
+  File "/Users/bytedance/miniconda/envs/byted/lib/python2.7/json/encoder.py", line 270, in iterencode
+    return _iterencode(o, 0)
+  File "/Users/bytedance/miniconda/envs/byted/lib/python2.7/json/encoder.py", line 184, in default
+    raise TypeError(repr(o) + " is not JSON serializable")
+TypeError: set(['/asdsf']) is not JSON serializable
+```
