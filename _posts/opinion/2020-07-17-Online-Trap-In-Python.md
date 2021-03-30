@@ -239,3 +239,23 @@ Traceback (most recent call last):
     raise TypeError(repr(o) + " is not JSON serializable")
 TypeError: set(['/asdsf']) is not JSON serializable
 ```
+
+## 内存泄露
+
+一般来说，python 作为高级语言是有垃圾回收机制的，会自动做垃圾回收。但是如果出现内存泄露的情况，有如下几种可能的情况：
+
+1. 对象一直被全局变量所引用, 全局变量生命周期长.比如类变量上的 dict 类型，一直在扩增。
+2. 垃圾回收机被禁用或者设置成debug状态, 垃圾回收的内存不会被释放.
+3. 用户不自定类的`__del__`方法, gc可以回收带有`自引用`的对象, 但是你自己实现了`__del__`方法就不行了。即有 `__del__` 方法的类自引用。
+
+## 数据库分页问题
+
+数据库分页获取，根据更新时间排序获取的两个请求，一次 `ORDER BY updated_at desc LIMIT 20`, 一次 `ORDER BY updated_at desc LIMIT 20 OFFSET 20`,取到的数据有重复。
+
+因为多条数据中更新时间 `updated_at` 一致，所以在返回数据里，根据更新时间倒排，最后都会取到前几条记录。
+
+如果需要分页获取到全量数据，最好根据无重复数据的字段进行排序获取，才能够保证每次分页的数据不重复。
+
+## 参考链接
+
+[Does Python GC deal with reference-cycles like this?](https://stackoverflow.com/questions/8025888/does-python-gc-deal-with-reference-cycles-like-this)
