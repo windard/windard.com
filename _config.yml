@@ -23,6 +23,8 @@ url: https://windard.com # the base hostname & protocol for your site
 enforce_ssl: windard.com
 github_username:  windard
 feed: /feed.xml
+plugins:
+  - jekyll-sitemap
 
 permalink: /:categories/:year/:month/:day/:title
 
