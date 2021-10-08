@@ -11,7 +11,7 @@ category: project
 
 ![](https://windard-blog.oss-cn-beijing.aliyuncs.com/6271633685384_.pic.jpg)
 
-然后拼了两个月，使用各种姿势都尝试过，都没有拼起来，甚至在怀疑这是个真的拼图么？还是一个故意没有解法的拼图，让你浪费时间。
+然后拼了两个月，使用各种姿势都尝试过，都没有拼起来，甚至在怀疑这是个真的拼图么？😭，还是一个故意没有解法的拼图，让你浪费时间。
 
 但是看到其包装盒上写的是 `the most difficult of puzzle designs`, 无奈弃之一旁，再无瓜葛。
 
