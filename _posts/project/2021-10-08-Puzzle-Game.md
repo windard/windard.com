@@ -73,6 +73,10 @@ respect ！！！
 
 可以解出来任意天的日历拼图，虽然时间也有长有短，但是比手动还是要快了不少，我又快乐了，哈哈，😄。
 
+国庆七天乐
+
+![](https://windard-blog.oss-cn-beijing.aliyuncs.com/10-01-joint.png)
+
 使用也很简单，直接 `pip install OnePuzzle` 即可安装。
 
 然后使用 `one_puzzle` 命令就可以自动解图了，比如 `one_puzzle 10 11` 就会给你10月11日的一个解法。
