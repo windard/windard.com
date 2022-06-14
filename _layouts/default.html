@@ -9,7 +9,7 @@
     <meta name="description" content="{% if page.description %} {{ page.description }} {% else %}{{ site.description }}{% endif %} " />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
     <link rel="stylesheet" href="/css/default.css" type="text/css" />
-    <link rel="alternate" type="application/atom+xml" title="Recent Entries" href="{{ site.feed }}" />
+    <link rel="alternate" type="application/atom+xml" title="Recent Entries" href="{{ site.feed.path }}" />
     <script src="/js/jquery-1.7.1.min.js" type="text/javascript"></script>
     <script data-ad-client="ca-pub-8681050325880210" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
     <script type="application/ld+json">
@@ -37,7 +37,7 @@
         <div class="home-contact">
             <a href="https://github.com/windard" target="_blank" style="margin-left:-5px;" title="Github"><img src="/images/GitHub-Mark-Light-64px.png" alt="Github" width="25"/></a>
             <a href="https://www.zhihu.com/people/yang-wen-qiang-68" target="_blank" style="text-align:center;" title="Zhihu"><img src="/images/zhihu-logo_96.png" alt="Zhihu" width="22"/></a>
-            <a href="{{ site.feed }}" target="_blank" style="text-align:right" title="RSS"><img src="/images/rss.png" alt="RSS" width="22"/></a>
+            <a href="{{ site.feed.path }}" target="_blank" style="text-align:right" title="RSS"><img src="/images/rss.png" alt="RSS" width="22"/></a>
         </div>
     </div>
 
