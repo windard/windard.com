@@ -68,10 +68,12 @@ GEM
     unicode-display_width (1.8.0)
 
 PLATFORMS
+  ruby
   x86_64-darwin-18
 
 DEPENDENCIES
   jekyll (>= 3.7.4)
+  jekyll-feed
   jekyll-seo-tag
   jekyll-sitemap
   minima

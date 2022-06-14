@@ -4,4 +4,4 @@ title: About
 permalink: /about/
 ---
 
-西北某高校学生 Windard 的博客
+上海打工人 Windard 的博客
