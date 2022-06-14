@@ -26,6 +26,7 @@ feed: /feed.xml
 plugins:
   - jekyll-sitemap
   - jekyll-seo-tag
+  - jekyll-feed
 permalink: /:categories/:year/:month/:day/:title
 
 # Build settings
